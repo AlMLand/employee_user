@@ -8,7 +8,7 @@ import com.m_landalex.employee_user.data.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-	List<Employee> findByFirstName();
-	List<Employee> findByLastName();
+	List<Employee> findByFirstName(String firstName);
+	List<Employee> findByLastName(String lastName);
 	
 }
