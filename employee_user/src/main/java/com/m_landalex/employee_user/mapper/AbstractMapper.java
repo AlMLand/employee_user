@@ -44,7 +44,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		return Objects.isNull(entity) ? null : modelMapper.map(entity, dtoClass);
 	}
 
-	public List<D> toObjectList(Collection<S> entityList) {
+	public List<D> toObjectList(List<S> entityList) {
 		return Objects.isNull(entityList) ? new ArrayList<>() : entityList.stream()
 				.map(entity -> modelMapper.map(entity, dtoClass))
 				.collect(Collectors.toList());
