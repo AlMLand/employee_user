@@ -2,7 +2,6 @@ package com.m_landalex.employee_user.domain;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,7 +29,6 @@ public class AddressEntity extends AbstractEntity {
 	private int postCode;
 	
 	@OneToMany(mappedBy = "addressData")
-	@Column(name = "user_adress")
 	private List<Address> addressList;
 	
 }

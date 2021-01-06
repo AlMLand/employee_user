@@ -1,6 +1,5 @@
 package com.m_landalex.employee_user.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -22,7 +21,6 @@ import lombok.Setter;
 public class EmailEntity extends AbstractEntity {
 
 	@OneToOne(mappedBy = "email")
-	@Column(name = "email")
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private String email;
 	
