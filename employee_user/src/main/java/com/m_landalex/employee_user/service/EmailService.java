@@ -18,6 +18,12 @@ public class EmailService {
 	@Autowired
 	private EmailMapper emailMapper;
 	
+	@Transactional
+	public Email save(Email email) {
+		emailRepository.save(emailMapper.toEntity(email));
+		return email;
+	}
+	
 	@Transactional(readOnly = true)
 	public List<Email> fetchAll(){
 		List<Email> returnedList = emailMapper.toObjectList(emailRepository.findAll());

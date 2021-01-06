@@ -18,6 +18,12 @@ public class AddressService {
 	@Autowired
 	private AddressMapper addressMapper;
 	
+	@Transactional
+	public Address save(Address address) {
+		addressRepository.save(addressMapper.toEntity(address));
+		return address;
+	}
+	
 	@Transactional(readOnly = true)
 	public List<Address> fetchAll(){
 		List<Address> returnedList = addressMapper.toObjectList(addressRepository.findAll());

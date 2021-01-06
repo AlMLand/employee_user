@@ -18,6 +18,12 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	
+	@Transactional
+	public Employee save(Employee employee) {
+		employeeRepository.save(employeeMapper.toEntity(employee));
+		return employee;
+	}
+	
 	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
 		Employee returnedEmployee = employeeMapper.toObject(employeeRepository.findById(id).orElse(null));

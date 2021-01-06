@@ -16,6 +16,12 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Transactional
+	public User save(User user) {
+		userRepository.save(userMapper.toEntity(user));
+		return user;
+	}
+	
 	@Transactional(readOnly = true)
 	public User fetchById(Long id) {
 		User returnedUser = userMapper.toObject(userRepository.findById(id).orElse(null));
