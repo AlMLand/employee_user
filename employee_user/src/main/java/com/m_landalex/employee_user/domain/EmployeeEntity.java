@@ -9,10 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.m_landalex.employee_user.data.Address;
-import com.m_landalex.employee_user.data.Email;
-import com.m_landalex.employee_user.data.User;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,21 +31,20 @@ public class EmployeeEntity extends AbstractEntity {
 	private int age;
 	@Setter
 	private BigDecimal salary;
+	
 	@Setter
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "email_id", referencedColumnName = "id")
-	private Email email;
+	private EmailEntity email;
+
+	@Setter
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_employee")
-	private Address addressData;
+	private AddressEntity addressData;
+	
 	@Setter
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User userData;
-
-	public void setAddressData(Address addressData) {
-		addressData.getAddressList().add(addressData);
-		this.addressData = addressData;
-	}
+	private UserEntity userData;
 
 }

@@ -20,8 +20,10 @@ import lombok.Setter;
 @Table(name = "email")
 public class EmailEntity extends AbstractEntity {
 
+	private String email;
+	
 	@OneToOne(mappedBy = "email")
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private String email;
+	private EmployeeEntity employee;
 	
 }

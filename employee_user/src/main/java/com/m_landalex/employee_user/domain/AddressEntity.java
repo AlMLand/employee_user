@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.m_landalex.employee_user.data.Address;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,7 +26,7 @@ public class AddressEntity extends AbstractEntity {
 	private String city;
 	private int postCode;
 	
-	@OneToMany(mappedBy = "addressData")
-	private List<Address> addressList;
+	@OneToMany
+	private List<AddressEntity> addressList;
 	
 }
