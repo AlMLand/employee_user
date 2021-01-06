@@ -19,7 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,21 +27,29 @@ import lombok.Setter;
 @Table(name = "employee")
 public class EmployeeEntity extends AbstractEntity {
 
+	@Setter
 	private String firstName;
+	@Setter
 	private String lastName;
+	@Setter
 	private int age;
+	@Setter
 	private BigDecimal salary;
-	
+	@Setter
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "email_id", referencedColumnName = "id")
 	private Email email;
-	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_employee")
 	private Address addressData;
-	
+	@Setter
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User userData;
+
+	public void setAddressData(Address addressData) {
+		addressData.getAddressList().add(addressData);
+		this.addressData = addressData;
+	}
 
 }
