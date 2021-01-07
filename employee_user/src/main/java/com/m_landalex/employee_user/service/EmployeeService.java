@@ -25,6 +25,12 @@ public class EmployeeService {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<Employee> fetchAll(){
+		List<Employee> returnedList = employeeMapper.toObjectList(employeeRepository.findAll());
+		return returnedList;
+	}
+	
+	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
 		Employee returnedEmployee = employeeMapper.toObject(employeeRepository.findById(id).orElse(null));
 		return returnedEmployee;
