@@ -32,26 +32,22 @@ public class EmployeeService {
 	
 	@Transactional(readOnly = true)
 	public List<Employee> fetchAll(){
-		List<Employee> returnedList = employeeMapper.toObjectList(employeeRepository.findAll());
-		return returnedList;
+		return employeeMapper.toObjectList(employeeRepository.findAll());
 	}
 	
 	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
-		Employee returnedEmployee = employeeMapper.toObject(employeeRepository.findById(id).orElse(null));
-		return returnedEmployee;
+		return employeeMapper.toObject(employeeRepository.findById(id).orElse(null));
 	}
 	
 	@Transactional(readOnly = true)
 	public List<Employee> fetchByFirstName(String firstName){
-		List<Employee> returnedList = employeeMapper.toObjectList(employeeRepository.findByFirstName(firstName));
-		return returnedList;
+		return employeeMapper.toObjectList(employeeRepository.findByFirstName(firstName));
 	}
 	
 	@Transactional(readOnly = true)
 	public List<Employee> fetchByLastName(String lastName){
-		List<Employee> returnedList = employeeMapper.toObjectList(employeeRepository.findByLastName(lastName));
-		return returnedList;
+		return employeeMapper.toObjectList(employeeRepository.findByLastName(lastName));
 	}
 	
 }

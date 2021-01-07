@@ -26,8 +26,7 @@ public class EmailService {
 	
 	@Transactional(readOnly = true)
 	public List<Email> fetchAll(){
-		List<Email> returnedList = emailMapper.toObjectList(emailRepository.findAll());
-		return returnedList;
+		return emailMapper.toObjectList(emailRepository.findAll());
 	}
 	
 }

@@ -26,8 +26,7 @@ public class AddressService {
 	
 	@Transactional(readOnly = true)
 	public List<Address> fetchAll(){
-		List<Address> returnedList = addressMapper.toObjectList(addressRepository.findAll());
-		return returnedList;
+		return addressMapper.toObjectList(addressRepository.findAll());
 	}
 	
 }

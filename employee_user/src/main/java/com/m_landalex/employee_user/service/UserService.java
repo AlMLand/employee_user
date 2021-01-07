@@ -24,8 +24,7 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public User fetchById(Long id) {
-		User returnedUser = userMapper.toObject(userRepository.findById(id).orElse(null));
-		return returnedUser;
+		return userMapper.toObject(userRepository.findById(id).orElse(null));
 	}
 	
 }
