@@ -26,8 +26,8 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		.setFieldAccessLevel(AccessLevel.PRIVATE);
 	}
 	
-	Class<S> entityClass;
-	Class<D> dtoClass;
+	private Class<S> entityClass;
+	private Class<D> dtoClass;
 
 	public AbstractMapper(Class<S> entityClass, Class<D> dtoClass) {
 		super();
@@ -49,7 +49,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 				.collect(Collectors.toList());
 	}
 
-	Converter<S, D> converterToEntity(){
+	protected Converter<S, D> converterToEntity(){
 		return context -> {
 			S source = context.getSource();
 			D destination = context.getDestination();
@@ -60,7 +60,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 	
 	protected void mapSpecificFields(S destination, D source) {}
 
-	Converter<D, S> converterToDto(){
+	protected Converter<D, S> converterToDto(){
 		return context -> {
 			D source = context.getSource();
 			S destination = context.getDestination();
