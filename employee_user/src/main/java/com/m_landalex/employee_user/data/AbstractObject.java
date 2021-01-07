@@ -8,5 +8,10 @@ import lombok.Setter;
 public abstract class AbstractObject {
 
 	private Long id;
+
+	@Override
+	public String toString() {
+		return "id=" + id;
+	}
 	
 }

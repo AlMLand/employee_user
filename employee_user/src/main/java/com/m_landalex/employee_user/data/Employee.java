@@ -7,11 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @Builder
-@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -24,5 +22,11 @@ public class Employee extends AbstractObject {
 	private Email email;
 	private Address addressData;
 	private User userData;
+
+	@Override
+	public String toString() {
+		return "Employee [" + super.toString() + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", salary=" + salary
+				+ "]" + ", email=" + email + ", addressData=" + addressData + ", userData=" + userData + "]";
+	}
 	
 }

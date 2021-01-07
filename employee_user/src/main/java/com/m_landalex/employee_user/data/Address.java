@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @Builder
-@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -19,5 +17,11 @@ public class Address extends AbstractObject {
 	private int houseNumber;
 	private String city;
 	private int postCode;
+	
+	@Override
+	public String toString() {
+		return "[" + super.toString() +", street=" + street + ", houseNumber=" + houseNumber + ", city=" + city + ", postCode="
+				+ postCode + "]";
+	}
 	
 }
