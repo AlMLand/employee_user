@@ -24,7 +24,7 @@ public class DemoRunFile implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		List<Employee> returnedList = employeeService.fetchByFirstName("Alex");
+		List<Employee> returnedList = employeeService.fetchAll();
 		show(returnedList);
 	}
 
