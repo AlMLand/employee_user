@@ -18,6 +18,5 @@ public class User extends AbstractObject {
 	private String username;
 	private String password;
 	private Role userRole;
-	private Employee employee;
 
 }

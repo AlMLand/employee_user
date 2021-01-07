@@ -16,6 +16,5 @@ import lombok.ToString;
 public class Email extends AbstractObject {
 
 	private String email;
-	private Employee employee;
 	
 }
