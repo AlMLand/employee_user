@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m_landalex.employee_user.data.Employee;
@@ -22,6 +23,11 @@ public class EmployeeService {
 	public Employee save(Employee employee) {
 		employeeRepository.save(employeeMapper.toEntity(employee));
 		return employee;
+	}
+	
+	@Transactional(propagation = Propagation.NEVER)
+	public long countAllEmployees() {
+		return employeeRepository.count();
 	}
 	
 	@Transactional(readOnly = true)
