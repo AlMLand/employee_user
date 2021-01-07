@@ -22,20 +22,15 @@ public class DBInitialization {
 	@PostConstruct
 	public void setupInitialization() {
 		
-		Email email =  Email.builder().email("morlandalex@googlemail.com").build();
-		Address address = new Address("Elsasserstrasse", 10, "Dresden", 01307);
-		User user = User.builder().username("A_A_A").password("B_B_B").userRole(Role.DEVELOPMENT).build();
-		
-		Employee employee = Employee.builder()
+		employeeService.save(Employee.builder()
 				.firstName("Alex")
 				.lastName("Morland")
 				.age(35)
 				.salary(new BigDecimal(3000.00d))
-				.email(email)
-				.addressData(address)
-				.userData(user)
-				.build();
-		employeeService.save(employee);
+				.email(Email.builder().email("morlandalex@googlemail.com").build())
+				.addressData(Address.builder().street("Elsasserstrasse").houseNumber(10).city("Dresden").postCode(01307).build())
+				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.DEVELOPMENT).build())
+				.build());
 		
 	}
 	
