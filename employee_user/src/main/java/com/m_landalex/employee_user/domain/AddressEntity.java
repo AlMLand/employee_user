@@ -22,7 +22,7 @@ public class AddressEntity extends AbstractEntity {
 	private String street;
 	private int houseNumber;
 	private String city;
-	private int postCode;
+	private String postCode;
 	
 	@OneToMany(mappedBy = "addressData")
 	private List<EmployeeEntity> addressList;

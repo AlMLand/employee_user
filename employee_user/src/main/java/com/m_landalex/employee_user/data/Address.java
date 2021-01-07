@@ -16,7 +16,7 @@ public class Address extends AbstractObject {
 	private String street;
 	private int houseNumber;
 	private String city;
-	private int postCode;
+	private String postCode;
 	
 	@Override
 	public String toString() {
