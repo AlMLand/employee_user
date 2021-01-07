@@ -23,13 +23,23 @@ public class DBInitialization {
 	public void setupInitialization() {
 		
 		employeeService.save(Employee.builder()
-				.firstName("Alex")
-				.lastName("Morland")
-				.age(35)
-				.salary(new BigDecimal(3000.00d))
-				.email(Email.builder().email("morlandalex@googlemail.com").build())
-				.addressData(Address.builder().street("Elsasserstrasse").houseNumber(10).city("Dresden").postCode(01307).build())
+				.firstName("Conor")
+				.lastName("McGregor")
+				.age(32)
+				.salary(new BigDecimal(5000.00d))
+				.email(Email.builder().email("mcgregor@googlemail.com").build())
+				.addressData(Address.builder().street("Aaaa street").houseNumber(10).city("Dublin").postCode("12345").build())
 				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.DEVELOPMENT).build())
+				.build());
+		
+		employeeService.save(Employee.builder()
+				.firstName("Dustin")
+				.lastName("Poirier")
+				.age(35)
+				.salary(new BigDecimal(4000.00d))
+				.email(Email.builder().email("poirier@googlemail.com").build())
+				.addressData(Address.builder().street("Bbbb street").houseNumber(10).city("Atlanta").postCode("67890").build())
+				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.PROJECTMANAGEMENT).build())
 				.build());
 		
 	}
