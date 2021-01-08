@@ -58,7 +58,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		};
 	}
 	
-	protected void mapSpecificFields(S destination, D source) {}
+	protected void mapSpecificFields(S source, D destination) {}
 
 	protected Converter<S, D> converterToDto(){
 		return context -> {
@@ -69,6 +69,6 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		};
 	}
 	
-	protected void mapSpecificFields(D destination, S source) {}
+	protected void mapSpecificFields(D source, S destination) {}
 	
 }
