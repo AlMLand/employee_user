@@ -15,7 +15,7 @@ public class User extends AbstractObject {
 
 	private String username;
 	private String password;
-	private String userRole;
+	private Role userRole;
 
 	@Override
 	public String toString() {

@@ -1,8 +1,12 @@
 package com.m_landalex.employee_user.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.m_landalex.employee_user.data.Role;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +23,8 @@ public class UserEntity extends AbstractEntity {
 
 	private String username;
 	private String password;
-	private String userRole;
+	@Enumerated(EnumType.STRING)
+	private Role userRole;
 	
 	@OneToOne(mappedBy = "userData")
 	private EmployeeEntity employee;
