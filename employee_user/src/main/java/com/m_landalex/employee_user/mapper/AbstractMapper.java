@@ -7,24 +7,15 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.config.Configuration.AccessLevel;
-import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.m_landalex.employee_user.data.AbstractObject;
 import com.m_landalex.employee_user.domain.AbstractEntity;
 
 public abstract class AbstractMapper<S extends AbstractEntity, D extends AbstractObject> implements Mapper<S, D> {
 
-	private static ModelMapper modelMapper;
-	
-	static {
-		modelMapper = new ModelMapper();
-		modelMapper.getConfiguration()
-		.setMatchingStrategy(MatchingStrategies.STRICT)
-		.setFieldMatchingEnabled(true)
-		.setSkipNullEnabled(true)
-		.setFieldAccessLevel(AccessLevel.PRIVATE);
-	}
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	private Class<S> entityClass;
 	private Class<D> dtoClass;
@@ -58,7 +49,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		};
 	}
 	
-	protected void mapSpecificFields(S source, D destination) {}
+	protected void mapSpecificFields(D source, S destination) {}
 
 	protected Converter<S, D> converterToDto(){
 		return context -> {
@@ -69,6 +60,6 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		};
 	}
 	
-	protected void mapSpecificFields(D source, S destination) {}
+	protected void mapSpecificFields(S source, D destination) {}
 	
 }
