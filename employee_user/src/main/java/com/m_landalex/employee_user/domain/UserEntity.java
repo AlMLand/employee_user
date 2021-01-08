@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.m_landalex.employee_user.data.Role;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +19,7 @@ public class UserEntity extends AbstractEntity {
 
 	private String username;
 	private String password;
-	private Role userRole;
+	private String userRole;
 	
 	@OneToOne(mappedBy = "userData")
 	private EmployeeEntity employee;
