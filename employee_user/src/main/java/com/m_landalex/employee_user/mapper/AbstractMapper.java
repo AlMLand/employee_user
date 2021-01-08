@@ -49,10 +49,10 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 				.collect(Collectors.toList());
 	}
 
-	protected Converter<S, D> converterToEntity(){
+	protected Converter<D, S> converterToEntity(){
 		return context -> {
-			S source = context.getSource();
-			D destination = context.getDestination();
+			D source = context.getSource();
+			S destination = context.getDestination();
 			mapSpecificFields(source, destination);
 			return context.getDestination();
 		};
@@ -60,10 +60,10 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 	
 	protected void mapSpecificFields(S destination, D source) {}
 
-	protected Converter<D, S> converterToDto(){
+	protected Converter<S, D> converterToDto(){
 		return context -> {
-			D source = context.getSource();
-			S destination = context.getDestination();
+			S source = context.getSource();
+			D destination = context.getDestination();
 			mapSpecificFields(source, destination);
 			return context.getDestination();
 		};
