@@ -29,7 +29,7 @@ public class DBInitialization {
 				.salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("mcgregor@googlemail.com").build())
 				.addressData(Address.builder().street("Aaaa street").houseNumber(10).city("Dublin").postCode("12345").build())
-				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.ROLE_DEVELOPMENT).build())
+				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.DEVELOPMENT).build())
 				.build());
 		
 		employeeService.save(Employee.builder()
@@ -39,7 +39,7 @@ public class DBInitialization {
 				.salary(new BigDecimal(4000.00d))
 				.email(Email.builder().email("poirier@googlemail.com").build())
 				.addressData(Address.builder().street("Bbbb street").houseNumber(10).city("Atlanta").postCode("67890").build())
-				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.ROLE_PROJECTMANAGEMENT).build())
+				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.PROJECTMANAGEMENT).build())
 				.build());
 		
 	}
