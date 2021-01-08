@@ -1,7 +1,14 @@
 package com.m_landalex.employee_user.data;
 
-public enum Role {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-	SUPPORT,ADMINISTRATION,DEVELOPMENT,PROJECTMANAGEMENT;
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Role {
+
+	public static final String ROLE_SUPPORT = "SUPPORT";
+	public static final String ROLE_ADMINISTRATION = "ADMINISTRATION";
+	public static final String ROLE_DEVELOPMENT = "DEVELOPMENT";
+	public static final String ROLE_PROJECTMANAGEMENT = "PROJECTMANAGEMENT";
 	
 }
