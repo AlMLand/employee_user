@@ -5,7 +5,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import com.m_landalex.employee_user.data.Role;
 
@@ -26,8 +25,6 @@ public class UserEntity extends AbstractEntity {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Role userRole;
-	@Version
-	private int version;
 	
 	@OneToOne(mappedBy = "userData")
 	private EmployeeEntity employee;

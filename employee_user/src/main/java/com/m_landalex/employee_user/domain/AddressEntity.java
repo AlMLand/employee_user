@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,8 +23,6 @@ public class AddressEntity extends AbstractEntity {
 	private int houseNumber;
 	private String city;
 	private String postCode;
-	@Version
-	private int version;
 	
 	@OneToMany(mappedBy = "addressData")
 	private List<EmployeeEntity> addressList;

@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,8 +19,6 @@ import lombok.Setter;
 public class EmailEntity extends AbstractEntity {
 
 	private String email;
-	@Version
-	private int version;
 	
 	@OneToOne(mappedBy = "email")
 	@JoinColumn(name = "user_id", referencedColumnName = "id")

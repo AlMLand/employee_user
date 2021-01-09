@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,8 +26,6 @@ public class EmployeeEntity extends AbstractEntity {
 	private String lastName;
 	private int age;
 	private BigDecimal salary;
-	@Version
-	private int version;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "email_id", referencedColumnName = "id")
