@@ -10,6 +10,7 @@ import com.m_landalex.employee_user.data.Address;
 import com.m_landalex.employee_user.mapper.AddressMapper;
 import com.m_landalex.employee_user.persistence.AddressRepository;
 
+@Transactional
 @Service
 public class AddressService {
 
@@ -18,7 +19,6 @@ public class AddressService {
 	@Autowired
 	private AddressMapper addressMapper;
 	
-	@Transactional
 	public Address save(Address address) {
 		addressRepository.save(addressMapper.toEntity(address));
 		return address;

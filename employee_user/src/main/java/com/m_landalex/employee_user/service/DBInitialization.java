@@ -12,6 +12,7 @@ import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.data.Employee;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 
 @Service
 public class DBInitialization {
@@ -20,7 +21,7 @@ public class DBInitialization {
 	private EmployeeService employeeService;
 	
 	@PostConstruct
-	public void setupInitialization() {
+	public void setupInitialization() throws AsyncXAResourcesException {
 		
 		employeeService.save(Employee.builder()
 				.firstName("Conor")

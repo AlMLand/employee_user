@@ -10,6 +10,7 @@ import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.mapper.EmailMapper;
 import com.m_landalex.employee_user.persistence.EmailRepository;
 
+@Transactional
 @Service
 public class EmailService {
 
@@ -18,7 +19,6 @@ public class EmailService {
 	@Autowired
 	private EmailMapper emailMapper;
 	
-	@Transactional
 	public Email save(Email email) {
 		emailRepository.save(emailMapper.toEntity(email));
 		return email;

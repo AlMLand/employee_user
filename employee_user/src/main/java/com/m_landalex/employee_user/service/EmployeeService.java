@@ -3,14 +3,17 @@ package com.m_landalex.employee_user.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m_landalex.employee_user.data.Employee;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.mapper.EmployeeMapper;
 import com.m_landalex.employee_user.persistence.EmployeeRepository;
 
+@Transactional
 @Service
 public class EmployeeService {
 
@@ -18,9 +21,14 @@ public class EmployeeService {
 	private EmployeeRepository employeeRepository;
 	@Autowired
 	private EmployeeMapper employeeMapper;
+	@Autowired
+	private JmsTemplate jmsTemplate;
 	
-	@Transactional
-	public Employee save(Employee employee) {
+	public Employee save(Employee employee) throws AsyncXAResourcesException {
+		if (employee == null) {
+			throw new AsyncXAResourcesException("Symulation going wrong");
+		}
+		jmsTemplate.convertAndSend("employees", "Employee saved:" + employee);
 		employeeRepository.save(employeeMapper.toEntity(employee));
 		return employee;
 	}
