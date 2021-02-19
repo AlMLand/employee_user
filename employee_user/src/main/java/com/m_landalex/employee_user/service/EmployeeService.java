@@ -23,39 +23,41 @@ public class EmployeeService {
 	private EmployeeMapper employeeMapper;
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+
 	public Employee save(Employee employee) throws AsyncXAResourcesException {
 		if (employee == null) {
 			throw new AsyncXAResourcesException("Symulation going wrong");
 		}
-		jmsTemplate.convertAndSend("employees", "Employee saved:" + employee);
 		employeeRepository.save(employeeMapper.toEntity(employee));
+		jmsTemplate.convertAndSend("employees",
+				"-->Employee with first name " + employee.getFirstName() + ", last name " + employee.getLastName()
+						+ " and username " + employee.getUserData().getUsername() + " is saved");
 		return employee;
 	}
-	
+
 	@Transactional(propagation = Propagation.NEVER)
 	public long countAllEmployees() {
 		return employeeRepository.count();
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<Employee> fetchAll(){
+	public List<Employee> fetchAll() {
 		return employeeMapper.toObjectList(employeeRepository.findAll());
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
 		return employeeMapper.toObject(employeeRepository.findById(id).orElse(null));
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<Employee> fetchByFirstName(String firstName){
+	public List<Employee> fetchByFirstName(String firstName) {
 		return employeeMapper.toObjectList(employeeRepository.findByFirstName(firstName));
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<Employee> fetchByLastName(String lastName){
+	public List<Employee> fetchByLastName(String lastName) {
 		return employeeMapper.toObjectList(employeeRepository.findByLastName(lastName));
 	}
-	
+
 }

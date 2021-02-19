@@ -15,24 +15,24 @@ import com.m_landalex.employee_user.persistence.UserRepository;
 public class UserService {
 
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
 	private UserMapper userMapper;
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+	@Autowired
+	private UserRepository userRepository;
+
 	public User save(User user) throws AsyncXAResourcesException {
-		if(user == null) {
+		if (user == null) {
 			throw new AsyncXAResourcesException("Symulation going wrong");
 		}
-		jmsTemplate.convertAndSend("users", "User saved:" + user);
 		userRepository.save(userMapper.toEntity(user));
+		jmsTemplate.convertAndSend("users", "-->User with username " + user.getUsername() + " is saved ");
 		return user;
 	}
-	
+
 	@Transactional(readOnly = true)
 	public User fetchById(Long id) {
 		return userMapper.toObject(userRepository.findById(id).orElse(null));
 	}
-	
+
 }

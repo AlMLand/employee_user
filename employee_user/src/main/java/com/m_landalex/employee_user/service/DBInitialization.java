@@ -40,7 +40,7 @@ public class DBInitialization {
 				.salary(new BigDecimal(4000.00d))
 				.email(Email.builder().email("poirier@googlemail.com").build())
 				.addressData(Address.builder().street("Bbbb street").houseNumber(10).city("Atlanta").postCode("67890").build())
-				.userData(User.builder().username("A_A_A").password("B_B_B").userRole(Role.PROJECTMANAGEMENT).build())
+				.userData(User.builder().username("C_C_C").password("D_D_D").userRole(Role.PROJECTMANAGEMENT).build())
 				.build());
 		
 	}
