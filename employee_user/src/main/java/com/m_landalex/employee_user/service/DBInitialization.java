@@ -24,7 +24,7 @@ public class DBInitialization {
 	public void setupInitialization() throws AsyncXAResourcesException {
 		
 		employeeService.save(Employee.builder()
-				.firstName("Conor")
+				.firstName("Connor")
 				.lastName("McGregor")
 				.age(32)
 				.salary(new BigDecimal(5000.00d))
