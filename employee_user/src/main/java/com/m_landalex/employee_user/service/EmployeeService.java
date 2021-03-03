@@ -47,7 +47,7 @@ public class EmployeeService {
 
 	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
-		return employeeMapper.toObject(employeeRepository.findById(id).orElse(null));
+		return employeeMapper.toObject(employeeRepository.findById(id).get());
 	}
 
 	@Transactional(readOnly = true)
@@ -58,6 +58,14 @@ public class EmployeeService {
 	@Transactional(readOnly = true)
 	public List<Employee> fetchByLastName(String lastName) {
 		return employeeMapper.toObjectList(employeeRepository.findByLastName(lastName));
+	}
+	
+	public void deleteById(Long id) {
+		employeeRepository.deleteById(id);
+	}
+	
+	public void deleteAll() {
+		employeeRepository.deleteAll();
 	}
 
 }
