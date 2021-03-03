@@ -28,5 +28,5 @@ public class Employee extends AbstractObject {
 		return "Employee [" + super.toString() + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", salary=" + salary
 				+ "]" + ", email=" + email + ", addressData=" + addressData + ", userData=" + userData + "]";
 	}
-	
+
 }
