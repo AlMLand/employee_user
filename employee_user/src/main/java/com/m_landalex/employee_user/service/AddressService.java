@@ -29,4 +29,17 @@ public class AddressService {
 		return addressMapper.toObjectList(addressRepository.findAll());
 	}
 	
+	public void deleteAll() {
+		addressRepository.deleteAll();
+	}
+	
+	@Transactional(readOnly = true)
+	public Address fetchById(Long id) {
+		return addressMapper.toObject(addressRepository.findById(id).get());
+	}
+	
+	public void deleteById(Long id) {
+		addressRepository.deleteById(id);
+	}
+	
 }
