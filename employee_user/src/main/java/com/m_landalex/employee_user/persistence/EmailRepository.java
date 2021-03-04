@@ -9,5 +9,5 @@ import com.m_landalex.employee_user.domain.EmailEntity;
 public interface EmailRepository extends JpaRepository<EmailEntity, Long> {
 
 	List<EmailEntity> findAll();
-	
+
 }

@@ -14,19 +14,17 @@ import com.m_landalex.employee_user.persistence.EmailRepository;
 @Service
 public class EmailService {
 
-	@Autowired
-	private EmailRepository emailRepository;
-	@Autowired
-	private EmailMapper emailMapper;
-	
+	@Autowired 	private EmailRepository emailRepository;
+	@Autowired 	private EmailMapper emailMapper;
+
 	public Email save(Email email) {
 		emailRepository.save(emailMapper.toEntity(email));
 		return email;
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<Email> fetchAll(){
+	public List<Email> fetchAll() {
 		return emailMapper.toObjectList(emailRepository.findAll());
 	}
-	
+
 }
