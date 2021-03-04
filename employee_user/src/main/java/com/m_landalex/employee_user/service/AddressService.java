@@ -14,32 +14,30 @@ import com.m_landalex.employee_user.persistence.AddressRepository;
 @Service
 public class AddressService {
 
-	@Autowired
-	private AddressRepository addressRepository;
-	@Autowired
-	private AddressMapper addressMapper;
-	
+	@Autowired 	private AddressRepository addressRepository;
+	@Autowired 	private AddressMapper addressMapper;
+
 	public Address save(Address address) {
 		addressRepository.save(addressMapper.toEntity(address));
 		return address;
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<Address> fetchAll(){
+	public List<Address> fetchAll() {
 		return addressMapper.toObjectList(addressRepository.findAll());
 	}
-	
+
 	public void deleteAll() {
 		addressRepository.deleteAll();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Address fetchById(Long id) {
 		return addressMapper.toObject(addressRepository.findById(id).get());
 	}
-	
+
 	public void deleteById(Long id) {
 		addressRepository.deleteById(id);
 	}
-	
+
 }
