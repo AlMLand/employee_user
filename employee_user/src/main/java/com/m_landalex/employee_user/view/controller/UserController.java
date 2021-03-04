@@ -22,35 +22,35 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@PostMapping(value = "/")
 	public User createUser(@RequestBody User user) throws AsyncXAResourcesException {
 		return userService.save(user);
 	}
-	
+
 	@GetMapping(value = "/")
-	public List<User> fetchAllUsers(){
+	public List<User> fetchAllUsers() {
 		return userService.fetchAll();
 	}
-	
+
 	@DeleteMapping(value = "/")
 	public void deleteAllUsers() {
 		userService.deleteAll();
 	}
-	
+
 	@PutMapping(value = "/{id}")
 	public User updateUserById(@PathVariable Long id, @RequestBody User user) throws AsyncXAResourcesException {
 		return userService.save(user);
 	}
-	
+
 	@GetMapping(value = "/{id}")
 	public User fetchUserById(@PathVariable Long id) {
 		return userService.fetchById(id);
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
 	public void deleteUserById(@PathVariable Long id) {
 		userService.deleteById(id);
 	}
-	
+
 }

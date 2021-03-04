@@ -16,12 +16,9 @@ import com.m_landalex.employee_user.persistence.UserRepository;
 @Service
 public class UserService {
 
-	@Autowired
-	private UserMapper userMapper;
-	@Autowired
-	private JmsTemplate jmsTemplate;
-	@Autowired
-	private UserRepository userRepository;
+	@Autowired 	private UserMapper userMapper;
+	@Autowired 	private JmsTemplate jmsTemplate;
+	@Autowired 	private UserRepository userRepository;
 
 	public User save(User user) throws AsyncXAResourcesException {
 		if (user == null) {
@@ -31,12 +28,12 @@ public class UserService {
 		jmsTemplate.convertAndSend("users", "-->User with username " + user.getUsername() + " is saved ");
 		return user;
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<User> fetchAll(){
+	public List<User> fetchAll() {
 		return userMapper.toObjectList(userRepository.findAll());
 	}
-	
+
 	public void deleteAll() {
 		userRepository.deleteAll();
 	}
@@ -45,7 +42,7 @@ public class UserService {
 	public User fetchById(Long id) {
 		return userMapper.toObject(userRepository.findById(id).get());
 	}
-	
+
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
 	}
