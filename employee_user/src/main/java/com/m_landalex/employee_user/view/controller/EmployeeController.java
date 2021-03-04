@@ -44,9 +44,9 @@ public class EmployeeController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public void updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee)
+	public Employee updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee)
 			throws AsyncXAResourcesException {
-		employeeService.save(employee);
+		return employeeService.update(employee);
 	}
 
 	@DeleteMapping(value = "/{id}")
