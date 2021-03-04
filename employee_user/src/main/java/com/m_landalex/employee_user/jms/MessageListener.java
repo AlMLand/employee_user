@@ -6,5 +6,5 @@ import javax.jms.Message;
 public interface MessageListener {
 
 	void onMessage(Message message) throws JMSException;
-	
+
 }

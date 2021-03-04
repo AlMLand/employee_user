@@ -26,7 +26,7 @@ public class EmployeeEntity extends AbstractEntity {
 	private String lastName;
 	private int age;
 	private BigDecimal salary;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "email_id", referencedColumnName = "id")
 	private EmailEntity email;
@@ -34,7 +34,7 @@ public class EmployeeEntity extends AbstractEntity {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_employee")
 	private AddressEntity addressData;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private UserEntity userData;

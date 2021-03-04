@@ -17,7 +17,7 @@ public class Email extends AbstractObject {
 
 	@Override
 	public String toString() {
-		return  "[" + super.toString() + ", email=" + email + "]";
+		return "[" + super.toString() + ", email=" + email + "]";
 	}
-	
+
 }

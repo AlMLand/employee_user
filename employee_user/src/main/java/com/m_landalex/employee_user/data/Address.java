@@ -17,11 +17,11 @@ public class Address extends AbstractObject {
 	private int houseNumber;
 	private String city;
 	private String postCode;
-	
+
 	@Override
 	public String toString() {
-		return "[" + super.toString() +", street=" + street + ", houseNumber=" + houseNumber + ", city=" + city + ", postCode="
-				+ postCode + "]";
+		return "[" + super.toString() + ", street=" + street + ", houseNumber=" + houseNumber + ", city=" + city
+				+ ", postCode=" + postCode + "]";
 	}
-	
+
 }

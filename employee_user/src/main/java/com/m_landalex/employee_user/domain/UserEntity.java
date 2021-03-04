@@ -25,8 +25,8 @@ public class UserEntity extends AbstractEntity {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Role userRole;
-	
+
 	@OneToOne(mappedBy = "userData")
 	private EmployeeEntity employee;
-	
+
 }

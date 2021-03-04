@@ -19,5 +19,5 @@ public abstract class AbstractEntity {
 	private Long id;
 	@Version
 	private Long version;
-	
+
 }

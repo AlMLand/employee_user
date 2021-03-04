@@ -10,8 +10,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageListenerEmployee implements MessageListener{
-	
+public class MessageListenerEmployee implements MessageListener {
+
 	private static final Logger logger = LoggerFactory.getLogger(MessageListenerEmployee.class);
 
 	@JmsListener(destination = "employees", containerFactory = "jmsListenerContainerFactory")
@@ -19,5 +19,5 @@ public class MessageListenerEmployee implements MessageListener{
 		TextMessage textMessage = (TextMessage) message;
 		logger.info("--> Received message: {}", textMessage.getText());
 	}
-	
+
 }

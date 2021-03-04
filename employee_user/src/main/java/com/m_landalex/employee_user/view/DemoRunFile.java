@@ -20,7 +20,7 @@ public class DemoRunFile implements CommandLineRunner {
 
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	@Override
 	public void run(String... args) throws Exception {
 		List<Employee> returnedList = employeeService.fetchAll();
@@ -32,9 +32,9 @@ public class DemoRunFile implements CommandLineRunner {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
+
 		SpringApplication.run(DemoRunFile.class, args);
-		
+
 	}
 
 }

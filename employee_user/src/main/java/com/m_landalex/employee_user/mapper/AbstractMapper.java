@@ -16,7 +16,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	private Class<S> entityClass;
 	private Class<D> dtoClass;
 
@@ -35,12 +35,11 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 	}
 
 	public List<D> toObjectList(List<S> entityList) {
-		return Objects.isNull(entityList) ? new ArrayList<>() : entityList.stream()
-				.map(entity -> modelMapper.map(entity, dtoClass))
-				.collect(Collectors.toList());
+		return Objects.isNull(entityList) ? new ArrayList<>()
+				: entityList.stream().map(entity -> modelMapper.map(entity, dtoClass)).collect(Collectors.toList());
 	}
 
-	protected Converter<D, S> converterToEntity(){
+	protected Converter<D, S> converterToEntity() {
 		return context -> {
 			D source = context.getSource();
 			S destination = context.getDestination();
@@ -48,10 +47,11 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 			return context.getDestination();
 		};
 	}
-	
-	protected void mapSpecificFields(D source, S destination) {}
 
-	protected Converter<S, D> converterToDto(){
+	protected void mapSpecificFields(D source, S destination) {
+	}
+
+	protected Converter<S, D> converterToDto() {
 		return context -> {
 			S source = context.getSource();
 			D destination = context.getDestination();
@@ -59,7 +59,8 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 			return context.getDestination();
 		};
 	}
-	
-	protected void mapSpecificFields(S source, D destination) {}
-	
+
+	protected void mapSpecificFields(S source, D destination) {
+	}
+
 }

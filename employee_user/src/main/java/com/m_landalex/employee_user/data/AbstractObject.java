@@ -13,5 +13,5 @@ public abstract class AbstractObject {
 	public String toString() {
 		return "id=" + id;
 	}
-	
+
 }

@@ -19,7 +19,8 @@ public class User extends AbstractObject {
 
 	@Override
 	public String toString() {
-		return "[" + super.toString() + ", username=" + username + ", password=" + password + ", userRole=" + userRole + "]";
+		return "[" + super.toString() + ", username=" + username + ", password=" + password + ", userRole=" + userRole
+				+ "]";
 	}
 
 }
