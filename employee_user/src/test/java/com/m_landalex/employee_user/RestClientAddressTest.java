@@ -23,7 +23,7 @@ public class RestClientAddressTest {
 	private static final String URL_GET_ALL_ADDRESS = "http://localhost:8080/addresses/";
 	private static final String URL_GET_ADDRESS_BY_ID = "http://localhost:8080/addresses/{id}";
 	private static final String URL_PUT_ADDRESS_BY_ID = "http://localhost:8080/addresses/{id}";
-	private static final String URL_DELETE_STANDING_ALONEADDRESS_BY_ID = "http://localhost:8080/addresses/{id}";
+	private static final String URL_DELETE_STANDING_ALONE_ADDRESS_BY_ID = "http://localhost:8080/addresses/{id}";
 	
 	@BeforeEach
 	public void setUp() {
@@ -62,7 +62,7 @@ public class RestClientAddressTest {
 	@Test
 	@Order(4)
 	public void testDeleteStandingAloneAddressById() {
-		restTemplate.delete(URL_DELETE_STANDING_ALONEADDRESS_BY_ID, 3);
+		restTemplate.delete(URL_DELETE_STANDING_ALONE_ADDRESS_BY_ID, 3);
 		Address[] returnedArray = restTemplate.getForObject(URL_GET_ALL_ADDRESS, Address[].class);
 		assertEquals(2, returnedArray.length);
 	}
