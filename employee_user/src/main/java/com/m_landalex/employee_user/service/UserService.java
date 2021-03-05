@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m_landalex.employee_user.data.User;
+import com.m_landalex.employee_user.domain.UserEntity;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.mapper.UserMapper;
 import com.m_landalex.employee_user.persistence.UserRepository;
@@ -28,23 +29,24 @@ public class UserService {
 		jmsTemplate.convertAndSend("users", "-->User with username " + user.getUsername() + " is saved ");
 		return user;
 	}
+	
+	public User update(User user) {
+		UserEntity returnedUserEntity = userRepository.findById(user.getId()).get();
+		returnedUserEntity.setUsername(userMapper.toEntity(user).getUsername());
+		returnedUserEntity.setPassword(userMapper.toEntity(user).getPassword());
+		returnedUserEntity.setUserRole(userMapper.toEntity(user).getUserRole());
+		userRepository.save(returnedUserEntity);
+		return user;
+	}
 
 	@Transactional(readOnly = true)
 	public List<User> fetchAll() {
 		return userMapper.toObjectList(userRepository.findAll());
 	}
 
-	public void deleteAll() {
-		userRepository.deleteAll();
-	}
-
 	@Transactional(readOnly = true)
 	public User fetchById(Long id) {
 		return userMapper.toObject(userRepository.findById(id).get());
-	}
-
-	public void deleteById(Long id) {
-		userRepository.deleteById(id);
 	}
 
 }
