@@ -32,14 +32,9 @@ public class AddressController {
 		return addressService.fetchAll();
 	}
 
-	@DeleteMapping(value = "/")
-	public void deleteAllAddresses() {
-		addressService.deleteAll();
-	}
-
 	@PutMapping(value = "/{id}")
 	public Address updateAddressById(@PathVariable Long id, @RequestBody Address address) {
-		return addressService.save(address);
+		return addressService.update(address);
 	}
 
 	@GetMapping(value = "/{id}")
@@ -48,7 +43,7 @@ public class AddressController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void deleteAddressById(@PathVariable Long id) {
+	public void deleteStandingAloneAddressById(@PathVariable Long id) {
 		addressService.deleteById(id);
 	}
 
