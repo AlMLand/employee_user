@@ -2,7 +2,9 @@ package com.m_landalex.employee_user.service;
 
 import java.util.List;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,12 +38,16 @@ public class EmployeeService {
 	@Autowired 	private EmailMapper emailMapper;
 	@Autowired 	private UserMapper userMapper;
 	@Autowired 	private JmsTemplate jmsTemplate;
+	@Autowired private RabbitTemplate rabbitTemplate;
+	@Value("${rabbitmq.queueName}") private String queueName;
 
 	public Employee save(Employee employee) throws AsyncXAResourcesException {
 		if (employee == null) {
+			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Symulation going wrong");
 		}
 		employeeRepository.save(employeeMapper.toEntity(employee));
+		rabbitTemplate.convertAndSend(queueName, "succesful");
 		jmsTemplate.convertAndSend("employees",
 				"-->Employee with first name " + employee.getFirstName() + ", last name " + employee.getLastName()
 						+ " and username " + employee.getUserData().getUsername() + " is saved");
