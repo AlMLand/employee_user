@@ -1,4 +1,4 @@
-package com.m_landalex.employee_user;
+package com.m_landalex.employee_user.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
