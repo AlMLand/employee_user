@@ -33,6 +33,9 @@ public class AddressService {
 		return addressMapper.toObject(addressRepository.findById(id).get());
 	}
 
+	/*
+	 * only addresses that are not related to any are employee
+	 */
 	public void deleteById(Long id) {
 		addressRepository.delete(addressRepository.findById(id).get());
 	}
