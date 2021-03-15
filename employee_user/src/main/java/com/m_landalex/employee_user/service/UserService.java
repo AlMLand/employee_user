@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m_landalex.employee_user.data.User;
@@ -21,32 +22,37 @@ public class UserService {
 	@Autowired 	private JmsTemplate jmsTemplate;
 	@Autowired 	private UserRepository userRepository;
 
-	public User save(User user) throws AsyncXAResourcesException {
-		if (user == null) {
-			throw new AsyncXAResourcesException("Symulation going wrong");
+	public User save( User user ) throws AsyncXAResourcesException {
+		if ( user == null ) {
+			throw new AsyncXAResourcesException( "Symulation going wrong" );
 		}
-		userRepository.save(userMapper.toEntity(user));
-		jmsTemplate.convertAndSend("users", "-->User with username " + user.getUsername() + " is saved ");
+		userRepository.save( userMapper.toEntity( user ) );
+		jmsTemplate.convertAndSend( "users", "-->User with username " + user.getUsername() + " is saved " );
 		return user;
 	}
 	
-	public User update(User user) {
-		UserEntity returnedUserEntity = userRepository.findById(user.getId()).get();
-		returnedUserEntity.setUsername(userMapper.toEntity(user).getUsername());
-		returnedUserEntity.setPassword(userMapper.toEntity(user).getPassword());
-		returnedUserEntity.setUserRole(userMapper.toEntity(user).getUserRole());
+	public User update( User user ) {
+		UserEntity returnedUserEntity = userRepository.findById( user.getId() ).get();
+		returnedUserEntity.setUsername( userMapper.toEntity( user ).getUsername() );
+		returnedUserEntity.setPassword( userMapper.toEntity( user ).getPassword() );
+		returnedUserEntity.setUserRole( userMapper.toEntity( user ).getUserRole() );
 		userRepository.save(returnedUserEntity);
 		return user;
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional( readOnly = true )
 	public List<User> fetchAll() {
 		return userMapper.toObjectList(userRepository.findAll());
 	}
 
-	@Transactional(readOnly = true)
-	public User fetchById(Long id) {
+	@Transactional( readOnly = true )
+	public User fetchById( Long id ) {
 		return userMapper.toObject(userRepository.findById(id).get());
+	}
+	
+	@Transactional( propagation = Propagation.NEVER )
+	public Long countAllUsers() {
+		return userRepository.count();
 	}
 
 }
