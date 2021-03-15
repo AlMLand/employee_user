@@ -99,5 +99,19 @@ public class UserServiceTest {
 		assertNotNull(returnedUser);
 		assertEquals("test_save_updateed_user_username", returnedUser.getUsername());
 	}
+
+	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
+			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
+			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
+			@Sql( value = "classpath:db/clean-up.sql",
+			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
+			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
+	@DisplayName( "Should return quantity all users" )
+	@Test
+	public void countAllUsersTest() {
+		Long returnedCount = userService.countAllUsers();
+		assertNotNull(returnedCount);
+		assertEquals(1, returnedCount);
+	}
 	
 }
