@@ -2,8 +2,6 @@ package com.m_landalex.employee_user.service;
 
 import java.math.BigDecimal;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +18,7 @@ public class DBInitialization {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@PostConstruct
+	//@PostConstruct
 	public void setupInitialization() throws AsyncXAResourcesException {
 
 		employeeService.save(Employee.builder().firstName("Connor").lastName("McGregor").age(32)
