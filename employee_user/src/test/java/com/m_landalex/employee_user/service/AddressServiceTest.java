@@ -124,4 +124,17 @@ public class AddressServiceTest {
 		assertEquals(Integer.valueOf(99), updatedAddress.getHouseNumber());
 	}
 	
+	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
+			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
+			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
+			@Sql( value = "classpath:db/clean-up.sql",
+			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
+			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
+	@DisplayName( "should return returnedCount=1" )
+	@Test
+	public void countAllAddressesTest() {
+		long returnedCount = addressService.countAllAddresses();
+		assertEquals( 1, returnedCount );
+	}
+	
 }
