@@ -2,7 +2,10 @@ package com.m_landalex.employee_user.service;
 
 import java.math.BigDecimal;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.m_landalex.employee_user.data.Address;
@@ -12,13 +15,14 @@ import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 
+@Profile( "!test" )
 @Service
 public class DBInitialization {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	//@PostConstruct
+	@PostConstruct
 	public void setupInitialization() throws AsyncXAResourcesException {
 
 		employeeService.save(Employee.builder().firstName("Connor").lastName("McGregor").age(32)
