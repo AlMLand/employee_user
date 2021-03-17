@@ -18,9 +18,6 @@ import com.m_landalex.employee_user.data.Employee;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @TestMethodOrder(OrderAnnotation.class)
 public class RestClientEmployeeTest {
 
@@ -35,12 +32,10 @@ public class RestClientEmployeeTest {
 	@BeforeEach
 	public void setUp() {
 		restTemplate = new RestTemplate();
-		log.info("Test started...");
 	}
 
 	@AfterEach
 	public void tearDown() {
-		log.info("Test ended...");
 	}
 
 	@Test
@@ -61,9 +56,6 @@ public class RestClientEmployeeTest {
 	@Order(1)
 	public void testFetchAllEmployees() {
 		Employee[] returnedArray = restTemplate.getForObject(URL_GET_ALL_EMPLOYEES, Employee[].class);
-		for (Employee employee : returnedArray) {
-			log.info("EMPLOYEE---> {}", employee);
-		}
 		assertEquals(2, returnedArray.length);
 	}
 

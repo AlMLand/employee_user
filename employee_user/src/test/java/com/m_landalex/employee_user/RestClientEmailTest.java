@@ -1,21 +1,17 @@
 package com.m_landalex.employee_user;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.web.client.RestTemplate;
 
 import com.m_landalex.employee_user.data.Email;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @TestMethodOrder(OrderAnnotation.class)
 public class RestClientEmailTest {
 
@@ -29,12 +25,10 @@ public class RestClientEmailTest {
 	@BeforeEach
 	public void setUp() {
 		restTemplate = new RestTemplate();
-		log.info("Started test...");
 	}
 	
 	@AfterEach
 	public void tearDown() {
-		log.info("Ended test...");
 	}
 	
 	@Test

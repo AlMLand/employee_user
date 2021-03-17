@@ -13,9 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @TestMethodOrder(OrderAnnotation.class)
 public class RestClientUserTest {
 
@@ -29,12 +26,10 @@ public class RestClientUserTest {
 	@BeforeEach
 	public void setUp() {
 		restTemplate = new RestTemplate();
-		log.info("Test started...");
 	}
 	
 	@AfterEach
 	public void tearDown() {
-		log.info("Test ended...");
 	}
 	
 	@Test
