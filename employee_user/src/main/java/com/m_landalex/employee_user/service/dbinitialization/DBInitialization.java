@@ -1,4 +1,4 @@
-package com.m_landalex.employee_user.service;
+package com.m_landalex.employee_user.service.dbinitialization;
 
 import java.math.BigDecimal;
 
@@ -14,6 +14,7 @@ import com.m_landalex.employee_user.data.Employee;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
+import com.m_landalex.employee_user.service.EmployeeService;
 
 @Profile( "!test" )
 @Service

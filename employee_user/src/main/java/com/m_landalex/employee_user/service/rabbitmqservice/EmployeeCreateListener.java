@@ -1,4 +1,4 @@
-package com.m_landalex.employee_user.service;
+package com.m_landalex.employee_user.service.rabbitmqservice;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
