@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -27,6 +28,7 @@ import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.view.DemoRunFile;
 
+@ActiveProfiles( "test" )
 @ExtendWith( SpringExtension.class )
 @SpringBootTest( classes = { DemoRunFile.class } )
 @DisplayName( "Integration EmployeeService.class Test" )

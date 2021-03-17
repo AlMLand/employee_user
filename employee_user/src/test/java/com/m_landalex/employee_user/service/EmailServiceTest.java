@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.view.DemoRunFile;
 
+@ActiveProfiles( "test" )
 @ExtendWith( SpringExtension.class )
 @SpringBootTest( classes = { DemoRunFile.class } )
 @DisplayName( "Integration EmailService.class test" )
