@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m_landalex.employee_user.data.Address;
@@ -48,6 +49,11 @@ public class AddressService {
 		returnedAddressEntity.setPostCode(addressMapper.toEntity(address).getPostCode());
 		addressRepository.save(returnedAddressEntity);
 		return address;
+	}
+	
+	@Transactional( propagation = Propagation.NEVER )
+	public long countAllAddresses() {
+		return addressRepository.count();
 	}
 
 }

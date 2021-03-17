@@ -44,4 +44,8 @@ public class EmailService {
 		emailRepository.delete(emailRepository.findById(id).get());
 	}
 	
+	public long countAllEmails() {
+		return emailRepository.count();
+	}
+	
 }
