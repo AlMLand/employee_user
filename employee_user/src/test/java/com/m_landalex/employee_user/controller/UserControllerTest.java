@@ -47,7 +47,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void createTest() throws AsyncXAResourcesException {
+	public void create_Test() throws AsyncXAResourcesException {
 		User newUser = User.builder().username("Test_2").password("Test_2").userRoles(
 				List.of(Role.builder().role("ADMINISTRATION").build())
 				).build();
@@ -59,8 +59,8 @@ public class UserControllerTest {
 				return newUser;
 			}
 		});
-		extendedModelMap.addAttribute("createUser", userController.create(newUser));
-		User returnedUser = (User) extendedModelMap.get("createUser");
+		extendedModelMap.addAttribute("create", userController.create(newUser));
+		User returnedUser = (User) extendedModelMap.get("create");
 		
 		assertNotNull(returnedUser);
 		assertEquals(2, listUsers.size());
@@ -68,7 +68,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void createShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
+	public void create_ShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
 		User newUser = null;
 		Mockito.when(mockedUserService.save(newUser)).thenThrow(RuntimeException.class);
 		
@@ -78,23 +78,23 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void listTest() {
+	public void list_Test() {
 		Mockito.when(mockedUserService.fetchAll()).thenReturn(listUsers);
 		
-		extendedModelMap.addAttribute("fetchAllEmployees", userController.list());
+		extendedModelMap.addAttribute("list", userController.list());
 		@SuppressWarnings("unchecked")
-		List<User> returnList = (List<User>) extendedModelMap.get("fetchAllEmployees");
+		List<User> returnList = (List<User>) extendedModelMap.get("list");
 		
 		assertNotNull(returnList);
 		assertEquals(1, returnList.size());
 	}
 	
 	@Test
-	public void findByIdTest() {
+	public void findById_Test() {
 		Mockito.when(mockedUserService.fetchById(Mockito.anyLong())).thenReturn(listUsers.get(0));
 		
-		extendedModelMap.addAttribute("fetchUserById", userController.findById(1L));
-		User returnedUser = (User) extendedModelMap.get("fetchUserById");
+		extendedModelMap.addAttribute("findById", userController.findById(1L));
+		User returnedUser = (User) extendedModelMap.get("findById");
 		
 		assertNotNull(returnedUser);
 		assertEquals("Test_1", returnedUser.getUsername());

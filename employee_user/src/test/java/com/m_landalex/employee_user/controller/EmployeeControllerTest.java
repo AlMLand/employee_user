@@ -52,7 +52,7 @@ public class EmployeeControllerTest {
 	}
 	
 	@Test
-	public void createTest() throws AsyncXAResourcesException {
+	public void create_Test() throws AsyncXAResourcesException {
 		Employee newEmployee = Employee.builder().firstName("Test_firstName_2").lastName("Test_lastName_2").age(100)
 				.salary(new BigDecimal(5000.00d)).email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2").postCode("12345")
@@ -81,7 +81,7 @@ public class EmployeeControllerTest {
 	}
 	
 	@Test
-	public void createShouldThrowRuntimeExceptiontest() throws AsyncXAResourcesException {
+	public void create_ShouldThrowRuntimeExceptiontest() throws AsyncXAResourcesException {
 		Employee newEmployee = null;
 		Mockito.when(mockedEmployeeService.save(newEmployee)).thenThrow(RuntimeException.class);
 		assertThrows(RuntimeException.class, ()->{
@@ -90,13 +90,13 @@ public class EmployeeControllerTest {
 	}
 	
 	@Test
-	public void listTest() {
+	public void list_Test() {
 		Mockito.when(mockedEmployeeService.fetchAll()).thenReturn(listEmployees);
 		
 		ExtendedModelMap extendedModelMap = new ExtendedModelMap();
-		extendedModelMap.addAttribute("fetchAllEmployees", employeeController.list());
+		extendedModelMap.addAttribute("list", employeeController.list());
 		@SuppressWarnings("unchecked")
-		List<Employee> returnedList = (List<Employee>) extendedModelMap.get("fetchAllEmployees");
+		List<Employee> returnedList = (List<Employee>) extendedModelMap.get("list");
 		
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
@@ -124,8 +124,8 @@ public class EmployeeControllerTest {
 		Mockito.when(mockedEmployeeService.fetchById(Mockito.anyLong())).thenReturn(listEmployees.get(0));
 		
 		ExtendedModelMap extendedModelMap = new ExtendedModelMap();
-		extendedModelMap.addAttribute("fetchEmployeeById", employeeController.findById(Mockito.anyLong()));
-		Employee returnedEmployee = (Employee) extendedModelMap.get("fetchEmployeeById");
+		extendedModelMap.addAttribute("findById", employeeController.findById(Mockito.anyLong()));
+		Employee returnedEmployee = (Employee) extendedModelMap.get("findById");
 		
 		assertNotNull(returnedEmployee);
 		assertEquals(Long.valueOf(1L), returnedEmployee.getId());
