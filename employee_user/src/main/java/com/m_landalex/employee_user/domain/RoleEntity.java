@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.m_landalex.employee_user.data.AbstractObject;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +15,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "roles")
-public class RoleEntity extends AbstractObject {
+public class RoleEntity extends AbstractEntity {
 
 	@Column(name = "ROLE")
 	private String role;
