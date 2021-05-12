@@ -2,49 +2,46 @@ package com.m_landalex.employee_user.view.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m_landalex.employee_user.data.Address;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.AddressService;
 
 @RestController
-@RequestMapping(value = "/addresses")
+@RequestMapping(value = "/rest/addresses")
 public class AddressController {
 
 	@Autowired
-	private AddressService addressService;
+	private AddressService service;
 
 	@PostMapping(value = "/")
-	public Address createAddress(@RequestBody Address address) {
-		return addressService.save(address);
+	public Address create(@Valid @RequestBody Address address) throws AsyncXAResourcesException {
+		return service.save(address);
 	}
 
 	@GetMapping(value = "/")
-	public List<Address> fetchAllAddresses() {
-		return addressService.fetchAll();
-	}
-
-	@PutMapping(value = "/{id}")
-	public Address updateAddressById(@PathVariable Long id, @RequestBody Address address) {
-		return addressService.update(address);
+	public List<Address> list() {
+		return service.fetchAll();
 	}
 
 	@GetMapping(value = "/{id}")
-	public Address fetchAddressById(@PathVariable Long id) {
-		return addressService.fetchById(id);
+	public Address findById(@PathVariable Long id) {
+		return service.fetchById(id);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void deleteStandingAloneAddressById(@PathVariable Long id) {
-		addressService.deleteById(id);
+	public void deleteStandingAloneById(@PathVariable Long id) {
+		service.deleteById(id);
 	}
 
 }
