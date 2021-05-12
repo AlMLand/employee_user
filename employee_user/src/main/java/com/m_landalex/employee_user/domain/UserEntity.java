@@ -1,12 +1,15 @@
 package com.m_landalex.employee_user.domain;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.m_landalex.employee_user.data.Role;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,14 +21,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity extends AbstractEntity {
 
+	@Column(name = "USERNAME")
 	private String username;
+	@Column(name = "PASSWORD")
 	private String password;
-	@Enumerated(EnumType.STRING)
-	private Role userRole;
-
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "users_roles",
+				joinColumns = {@JoinColumn(name = "USER_FK")},
+				inverseJoinColumns = {@JoinColumn(name = "ROLE_FK")})
+	private Collection<RoleEntity> userRoles;
+	
 	@OneToOne(mappedBy = "userData")
 	private EmployeeEntity employee;
 

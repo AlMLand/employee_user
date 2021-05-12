@@ -2,6 +2,7 @@ package com.m_landalex.employee_user.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,9 +20,13 @@ import lombok.Setter;
 @Table(name = "address")
 public class AddressEntity extends AbstractEntity {
 
+	@Column(name = "STREET")
 	private String street;
+	@Column(name = "HOUSENUMBER")
 	private int houseNumber;
+	@Column(name = "CITY")
 	private String city;
+	@Column(name = "POSTCODE")
 	private String postCode;
 
 	@OneToMany(mappedBy = "addressData")

@@ -1,5 +1,6 @@
 package com.m_landalex.employee_user.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Table(name = "email")
 public class EmailEntity extends AbstractEntity {
 
+	@Column(name = "EMAIL")
 	private String email;
 
 	@OneToOne(mappedBy = "email")

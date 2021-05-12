@@ -1,8 +1,10 @@
 package com.m_landalex.employee_user.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,22 +21,26 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 public class EmployeeEntity extends AbstractEntity {
 
+	@Column(name = "FIRSTNAME")
 	private String firstName;
+	@Column(name = "LASTNAME")
 	private String lastName;
-	private int age;
+	@Column(name = "BIRTHDATE")
+	private LocalDate birthDate;
+	@Column(name = "SALARY")
 	private BigDecimal salary;
-
+	@Column(name = "EMAIL")
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "email_id", referencedColumnName = "id")
 	private EmailEntity email;
-
+	@Column(name = "ADDRESS")
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_employee")
 	private AddressEntity addressData;
-
+	@Column(name = "USER")
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private UserEntity userData;
