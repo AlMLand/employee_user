@@ -32,15 +32,12 @@ public class EmployeeEntity extends AbstractEntity {
 	private LocalDate birthDate;
 	@Column(name = "SALARY")
 	private BigDecimal salary;
-	@Column(name = "EMAIL")
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "email_id", referencedColumnName = "id")
 	private EmailEntity email;
-	@Column(name = "ADDRESS")
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_employee")
 	private AddressEntity addressData;
-	@Column(name = "USER")
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private UserEntity userData;
