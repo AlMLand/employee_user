@@ -1,4 +1,4 @@
-package com.m_landalex.employee_user.view.controller;
+package com.m_landalex.employee_user.view.controller.rest;
 
 import java.util.List;
 
@@ -13,39 +13,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.m_landalex.employee_user.data.Employee;
+import com.m_landalex.employee_user.data.Address;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
-import com.m_landalex.employee_user.service.EmployeeService;
+import com.m_landalex.employee_user.service.AddressService;
 
 @RestController
-@RequestMapping(value = "/rest/employees")
-public class EmployeeController {
+@RequestMapping(value = "/rest/addresses")
+public class AddressController {
 
 	@Autowired
-	private EmployeeService service;
+	private AddressService service;
 
 	@PostMapping(value = "/")
-	public Employee create(@Valid @RequestBody Employee employee) throws AsyncXAResourcesException {
-		return service.save(employee);
+	public Address create(@Valid @RequestBody Address address) throws AsyncXAResourcesException {
+		return service.save(address);
 	}
 
 	@GetMapping(value = "/")
-	public List<Employee> list() {
+	public List<Address> list() {
 		return service.fetchAll();
 	}
 
-	@DeleteMapping(value = "/")
-	public void deleteAll() {
-		service.deleteAll();
-	}
-
 	@GetMapping(value = "/{id}")
-	public Employee findById(@PathVariable Long id) {
+	public Address findById(@PathVariable Long id) {
 		return service.fetchById(id);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void deleteById(@PathVariable Long id) {
+	public void deleteStandingAloneById(@PathVariable Long id) {
 		service.deleteById(id);
 	}
 

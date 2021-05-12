@@ -1,10 +1,11 @@
-package com.m_landalex.employee_user.view.controller;
+package com.m_landalex.employee_user.view.controller.rest;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,30 +13,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.m_landalex.employee_user.data.User;
+import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
-import com.m_landalex.employee_user.service.UserService;
+import com.m_landalex.employee_user.service.EmailService;
 
 @RestController
-@RequestMapping(value = "/rest/users")
-public class UserController {
+@RequestMapping(value = "/rest/emails")
+public class EmailController {
 
 	@Autowired
-	private UserService service;
-
+	private EmailService service;
+	
 	@PostMapping(value = "/")
-	public User create(@Valid @RequestBody User user) throws AsyncXAResourcesException {
-		return service.save(user);
+	public Email create(@Valid @RequestBody Email email) throws AsyncXAResourcesException {
+		service.save(email);
+		return email;
 	}
-
+	
 	@GetMapping(value = "/")
-	public List<User> list() {
+	public List<Email> list(){
 		return service.fetchAll();
 	}
-
+	
 	@GetMapping(value = "/{id}")
-	public User findById(@PathVariable Long id) {
+	public Email findById(@PathVariable Long id) {
 		return service.fetchById(id);
 	}
-
+	
+	@DeleteMapping(value = "/{id}")
+	public void deleteStandingAloneById(@PathVariable Long id) {
+		service.deleteById(id);
+	}
+	
 }
