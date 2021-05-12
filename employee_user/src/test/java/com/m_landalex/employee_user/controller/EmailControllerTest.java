@@ -19,8 +19,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 
 import com.m_landalex.employee_user.data.Email;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmailService;
-import com.m_landalex.employee_user.view.controller.EmailController;
+import com.m_landalex.employee_user.view.controller.rest.EmailController;
 
 @ExtendWith(MockitoExtension.class)
 public class EmailControllerTest {
@@ -35,6 +36,7 @@ public class EmailControllerTest {
 	public void setUp() {
 		emailController = new EmailController();
 		extendedModelMap = new ExtendedModelMap();
+		ReflectionTestUtils.setField(emailController, "service", mockedEmailService);
 		listEmails = new ArrayList<>();
 		Email email = Email.builder().email("Test_1@test.com").build();
 		email.setId(1L);
@@ -42,7 +44,7 @@ public class EmailControllerTest {
 	}
 	
 	@Test
-	public void createEmailTest() {
+	public void create_Test() throws AsyncXAResourcesException {
 		Email newEmail = Email.builder().email("Test_2@test.com").build();
 		Mockito.when(mockedEmailService.save(newEmail)).thenAnswer(new Answer<Email>() {
 
@@ -52,9 +54,8 @@ public class EmailControllerTest {
 				return newEmail;
 			}
 		});
-		ReflectionTestUtils.setField(emailController, "emailService", mockedEmailService);
-		extendedModelMap.addAttribute("createEmail", emailController.createEmail(newEmail));
-		Email returnedEmail = (Email) extendedModelMap.get("createEmail");
+		extendedModelMap.addAttribute("create", emailController.create(newEmail));
+		Email returnedEmail = (Email) extendedModelMap.get("create");
 		
 		assertNotNull(returnedEmail);
 		assertEquals(2, listEmails.size());
@@ -62,65 +63,39 @@ public class EmailControllerTest {
 	}
 	
 	@Test
-	public void createEmailShouldThrowRuntimeExceptionTest() {
+	public void create_ShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
 		Email email = null;
 		Mockito.when(mockedEmailService.save(email)).thenThrow(RuntimeException.class);
-		ReflectionTestUtils.setField(emailController, "emailService", mockedEmailService);
 		
 		assertThrows(RuntimeException.class, () -> {
-			emailController.createEmail(email);
+			emailController.create(email);
 		});
 	}
 	
 	@Test
-	public void fetchAllEmailsTest() {
+	public void list_Test() {
 		Mockito.when(mockedEmailService.fetchAll()).thenReturn(listEmails);
-		ReflectionTestUtils.setField(emailController, "emailService", mockedEmailService);
-		extendedModelMap.addAttribute("fetchAllEmails", emailController.fetchAllEmails());
+		extendedModelMap.addAttribute("list", emailController.list());
 		@SuppressWarnings("unchecked")
-		List<Email> returnedList = (List<Email>) extendedModelMap.get("fetchAllEmails");
+		List<Email> returnedList = (List<Email>) extendedModelMap.get("list");
 		
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
 	}
 	
 	@Test
-	public void updateEmailById() {
-		Email newEmail = Email.builder().email("Test_2@test.com").build();
-		Mockito.when(mockedEmailService.update(newEmail)).thenAnswer(new Answer<Email>() {
-
-			@Override
-			public Email answer(InvocationOnMock invocation) throws Throwable {
-				Email returnedEmail = listEmails.get(0);
-				returnedEmail.setEmail(newEmail.getEmail());
-				listEmails.remove(0);
-				listEmails.add(returnedEmail);
-				return newEmail;
-			}
-		});
-		ReflectionTestUtils.setField(emailController, "emailService", mockedEmailService);
-		extendedModelMap.addAttribute("updateEmailById", emailController.updateEmailById(1L, newEmail));
-		Email updatedEmail = (Email) extendedModelMap.get("updateEmailById");
-		
-		assertNotNull(updatedEmail);
-		assertEquals(1, listEmails.size());
-		assertEquals("Test_2@test.com", updatedEmail.getEmail());
-	}
-	
-	@Test
-	public void fetchEmailByIdTest() {
+	public void findById_Test() {
 		Mockito.when(mockedEmailService.fetchById(Mockito.anyLong())).thenReturn(listEmails.get(0));
-		ReflectionTestUtils.setField(emailController, "emailService", mockedEmailService);
 		
-		extendedModelMap.addAttribute("fetchEmailById", emailController.fetchEmailById(1L));
-		Email returnedEmail = (Email) extendedModelMap.get("fetchEmailById");
+		extendedModelMap.addAttribute("findById", emailController.findById(1L));
+		Email returnedEmail = (Email) extendedModelMap.get("findById");
 		
 		assertNotNull(returnedEmail);
 		assertEquals("Test_1@test.com", returnedEmail.getEmail());
 	}
 	
 	@Test
-	public void deleteStandingAloneEmailByIdTest() {
+	public void deleteStandingAloneById_Test() {
 		Mockito.doAnswer(new Answer<Email>() {
 
 			@Override
@@ -129,9 +104,8 @@ public class EmailControllerTest {
 				return null;
 			}
 		}).when(mockedEmailService).deleteById(Mockito.anyLong());
-		ReflectionTestUtils.setField(emailController, "emailService", mockedEmailService);
 		
-		emailController.deleteStandingAloneEmailById(1L);
+		emailController.deleteStandingAloneById(1L);
 		
 		assertNotNull(listEmails);
 		assertEquals(0, listEmails.size());
