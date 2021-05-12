@@ -19,8 +19,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 
 import com.m_landalex.employee_user.data.Address;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.AddressService;
-import com.m_landalex.employee_user.view.controller.AddressController;
+import com.m_landalex.employee_user.view.controller.rest.AddressController;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressControllerTest {
@@ -36,6 +37,7 @@ public class AddressControllerTest {
 		addressController = new AddressController();
 		extendedModelMap = new ExtendedModelMap();
 		listAdresses = new ArrayList<>();
+		ReflectionTestUtils.setField(addressController, "service", mockedAddressService);
 		Address address = Address.builder().street("TEST_street_1").houseNumber(10).city("TEST_city_1")
 				.postCode("11111").build();
 		address.setId(1L);
@@ -43,7 +45,7 @@ public class AddressControllerTest {
 	}
 
 	@Test
-	public void createAddressTest() {
+	public void create_Test() throws AsyncXAResourcesException {
 		Address newAddress = Address.builder().street("TEST_street_2").houseNumber(20).city("TEST_city_2")
 				.postCode("22222").build();
 		Mockito.when(mockedAddressService.save(newAddress)).thenAnswer(new Answer<Address>() {
@@ -54,8 +56,7 @@ public class AddressControllerTest {
 				return newAddress;
 			}
 		});
-		ReflectionTestUtils.setField(addressController, "addressService", mockedAddressService);
-		extendedModelMap.addAttribute("createAddress", addressController.createAddress(newAddress));
+		extendedModelMap.addAttribute("createAddress", addressController.create(newAddress));
 		Address returnedAddress = (Address) extendedModelMap.get("createAddress");
 		
 		assertNotNull(returnedAddress);
@@ -64,60 +65,30 @@ public class AddressControllerTest {
 	}
 
 	@Test
-	public void createAddressShouldThrowRuntimeExceptionTest() {
+	public void create_ShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
 		Address newAddress = null;
 		Mockito.when(mockedAddressService.save(newAddress)).thenThrow(RuntimeException.class);
-		ReflectionTestUtils.setField(addressController, "addressService", mockedAddressService);
 		
 		assertThrows(RuntimeException.class, () -> {
-			addressController.createAddress(newAddress);
+			addressController.create(newAddress);
 		});
 	}
 
 	@Test
-	public void fetchAllAddressesTest() {
+	public void list_Test() {
 		Mockito.when(mockedAddressService.fetchAll()).thenReturn(listAdresses);
-		ReflectionTestUtils.setField(addressController, "addressService", mockedAddressService);
-		extendedModelMap.addAttribute("fetchAllAddresses", addressController.fetchAllAddresses());
+		extendedModelMap.addAttribute("list", addressController.list());
 		@SuppressWarnings("unchecked")
-		List<Address> returnList = (List<Address>) extendedModelMap.get("fetchAllAddresses");
+		List<Address> returnList = (List<Address>) extendedModelMap.get("list");
 		
 		assertNotNull(returnList);
 		assertEquals(1, returnList.size());
 	}
 
 	@Test
-	public void updateAddressByIdTest() {
-		Address newAddress = Address.builder().street("TEST_street_2").houseNumber(20).city("TEST_city_2")
-				.postCode("22222").build();
-		Mockito.when(mockedAddressService.update(newAddress)).thenAnswer(new Answer<Address>() {
-
-			@Override
-			public Address answer(InvocationOnMock invocation) throws Throwable {
-				Address returnedAddress = listAdresses.get(0);
-				returnedAddress.setCity(newAddress.getCity());
-				returnedAddress.setHouseNumber(newAddress.getHouseNumber());
-				returnedAddress.setPostCode(newAddress.getPostCode());
-				returnedAddress.setStreet(newAddress.getStreet());
-				listAdresses.remove(0);
-				listAdresses.add(returnedAddress);
-				return returnedAddress;
-			}
-		});
-		ReflectionTestUtils.setField(addressController, "addressService", mockedAddressService);
-		extendedModelMap.addAttribute("updateAddress", addressController.updateAddressById(1L, newAddress));
-		Address updatedAddress = (Address) extendedModelMap.get("updateAddress");
-		
-		assertNotNull(updatedAddress);
-		assertEquals(1, listAdresses.size());
-		assertEquals("TEST_city_2", updatedAddress.getCity());
-	}
-
-	@Test
-	public void fetchAddressByIdTest() {
+	public void findByIdT_est() {
 		Mockito.when(mockedAddressService.fetchById(Mockito.anyLong())).thenReturn(listAdresses.get(0));
-		ReflectionTestUtils.setField(addressController, "addressService", mockedAddressService);
-		extendedModelMap.addAttribute("fetchAddressById", addressController.fetchAddressById(111L));
+		extendedModelMap.addAttribute("fetchAddressById", addressController.findById(111L));
 		Address returnedAddress = (Address) extendedModelMap.get("fetchAddressById");
 		
 		assertNotNull(returnedAddress);
@@ -128,7 +99,7 @@ public class AddressControllerTest {
 	}
 
 	@Test
-	public void deleteStandingAloneAddressByIdTest() {
+	public void deleteStandingAloneById_Test() {
 		Mockito.doAnswer(new Answer<Address>() {
 
 			@Override
@@ -137,9 +108,8 @@ public class AddressControllerTest {
 				return null;
 			}
 		}).when(mockedAddressService).deleteById(Mockito.anyLong());
-		ReflectionTestUtils.setField(addressController, "addressService", mockedAddressService);
 		
-		addressController.deleteStandingAloneAddressById(222L);
+		addressController.deleteStandingAloneById(222L);
 		
 		assertNotNull(listAdresses);
 		assertEquals(0, listAdresses.size());
