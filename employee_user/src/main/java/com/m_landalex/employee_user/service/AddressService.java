@@ -2,58 +2,61 @@ package com.m_landalex.employee_user.service;
 
 import java.util.List;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m_landalex.employee_user.data.Address;
-import com.m_landalex.employee_user.domain.AddressEntity;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.mapper.AddressMapper;
 import com.m_landalex.employee_user.persistence.AddressRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 @Service
 public class AddressService {
 
-	@Autowired 	private AddressRepository addressRepository;
-	@Autowired 	private AddressMapper addressMapper;
+	@Autowired private AddressMapper mapper;
+	@Autowired private AddressRepository repository;
+	@Autowired private RabbitTemplate rabbitTemplate;
+	@Value("${rabbitmq.queueName}") private String queueName;
 
-	public Address save(Address address) {
-		addressRepository.save(addressMapper.toEntity(address));
-		return address;
+	public Address save(Address address) throws AsyncXAResourcesException {
+		if(address == null) {
+			log.error("Error by save from address object");
+			rabbitTemplate.convertAndSend(queueName, "error by save from address object");
+			throw new AsyncXAResourcesException("Address object is null -> method save");
+		}
+		Address newAddress = mapper.toObject(repository.save(mapper.toEntity(address)));
+		rabbitTemplate.convertAndSend(queueName, "succesful by save from address object");
+		return newAddress;
 	}
 
 	@Transactional(readOnly = true)
 	public List<Address> fetchAll() {
-		return addressMapper.toObjectList(addressRepository.findAll());
+		return mapper.toObjectList(repository.findAll());
 	}
 
 	@Transactional(readOnly = true)
 	public Address fetchById(Long id) {
-		return addressMapper.toObject(addressRepository.findById(id).get());
+		return mapper.toObject(repository.findById(id).get());
 	}
 
 	/*
 	 * only addresses that are not related to any are employee
 	 */
 	public void deleteById(Long id) {
-		addressRepository.delete(addressRepository.findById(id).get());
-	}
-
-	public Address update(Address address) {
-		AddressEntity returnedAddressEntity = addressRepository.findById(address.getId()).get();
-		returnedAddressEntity.setStreet(addressMapper.toEntity(address).getStreet());
-		returnedAddressEntity.setHouseNumber(addressMapper.toEntity(address).getHouseNumber());
-		returnedAddressEntity.setCity(addressMapper.toEntity(address).getCity());
-		returnedAddressEntity.setPostCode(addressMapper.toEntity(address).getPostCode());
-		addressRepository.save(returnedAddressEntity);
-		return address;
+		repository.delete(repository.findById(id).get());
 	}
 	
 	@Transactional( propagation = Propagation.NEVER )
 	public long countAllAddresses() {
-		return addressRepository.count();
+		return repository.count();
 	}
 
 }
