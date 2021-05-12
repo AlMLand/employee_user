@@ -90,7 +90,7 @@ public class EmployeeControllerTest {
 	}
 	
 	@Test
-	public void findAllTest() {
+	public void listTest() {
 		Mockito.when(mockedEmployeeService.fetchAll()).thenReturn(listEmployees);
 		
 		ExtendedModelMap extendedModelMap = new ExtendedModelMap();
