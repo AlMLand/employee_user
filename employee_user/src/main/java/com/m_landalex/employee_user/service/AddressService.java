@@ -29,11 +29,11 @@ public class AddressService {
 	public Address save(Address address) throws AsyncXAResourcesException {
 		if(address == null) {
 			log.error("Error by save from address object");
-			rabbitTemplate.convertAndSend(queueName, "error by save from address object");
+			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Address object is null -> method save");
 		}
 		Address newAddress = mapper.toObject(repository.save(mapper.toEntity(address)));
-		rabbitTemplate.convertAndSend(queueName, "succesful by save from address object");
+		rabbitTemplate.convertAndSend(queueName, "succesful");
 		return newAddress;
 	}
 

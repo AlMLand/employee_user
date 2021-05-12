@@ -34,11 +34,11 @@ public class EmployeeService {
 	public Employee save(Employee employee) throws AsyncXAResourcesException {
 		if (employee == null) {
 			log.error("Error by save from employee object");
-			rabbitTemplate.convertAndSend(queueName, "error by save from employee object");
+			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Employee object is null -> method save");
 		}
 		Employee newEmployee = mapper.toObject(repository.save(mapper.toEntity(employee)));
-		rabbitTemplate.convertAndSend(queueName, "succesful by save from email object");
+		rabbitTemplate.convertAndSend(queueName, "succesful");
 		jmsTemplate.convertAndSend("employees",
 				"-->Employee with first name " + employee.getFirstName() + ", last name " + employee.getLastName()
 						+ " and username " + employee.getUserData().getUsername() + " is saved");

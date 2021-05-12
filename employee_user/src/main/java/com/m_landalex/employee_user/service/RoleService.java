@@ -29,11 +29,11 @@ public class RoleService {
 	public Role save(Role role) throws AsyncXAResourcesException {
 		if(role == null) {
 			log.error("Error by save from role object");
-			rabbitTemplate.convertAndSend(queueName, "error by save from role object");
+			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Role object is null -> method save");
 		}
 		Role newRole = mapper.toObject(repository.save(mapper.toEntity(role)));
-		rabbitTemplate.convertAndSend(queueName, "succesful by save from role object");
+		rabbitTemplate.convertAndSend(queueName, "succesful");
 		return newRole;
 	}
 	

@@ -31,11 +31,11 @@ public class UserService {
 	public User save(User user) throws AsyncXAResourcesException {
 		if (user == null) {
 			log.error("Error by save from user object");
-			rabbitTemplate.convertAndSend(queueName, "error by save from user object");
+			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("User object is null -> method save");
 		}
 		User newUser = mapper.toObject(repository.save(mapper.toEntity(user)));
-		rabbitTemplate.convertAndSend(queueName, "succesful by save from email object");
+		rabbitTemplate.convertAndSend(queueName, "succesful");
 		jmsTemplate.convertAndSend("users", "-->User with username " + user.getUsername() + " is saved ");
 		return newUser;
 	}

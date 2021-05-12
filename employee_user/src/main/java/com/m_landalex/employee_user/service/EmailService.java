@@ -29,11 +29,11 @@ public class EmailService {
 	public Email save(Email email) throws AsyncXAResourcesException {
 		if(email == null) {
 			log.error("Error by save from email object");
-			rabbitTemplate.convertAndSend(queueName, "error by save from email object");
+			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Email object is null -> method save");
 		}
 		Email newEmail = mapper.toObject(repository.save(mapper.toEntity(email)));
-		rabbitTemplate.convertAndSend(queueName, "succesful by save from email object");
+		rabbitTemplate.convertAndSend(queueName, "succesful");
 		return newEmail;
 	}
 	
