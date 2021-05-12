@@ -22,7 +22,7 @@ import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.UserService;
-import com.m_landalex.employee_user.view.controller.UserController;
+import com.m_landalex.employee_user.view.controller.rest.UserController;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
@@ -37,15 +37,20 @@ public class UserControllerTest {
 	public void setUp() {
 		extendedModelMap = new ExtendedModelMap();
 		userController = new UserController();
+		ReflectionTestUtils.setField(userController, "service", mockedUserService);
 		listUsers = new ArrayList<>();
-		User user = User.builder().username("Test_1").password("Test_1").userRole(Role.DEVELOPMENT).build();
+		User user = User.builder().username("Test_1").password("Test_1").userRoles(
+				List.of(Role.builder().role("DEVELOPMENT").build())
+				).build();
 		user.setId(1L);
 		listUsers.add(user);
 	}
 	
 	@Test
-	public void createUserTest() throws AsyncXAResourcesException {
-		User newUser = User.builder().username("Test_2").password("Test_2").userRole(Role.ADMINISTRATION).build();
+	public void createTest() throws AsyncXAResourcesException {
+		User newUser = User.builder().username("Test_2").password("Test_2").userRoles(
+				List.of(Role.builder().role("ADMINISTRATION").build())
+				).build();
 		Mockito.when(mockedUserService.save(newUser)).thenAnswer(new Answer<User>() {
 
 			@Override
@@ -54,8 +59,7 @@ public class UserControllerTest {
 				return newUser;
 			}
 		});
-		ReflectionTestUtils.setField(userController, "userService", mockedUserService);
-		extendedModelMap.addAttribute("createUser", userController.createUser(newUser));
+		extendedModelMap.addAttribute("createUser", userController.create(newUser));
 		User returnedUser = (User) extendedModelMap.get("createUser");
 		
 		assertNotNull(returnedUser);
@@ -64,22 +68,20 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void createUserShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
+	public void createShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
 		User newUser = null;
 		Mockito.when(mockedUserService.save(newUser)).thenThrow(RuntimeException.class);
-		ReflectionTestUtils.setField(userController, "userService", mockedUserService);
 		
 		assertThrows(RuntimeException.class, ()->{
-			userController.createUser(newUser);
+			userController.create(newUser);
 		});
 	}
 	
 	@Test
-	public void fetchAllUsersTest() {
+	public void listTest() {
 		Mockito.when(mockedUserService.fetchAll()).thenReturn(listUsers);
-		ReflectionTestUtils.setField(userController, "userService", mockedUserService);
 		
-		extendedModelMap.addAttribute("fetchAllEmployees", userController.fetchAllUsers());
+		extendedModelMap.addAttribute("fetchAllEmployees", userController.list());
 		@SuppressWarnings("unchecked")
 		List<User> returnList = (List<User>) extendedModelMap.get("fetchAllEmployees");
 		
@@ -88,37 +90,10 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void updateUserByIdTest() throws AsyncXAResourcesException {
-		User user = User.builder().username("Test_2").password("Test_2").userRole(Role.ADMINISTRATION).build();
-		Mockito.when(mockedUserService.update(user)).thenAnswer(new Answer<User>() {
-
-			@Override
-			public User answer(InvocationOnMock invocation) throws Throwable {
-				User returnedUser = listUsers.get(0);
-				returnedUser.setUsername(user.getUsername());
-				returnedUser.setPassword(user.getPassword());
-				returnedUser.setUserRole(user.getUserRole());
-				listUsers.remove(0);
-				listUsers.add(returnedUser);
-				return returnedUser;
-			}
-		});
-		ReflectionTestUtils.setField(userController, "userService", mockedUserService);
-		
-		extendedModelMap.addAttribute("updateUser", userController.updateUserById(1L, user));
-		User updatedUser = (User) extendedModelMap.get("updateUser");
-		
-		assertNotNull(updatedUser);
-		assertEquals(1, listUsers.size());
-		assertEquals("Test_2", updatedUser.getUsername());
-	}
-	
-	@Test
-	public void fetchUserByIdTest() {
+	public void findByIdTest() {
 		Mockito.when(mockedUserService.fetchById(Mockito.anyLong())).thenReturn(listUsers.get(0));
-		ReflectionTestUtils.setField(userController, "userService", mockedUserService);
 		
-		extendedModelMap.addAttribute("fetchUserById", userController.fetchUserById(1L));
+		extendedModelMap.addAttribute("fetchUserById", userController.findById(1L));
 		User returnedUser = (User) extendedModelMap.get("fetchUserById");
 		
 		assertNotNull(returnedUser);
