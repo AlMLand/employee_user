@@ -2,12 +2,13 @@ package com.m_landalex.employee_user.view.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,41 +18,35 @@ import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmployeeService;
 
 @RestController
-@RequestMapping(value = "/employees")
+@RequestMapping(value = "/rest/employees")
 public class EmployeeController {
 
 	@Autowired
-	private EmployeeService employeeService;
+	private EmployeeService service;
 
 	@PostMapping(value = "/")
-	public Employee createEmployee(@RequestBody Employee employee) throws AsyncXAResourcesException {
-		return employeeService.save(employee);
+	public Employee create(@Valid @RequestBody Employee employee) throws AsyncXAResourcesException {
+		return service.save(employee);
 	}
 
 	@GetMapping(value = "/")
-	public List<Employee> fetchAllEmployees() {
-		return employeeService.fetchAll();
+	public List<Employee> list() {
+		return service.fetchAll();
 	}
 
 	@DeleteMapping(value = "/")
-	public void deleteAllEmployees() {
-		employeeService.deleteAll();
+	public void deleteAll() {
+		service.deleteAll();
 	}
 
 	@GetMapping(value = "/{id}")
-	public Employee fetchEmployeeById(@PathVariable Long id) {
-		return employeeService.fetchById(id);
-	}
-
-	@PutMapping(value = "/{id}")
-	public Employee updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee)
-			throws AsyncXAResourcesException {
-		return employeeService.update(employee);
+	public Employee findById(@PathVariable Long id) {
+		return service.fetchById(id);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void deleteEmployeeById(@PathVariable Long id) {
-		employeeService.deleteById(id);
+	public void deleteById(@PathVariable Long id) {
+		service.deleteById(id);
 	}
 
 }
