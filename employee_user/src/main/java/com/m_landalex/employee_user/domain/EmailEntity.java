@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "email")
+@Table(name = "emails")
 public class EmailEntity extends AbstractEntity {
 
 	@Column(name = "EMAIL")
