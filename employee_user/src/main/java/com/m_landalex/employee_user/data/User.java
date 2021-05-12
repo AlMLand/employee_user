@@ -1,11 +1,12 @@
 package com.m_landalex.employee_user.data;
 
-import static java.util.Comparator.*;
+import static java.util.Comparator.comparing;
 
+import java.util.Collection;
 import java.util.Comparator;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -27,11 +28,10 @@ public class User extends AbstractObject implements Comparable<User>{
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
 	@Size(min = 5, max = 30, message = "{javax.validation.constraints.Size.message}")
 	private String password;
-	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
-	private Role userRole;
+	@NotEmpty(message = "{javax.validation.constraints.NotEmpty.message}")
+	private Collection<Role> userRoles;
 	
-	private static final Comparator<User> COMPARATOR_USER = comparing(User::getUsername)
-			.thenComparing(User::getUserRole);
+	private static final Comparator<User> COMPARATOR_USER = comparing(User::getUsername);
 	
 	@Override
 	public int compareTo(User o) {
