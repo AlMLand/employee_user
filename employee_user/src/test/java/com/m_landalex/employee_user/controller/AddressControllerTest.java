@@ -21,20 +21,20 @@ import org.springframework.ui.ExtendedModelMap;
 import com.m_landalex.employee_user.data.Address;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.AddressService;
-import com.m_landalex.employee_user.view.controller.rest.AddressController;
+import com.m_landalex.employee_user.view.controller.rest.AddressRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressControllerTest {
 
 	@Mock
 	private AddressService mockedAddressService;
-	private AddressController addressController;
+	private AddressRestController addressController;
 	private ExtendedModelMap extendedModelMap;
 	private List<Address> listAdresses;
 
 	@BeforeEach
 	public void setUp() {
-		addressController = new AddressController();
+		addressController = new AddressRestController();
 		extendedModelMap = new ExtendedModelMap();
 		listAdresses = new ArrayList<>();
 		ReflectionTestUtils.setField(addressController, "service", mockedAddressService);

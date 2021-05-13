@@ -21,20 +21,20 @@ import org.springframework.ui.ExtendedModelMap;
 import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmailService;
-import com.m_landalex.employee_user.view.controller.rest.EmailController;
+import com.m_landalex.employee_user.view.controller.rest.EmailRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class EmailControllerTest {
 
 	@Mock
 	private EmailService mockedEmailService;
-	private EmailController emailController;
+	private EmailRestController emailController;
 	private ExtendedModelMap extendedModelMap;
 	private List<Email> listEmails;
 	
 	@BeforeEach
 	public void setUp() {
-		emailController = new EmailController();
+		emailController = new EmailRestController();
 		extendedModelMap = new ExtendedModelMap();
 		ReflectionTestUtils.setField(emailController, "service", mockedEmailService);
 		listEmails = new ArrayList<>();

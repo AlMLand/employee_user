@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,30 +13,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.m_landalex.employee_user.data.User;
+import com.m_landalex.employee_user.data.Address;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
-import com.m_landalex.employee_user.service.UserService;
+import com.m_landalex.employee_user.service.AddressService;
 
 @RestController
-@RequestMapping(value = "/rest/users")
-public class UserController {
+@RequestMapping(value = "/rest/addresses")
+public class AddressRestController {
 
 	@Autowired
-	private UserService service;
+	private AddressService service;
 
 	@PostMapping(value = "/")
-	public User create(@Valid @RequestBody User user) throws AsyncXAResourcesException {
-		return service.save(user);
+	public Address create(@Valid @RequestBody Address address) throws AsyncXAResourcesException {
+		return service.save(address);
 	}
 
 	@GetMapping(value = "/")
-	public List<User> list() {
+	public List<Address> list() {
 		return service.fetchAll();
 	}
 
 	@GetMapping(value = "/{id}")
-	public User findById(@PathVariable Long id) {
+	public Address findById(@PathVariable Long id) {
 		return service.fetchById(id);
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public void deleteStandingAloneById(@PathVariable Long id) {
+		service.deleteById(id);
 	}
 
 }

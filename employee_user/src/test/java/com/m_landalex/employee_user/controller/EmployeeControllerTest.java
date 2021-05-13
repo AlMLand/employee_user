@@ -24,20 +24,20 @@ import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmployeeService;
-import com.m_landalex.employee_user.view.controller.rest.EmployeeController;
+import com.m_landalex.employee_user.view.controller.rest.EmployeeRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeControllerTest {
 
 	@Mock
 	private EmployeeService mockedEmployeeService;
-	private EmployeeController employeeController;
+	private EmployeeRestController employeeController;
 	private List<Employee> listEmployees;
 	
 	@BeforeEach
 	public void setUp() {
 		listEmployees  = new ArrayList<>();
-		employeeController = new EmployeeController();
+		employeeController = new EmployeeRestController();
 		ReflectionTestUtils.setField(employeeController, "service", mockedEmployeeService);
 		Employee employee = Employee.builder().firstName("Test_firstName_1").lastName("Test_lastName_1").age(100)
 				.salary(new BigDecimal(5000.00d)).email(Email.builder().email("test_1@googlemail.com").build())

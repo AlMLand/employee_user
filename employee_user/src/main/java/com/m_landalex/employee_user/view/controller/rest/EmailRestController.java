@@ -19,7 +19,7 @@ import com.m_landalex.employee_user.service.EmailService;
 
 @RestController
 @RequestMapping(value = "/rest/emails")
-public class EmailController {
+public class EmailRestController {
 
 	@Autowired
 	private EmailService service;

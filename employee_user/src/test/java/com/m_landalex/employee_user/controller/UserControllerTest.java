@@ -22,7 +22,7 @@ import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.UserService;
-import com.m_landalex.employee_user.view.controller.rest.UserController;
+import com.m_landalex.employee_user.view.controller.rest.UserRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
@@ -30,13 +30,13 @@ public class UserControllerTest {
 	@Mock
 	private UserService mockedUserService;
 	private ExtendedModelMap extendedModelMap;
-	private UserController userController;
+	private UserRestController userController;
 	private List<User> listUsers;
 
 	@BeforeEach
 	public void setUp() {
 		extendedModelMap = new ExtendedModelMap();
-		userController = new UserController();
+		userController = new UserRestController();
 		ReflectionTestUtils.setField(userController, "service", mockedUserService);
 		listUsers = new ArrayList<>();
 		User user = User.builder().username("Test_1").password("Test_1").userRoles(
