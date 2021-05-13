@@ -51,7 +51,7 @@ public class UserService {
 	}
 
 	@Transactional(propagation = Propagation.NEVER)
-	public Long countAllUsers() {
+	public Long countAll() {
 		return repository.count();
 	}
 

@@ -24,96 +24,77 @@ import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.view.DemoRunFile;
 
-@ActiveProfiles( "test" )
-@ExtendWith( SpringExtension.class )
-@SpringBootTest( classes = DemoRunFile.class )
-@DisplayName( "Integration UserService.class test" )
-@DirtiesContext( classMode = ClassMode.BEFORE_EACH_TEST_METHOD )
-public class UserServiceTest {
+@ActiveProfiles("test")
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(classes = DemoRunFile.class)
+@DisplayName("Integration UserService.class test")
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+public class UserServiceIntegrationTest {
 
 	@Autowired
 	private UserService userService;
-	
-	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
-			@Sql( value = "classpath:db/clean-up.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
-	@DisplayName( "Should return all users" )
+
+	@SqlGroup({
+			@Sql(value = "classpath:db/test-data.sql", 
+					config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+					executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+			@Sql(value = "classpath:db/clean-up.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("Should return all users")
 	@Test
-	public void fetchAllTest() {
+	public void fetchAll_Test() {
 		List<User> returnedList = userService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
 	}
-	
-	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
-			@Sql( value = "classpath:db/clean-up.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
-	@DisplayName( "Should return one user by Id" )
+
+	@SqlGroup({
+			@Sql(value = "classpath:db/test-data.sql", 
+					config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+					executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+			@Sql(value = "classpath:db/clean-up.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("Should return one user by Id")
 	@Test
-	public void fetchByIdTest() {
+	public void fetchById_Test() {
 		User returnedUser = userService.fetchById(1L);
 		assertNotNull(returnedUser);
 		assertEquals("test_username", returnedUser.getUsername());
 	}
-	
-	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
-			@Sql( value = "classpath:db/clean-up.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
-	@DisplayName( "Should save new user and return two users" )
+
+	@SqlGroup({
+			@Sql(value = "classpath:db/test-data.sql", 
+					config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+					executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+			@Sql(value = "classpath:db/clean-up.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("Should save new user and return two users")
 	@Test
-	public void saveTest() throws AsyncXAResourcesException {
-		User newUser = User.builder().username("test_save_new_user_username")
-				.password("test_save_new_user_password").userRole(Role.DEVELOPMENT).build();
+	public void save_Test() throws AsyncXAResourcesException {
+		User newUser = User.builder().username("test_save_new_user_username").password("test_save_new_user_password")
+				.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build();
 		userService.save(newUser);
 		List<User> returnedList = userService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
 	}
-	
-	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
-			@Sql( value = "classpath:db/clean-up.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
-	@DisplayName( "Should return updated user" )
-	@Test
-	public void updateTest() {
-		User newUser = User.builder().username("test_save_updateed_user_username")
-				.password("test_save_updated_user_password").userRole(Role.DEVELOPMENT).build();
-		newUser.setId(1L);
-		userService.update(newUser);
-		
-		List<User> returnedList = userService.fetchAll();
-		User returnedUser = userService.fetchById(1L);
-		
-		assertNotNull(returnedList);
-		assertEquals(1, returnedList.size());
-		assertNotNull(returnedUser);
-		assertEquals("test_save_updateed_user_username", returnedUser.getUsername());
-	}
 
-	@SqlGroup( { @Sql( value = "classpath:db/test-data.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.BEFORE_TEST_METHOD ),
-			@Sql( value = "classpath:db/clean-up.sql",
-			config = @SqlConfig( encoding = "utf-8", separator = ";", commentPrefix = "--" ),
-			executionPhase = ExecutionPhase.AFTER_TEST_METHOD ) } )
-	@DisplayName( "Should return quantity all users" )
+	@SqlGroup({
+			@Sql(value = "classpath:db/test-data.sql", 
+					config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+					executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+			@Sql(value = "classpath:db/clean-up.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("Should return quantity all users")
 	@Test
-	public void countAllUsersTest() {
-		Long returnedCount = userService.countAllUsers();
+	public void countAll_Test() {
+		Long returnedCount = userService.countAll();
 		assertNotNull(returnedCount);
 		assertEquals(1, returnedCount);
 	}
-	
+
 }
