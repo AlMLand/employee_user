@@ -11,37 +11,37 @@ import com.m_landalex.employee_user.service.EmployeeService;
 import com.m_landalex.employee_user.service.UserService;
 
 @Component
-@ManagedResource( description = "JMX managed ressource", objectName = "jmxDemo:name=App_employee_user" )
+@ManagedResource(description = "JMX managed ressource", objectName = "jmxDemo:name=App_employee_user")
 public class AppGlobalStatistics {
 
 	@Autowired private EmployeeService employeeService;
 	@Autowired private AddressService addressService;
 	@Autowired private EmailService emailService;
 	@Autowired private UserService userService;
-	
-	@ManagedOperation( description = "Quantity of employees in the application" )
+
+	@ManagedOperation(description = "Quantity of employees in the application")
 	public long countAllEmployees() {
-		return employeeService.countAllEmployees();
+		return employeeService.countAll();
 	}
-	
-	@ManagedOperation( description = "Quantity of users in the application" )
+
+	@ManagedOperation(description = "Quantity of users in the application")
 	public long countAllUsers() {
-		return userService.countAllUsers();
+		return userService.countAll();
 	}
-	
-	@ManagedOperation( description = "Quantity of addresses in the application" )
+
+	@ManagedOperation(description = "Quantity of addresses in the application")
 	public long countAllAddresses() {
-		return addressService.countAllAddresses();
+		return addressService.countAll();
 	}
-	
-	@ManagedOperation( description = "Quantity of emails in the application" )
+
+	@ManagedOperation(description = "Quantity of emails in the application")
 	public long countAllEmails() {
-		return emailService.countAllEmails();
+		return emailService.countAll();
 	}
-	
-	@ManagedOperation( description = "Quantity of objects in the application" )
+
+	@ManagedOperation(description = "Quantity of objects in the application")
 	public long countAllObjects() {
 		return countAllEmployees() + countAllUsers() + countAllAddresses() + countAllEmails();
 	}
-	
+
 }
