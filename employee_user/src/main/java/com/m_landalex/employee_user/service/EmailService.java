@@ -52,7 +52,7 @@ public class EmailService {
 	}
 	
 	@Transactional(propagation = Propagation.NEVER)
-	public long countAllEmails() {
+	public long countAll() {
 		return repository.count();
 	}
 	
