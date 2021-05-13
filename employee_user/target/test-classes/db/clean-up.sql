@@ -1,4 +1,6 @@
-drop table if exists employee; 
-drop table if exists address;
-drop table if exists email; 
-drop table if exists user;
+drop table if exists address CASCADE 
+drop table if exists email CASCADE 
+drop table if exists employees CASCADE 
+drop table if exists roles CASCADE 
+drop table if exists users CASCADE 
+drop table if exists users_roles CASCADE 
