@@ -55,7 +55,7 @@ public class AddressService {
 	}
 	
 	@Transactional( propagation = Propagation.NEVER )
-	public long countAllAddresses() {
+	public long countAll() {
 		return repository.count();
 	}
 
