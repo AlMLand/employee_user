@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.m_landalex.employee_user.service.AddressService;
 import com.m_landalex.employee_user.service.EmailService;
 import com.m_landalex.employee_user.service.EmployeeService;
+import com.m_landalex.employee_user.service.RoleService;
 import com.m_landalex.employee_user.service.UserService;
 
 @Component
@@ -18,6 +19,7 @@ public class AppGlobalStatistics {
 	@Autowired private AddressService addressService;
 	@Autowired private EmailService emailService;
 	@Autowired private UserService userService;
+	@Autowired private RoleService roleService;
 
 	@ManagedOperation(description = "Quantity of employees in the application")
 	public long countAllEmployees() {
@@ -38,10 +40,15 @@ public class AppGlobalStatistics {
 	public long countAllEmails() {
 		return emailService.countAll();
 	}
+	
+	@ManagedOperation(description = "Quantity of roles in the application\"")
+	public long countAllRoles() {
+		return roleService.countAll();
+	}
 
 	@ManagedOperation(description = "Quantity of objects in the application")
 	public long countAllObjects() {
-		return countAllEmployees() + countAllUsers() + countAllAddresses() + countAllEmails();
+		return countAllEmployees() + countAllUsers() + countAllAddresses() + countAllEmails() + countAllRoles();
 	}
-
+	
 }
