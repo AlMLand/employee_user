@@ -43,12 +43,8 @@ public class RoleService {
 	}
 	
 	@Transactional(propagation = Propagation.NEVER)
-	public long countAllRoles() {
+	public long countAll() {
 		return repository.count();
-	}
-	
-	public void deleteById(Long id) {
-		repository.deleteById(id);
 	}
 	
 	@Transactional(readOnly = true)
