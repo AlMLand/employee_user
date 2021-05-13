@@ -62,7 +62,7 @@ public class EmployeeServiceIntegrationTest {
 				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
 	@DisplayName("should save one employee and return 2 employees")
 	@Test
-	public void saveTest() throws AsyncXAResourcesException {
+	public void save_Test() throws AsyncXAResourcesException {
 		Employee newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname").age(99)
 				.salary(new BigDecimal(999.99d)).email(Email.builder().email("test@mail.com").build())
 				.addressData(Address.builder().street("test_new_street").houseNumber(99).city("test_new_city")
@@ -87,8 +87,8 @@ public class EmployeeServiceIntegrationTest {
 				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
 	@DisplayName("schould return quantity all employees")
 	@Test
-	public void countAllEmployeesTest() {
-		long returnedCount = employeeService.countAllEmployees();
+	public void countAll_Test() {
+		long returnedCount = employeeService.countAll();
 		assertNotNull(returnedCount);
 		assertEquals(1, returnedCount);
 	}
@@ -102,7 +102,7 @@ public class EmployeeServiceIntegrationTest {
 				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
 	@DisplayName("schould return employee by id 1L")
 	@Test
-	public void fetchByIdTest() {
+	public void fetchById_Test() {
 		Employee returnedEmployee = employeeService.fetchById(1L);
 		assertNotNull(returnedEmployee);
 		assertEquals("test_firstname", returnedEmployee.getFirstName());
@@ -118,7 +118,7 @@ public class EmployeeServiceIntegrationTest {
 				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
 	@DisplayName("schould return employee by lastname")
 	@Test
-	public void fetchByLastNameTest() {
+	public void fetchByLastName_Test() {
 		List<Employee> returnedList = employeeService.fetchByLastName("test_lastname");
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
@@ -138,7 +138,7 @@ public class EmployeeServiceIntegrationTest {
 				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
 	@DisplayName("schould return a list with size 0")
 	@Test
-	public void deleteByIdTest() {
+	public void deleteById_Test() {
 		employeeService.deleteById(1L);
 
 		List<Employee> returnedList = employeeService.fetchAll();
@@ -155,7 +155,7 @@ public class EmployeeServiceIntegrationTest {
 				executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
 	@DisplayName("schould return a empty list with size 0")
 	@Test
-	public void deleteAllTest() {
+	public void deleteAll_Test() {
 		employeeService.deleteAll();
 
 		List<Employee> returnedList = employeeService.fetchAll();

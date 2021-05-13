@@ -46,7 +46,7 @@ public class EmployeeService {
 	}
 
 	@Transactional(propagation = Propagation.NEVER)
-	public long countAllEmployees() {
+	public long countAll() {
 		return repository.count();
 	}
 
@@ -74,7 +74,7 @@ public class EmployeeService {
 	}
 	
 	@Scheduled(cron = "* 1 * * * *")
-	void autoUpdateAgeEmployee() {
+	void autoUpdateAge() {
 		var employeesInTheDB = fetchAll();
 		employeesInTheDB.stream().forEach(employee -> employee
 				.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears()));
