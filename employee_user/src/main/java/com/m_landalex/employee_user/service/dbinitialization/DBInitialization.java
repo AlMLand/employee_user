@@ -1,6 +1,7 @@
 package com.m_landalex.employee_user.service.dbinitialization;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +29,8 @@ public class DBInitialization {
 	public void setupInitialization() throws AsyncXAResourcesException {
 
 		employeeService.save(
-				Employee.builder().firstName("Connor").lastName("McGregor").age(32).salary(new BigDecimal(5000.00d))
+				Employee.builder().firstName("Connor").lastName("McGregor").birthDate(LocalDate.of(1988, 07, 14))
+				.age(32).salary(new BigDecimal(5000.00d))
 				.email(
 						Email.builder().email("mcgregor@googlemail.com").build()
 						)
@@ -43,7 +45,8 @@ public class DBInitialization {
 				);
 
 		employeeService.save(
-				Employee.builder().firstName("Dustin").lastName("Poirier").age(31).salary(new BigDecimal(4000.00d))
+				Employee.builder().firstName("Dustin").lastName("Poirier").birthDate(LocalDate.of(1989, 01, 19))
+				.age(31).salary(new BigDecimal(4000.00d))
 				.email(
 						Email.builder().email("poirier@googlemail.com").build()
 						)
