@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="ISO-8859-1">
-		<title>Insert title here</title>
-	</head>
-	
-	<body>
-	
-	</body>
-</html>
+	<html xmlns:th="http://www.thymeleaf.org">
+		
+		<head th:replace="fragments/thfragments :: head"/>
+		
+		<body>
+			
+			<header th:replace="fragments/thfragments :: header"></header>
+			
+			<section th:replace="fragments/thfragments :: table"></section>
+			
+			<div th:replace="fragments/thfragments :: footer"></div>
+			
+			<div th:replace="fragments/thfragments :: script"></div>
+		</body>
+		
+	</html>
