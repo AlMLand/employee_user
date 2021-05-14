@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 	<html xmlns:th="http://www.thymeleaf.org">
 		
-		<head th:replace="fragments/thfragments :: head"/>
+		<head th:replace="fragments/head :: head"/>
 		
 		<body>
 			
-			<header th:replace="fragments/thfragments :: header"></header>
+			<div class="bg-image" style="background-image: url('https://img4.goodfon.ru/wallpaper/nbig/8/3e/philadelphia-pennsylvania-united-states-of-america-usa-skysc.jpg');
+			    height: 80rem;">
 			
-			<section th:replace="fragments/thfragments :: table"></section>
+					<header th:replace="fragments/header :: header"></header>
+					
+					<section th:replace="fragments/table :: table"></section>
+					
+					<div th:replace="fragments/footer :: footer"></div>
+					
+					<div th:replace="fragments/script :: script"></div>
 			
-			<div th:replace="fragments/thfragments :: footer"></div>
+			</div>
 			
-			<div th:replace="fragments/thfragments :: script"></div>
 		</body>
 		
 	</html>
