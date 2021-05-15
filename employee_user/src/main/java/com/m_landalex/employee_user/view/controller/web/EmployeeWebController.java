@@ -61,7 +61,7 @@ public class EmployeeWebController {
 	@GetMapping(value = "/showings/{id}")
 	public String showById(@PathVariable Long id, Model model) {
 		model.addAttribute("employee", service.fetchById(id));
-		return "employeedetails";
+		return "detailsemployee";
 	}
 	
 	@GetMapping(value = "/showings")
@@ -79,7 +79,7 @@ public class EmployeeWebController {
 	@GetMapping(value = "/showings/lastname")
 	public String showByLastname(@RequestParam String lastName, Model model) {
 		model.addAttribute("employee", service.fetchByLastName(lastName));
-		return "employeedetails";
+		return "detailsemployee";
 	}
 	
 }
