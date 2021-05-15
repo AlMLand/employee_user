@@ -10,5 +10,6 @@ import lombok.ToString;
 public abstract class AbstractObject {
 
 	private Long id;
+	private int version;
 
 }
