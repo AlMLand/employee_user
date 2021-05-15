@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org">
+	
+		<head>
+			<meta charset="ISO-8859-1">
+			<title>Insert title here</title>
+		</head>
+		
+		<body>
+			
+			<div th:fragment="create" class="container">
+				
+				<form class="row g-3" th:action="@{/employees/}" th:object="${employee}" method="post">
+					<input type="hidden" th:field="*{id}" th:value="0">
+					<input type="hidden" th:field="*{version}" th:value="0">
+									
+					  <div class="mb-3 col-6">
+					    <label class="form-label text-white">Firstname</label>
+					    <input th:field="*{firstName}" type=text class="form-control">
+					  </div>
+					  <div class="mb-3 col-6">
+					    <label class="form-label text-white">Lastname</label>
+					    <input th:field="*{lastName}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-6">
+					    <label class="form-label text-white">Birthdate</label>
+					    <input th:field="*{birthDate}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-6">
+					    <label class="form-label text-white">Age</label>
+					    <input th:field="*{age}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-6">
+					    <label class="form-label text-white">Salary</label>
+					    <input th:field="*{salary}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-6">
+					    <label class="form-label text-white">Email</label>
+					    <input type="hidden" th:field="*{email.id}" th:value="0">
+						<input type="hidden" th:field="*{email.version}" th:value="0">
+					    <input th:field="*{email.email}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-5">
+					    <label class="form-label text-white">Street</label>
+					    <input type="hidden" th:field="*{addressData.id}" th:value="0">
+						<input type="hidden" th:field="*{addressData.version}" th:value="0">
+					    <input th:field="*{addressData.street}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-1">
+					    <label class="form-label text-white">Housenumber</label>
+					    <input th:field="*{addressData.houseNumber}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-4">
+					    <label class="form-label text-white">City</label>
+					    <input th:field="*{addressData.city}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-2">
+					    <label class="form-label text-white">Postcode</label>
+					    <input th:field="*{addressData.postCode}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-4">
+					    <label class="form-label text-white">User username</label>
+					    <input type="hidden" th:field="*{userData.id}" th:value="0">
+						<input type="hidden" th:field="*{userData.version}" th:value="0">
+					    <input th:field="*{userData.username}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-4">
+					    <label class="form-label text-white">User password</label>
+					    <input th:field="*{userData.password}" type="text" class="form-control">
+					  </div>
+					  <div class="mb-3 col-4">
+					  	<label class="form-label text-white">User role</label>
+						<select th:field="*{userData.userRoles}" class="form-select" aria-label="Default select example">
+						  <option selected value="Please select user role">Please select user role</option>
+						  <option th:value="'OFFICE'" th:text="OFFICE">OFFICE</option>
+						  <option th:value="'ADMINISTRATOR'" th:text="ADMINISTRATOR">ADMINISTRATOR</option>
+						  <option th:value="'OFFICE_EDITOR'" th:text="OFFICE_EDITOR">OFFICE_EDITOR</option>
+						</select>
+					  </div>
+					  
+					  <button type="submit" class="btn btn-secondary col-1">Submit</button>
+				</form>
+				
+			</div>
+			
+		</body>
+	
+	</html>
