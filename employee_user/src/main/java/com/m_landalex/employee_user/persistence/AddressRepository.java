@@ -6,4 +6,6 @@ import com.m_landalex.employee_user.domain.AddressEntity;
 
 public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
 
+	AddressEntity findByCity(String city);
+	
 }
