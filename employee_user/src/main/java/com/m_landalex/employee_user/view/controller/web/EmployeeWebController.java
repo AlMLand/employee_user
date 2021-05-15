@@ -79,7 +79,7 @@ public class EmployeeWebController {
 	
 	@GetMapping(value = "/showings/lastname")
 	public String showByLastname(@RequestParam(name = "lastname") String lastName, Model model) {
-		model.addAttribute("employees", service.fetchByLastName(StringUtils.capitalize(lastName.toLowerCase())));
+		model.addAttribute("employees", service.fetchByLastName(StringUtils.capitalize(lastName.toLowerCase().trim())));
 		return "listemployees";
 	}
 	
