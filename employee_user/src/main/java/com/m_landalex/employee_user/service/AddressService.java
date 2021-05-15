@@ -54,9 +54,14 @@ public class AddressService {
 		repository.delete(repository.findById(id).get());
 	}
 	
-	@Transactional( propagation = Propagation.NEVER )
+	@Transactional(propagation = Propagation.NEVER)
 	public long countAll() {
 		return repository.count();
+	}
+	
+	@Transactional(readOnly = true)
+	public Address fetchByCity(String city) {
+		return mapper.toObject(repository.findByCity(city));
 	}
 
 }
