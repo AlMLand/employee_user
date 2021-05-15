@@ -30,6 +30,8 @@ public class EmployeeEntity extends AbstractEntity {
 	private String lastName;
 	@Column(name = "BIRTHDATE")
 	private LocalDate birthDate;
+	@Column(name = "AGE")
+	private int age;
 	@Column(name = "SALARY")
 	private BigDecimal salary;
 	@OneToOne(cascade = CascadeType.ALL)
