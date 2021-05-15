@@ -40,7 +40,6 @@ public class Employee extends AbstractObject implements Comparable<Employee> {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
-	@Size(min = 18)
 	private int age;
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
 	private BigDecimal salary;
