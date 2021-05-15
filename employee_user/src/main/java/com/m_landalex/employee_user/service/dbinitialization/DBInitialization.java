@@ -29,7 +29,7 @@ public class DBInitialization {
 	public void setupInitialization() throws AsyncXAResourcesException {
 
 		employeeService.save(
-				Employee.builder().firstName("Connor").lastName("McGregor").birthDate(LocalDate.of(1988, 07, 14))
+				Employee.builder().firstName("Connor").lastName("Mcgregor").birthDate(LocalDate.of(1988, 07, 14))
 				.age(32).salary(new BigDecimal(5000.00d))
 				.email(
 						Email.builder().email("mcgregor@googlemail.com").build()
