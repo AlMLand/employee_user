@@ -40,7 +40,7 @@ public class EmployeeWebController {
 		}
 		Employee newEmployee = service.save(employee);
 		model.addAttribute("employee", newEmployee);
-		return "redirect:/showings/" + newEmployee.getId();
+		return "redirect:/employees/showings/" + newEmployee.getId();
 	}
 	
 	@GetMapping(value = "/formations")
