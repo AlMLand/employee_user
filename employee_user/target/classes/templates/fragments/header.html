@@ -29,9 +29,9 @@
 										       </ul>
 								        	</li>
 								      </ul>
-								      <form class="d-flex">
-								        	<input class="form-control me-2" type="search" placeholder="Lastname" aria-label="Search">
-								        	<a class="btn btn-outline-secondary" th:href="@{'employees/showings/lastname'}" role="button">Search</a>
+								      <form class="d-flex" th:action="@{/employees/showings/lastname}" method="get">
+								        	<input class="form-control me-2" name="lastname" type="search" placeholder="Lastname" aria-label="Search">
+								        	<button class="btn btn-outline-secondary" type="submit">Search</button>
 								      </form>
 							    </div>
 						  </div>
