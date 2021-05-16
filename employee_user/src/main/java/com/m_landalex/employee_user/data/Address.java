@@ -4,6 +4,7 @@ import static java.util.Comparator.*;
 
 import java.util.Comparator;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,15 +23,16 @@ import lombok.NoArgsConstructor;
 public class Address extends AbstractObject implements Comparable<Address> {
 
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
-	@Size(min = 2, max = 100, message = "{javax.validation.constraints.Size.message}")
+	@Size(min = 5, max = 100, message = "{javax.validation.constraints.Size.message}")
 	private String street;
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
+	@Min(value = 1, message = "{javax.validation.constraints.Min.message}")
 	private int houseNumber;
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
 	@Size(min = 2, max = 100, message = "{javax.validation.constraints.Size.message}")
 	private String city;
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
-	@Size(min = 2, max = 50, message = "{javax.validation.constraints.Size.message}")
+	@Size(min = 4, max = 50, message = "{javax.validation.constraints.Size.message}")
 	private String postCode;
 
 	private static final Comparator<Address> COMPARATOR_ADDRESS = comparing(Address::getCity)
