@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -40,6 +41,7 @@ public class Employee extends AbstractObject implements Comparable<Employee> {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
+	@Min(value = 18, message = "{javax.validation.constraints.Min.message}")
 	private int age;
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
 	private BigDecimal salary;
