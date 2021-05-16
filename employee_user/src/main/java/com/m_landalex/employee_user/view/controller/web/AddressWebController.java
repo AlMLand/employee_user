@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,21 +27,21 @@ public class AddressWebController {
 	@Autowired
 	private AddressService service;
 	
-	@PutMapping(value = "/")
+	@PostMapping(value = "/")
 	public String save(@Valid @ModelAttribute Address address, BindingResult result, Model model) throws AsyncXAResourcesException {
 		if(result.hasErrors()) {
 			model.addAttribute("address", address);
-			return "";
+			return "addresscreate";
 		}
-		Address newAddress = service.save(address);
-		model.addAttribute("address", newAddress);
-		return "";
+		service.save(address);
+		model.addAttribute("addresses", service.fetchAll());
+		return "listaddresses";
 	}
 	
 	@GetMapping(value = "/updatings/{id}")
 	public String updateById(@PathVariable Long id, Model model) {
 		model.addAttribute("address", service.fetchById(id));
-		return "";
+		return "addresscreate";
 	}
 	
 	@GetMapping(value = "/showings")
