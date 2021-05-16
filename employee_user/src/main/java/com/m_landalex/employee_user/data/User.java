@@ -5,6 +5,7 @@ import static java.util.Comparator.comparing;
 import java.util.Collection;
 import java.util.Comparator;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -29,7 +30,7 @@ public class User extends AbstractObject implements Comparable<User>{
 	@Size(min = 5, max = 30, message = "{javax.validation.constraints.Size.message}")
 	private String password;
 	@NotEmpty(message = "{javax.validation.constraints.NotEmpty.message}")
-	private Collection<Role> userRoles;
+	private Collection<@Valid Role> userRoles;
 	
 	private static final Comparator<User> COMPARATOR_USER = comparing(User::getUsername);
 	

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -44,11 +45,15 @@ public class Employee extends AbstractObject implements Comparable<Employee> {
 	@Min(value = 18, message = "{javax.validation.constraints.Min.message}")
 	private int age;
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
+	@Min(value = 500, message = "{javax.validation.constraints.Min.message}")
 	private BigDecimal salary;
+	@Valid
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
 	private Email email;
+	@Valid
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
 	private Address addressData;
+	@Valid
 	@NotNull(message = "{javax.validation.constraints.NotNull.message}")
 	private User userData;
 	
