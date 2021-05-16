@@ -33,8 +33,11 @@
 								        	<input class="form-control me-2" name="id" type="search" placeholder="User id" aria-label="Search">
 								        	<button class="btn btn-outline-secondary" type="submit">Search</button>
 								      </form>
-								      <div>
+								      <div th:if="${#authorization.expression('!isAuthenticated()')}">
 								      		<a class="btn btn-outline-secondary" th:href="@{/login}" role="button">Log in</a>
+							    	  </div>
+							    	  <div th:if="${#authorization.expression('isAuthenticated()')}">
+								      		<a class="btn btn-outline-secondary" th:href="@{/logout}" role="button">Logout</a>
 							    	  </div>
 							    </div>
 						  </div>
