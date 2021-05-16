@@ -17,14 +17,14 @@
 							<th></th>
 						</tr>
 						<tr th:if="${#lists.isEmpty(users)}">
-							<td colspan="5">No data found</td>
+							<td colspan="5" class="text-white">No data found</td>
 						</tr>
 						<tr th:each="user,state:${users}" class="text-white">
 							<td th:text="${state.count}">No</td>
 							<td th:text="${user.username}">Username</td>
 							<td th:text="${user.password}">Password</td>
 							<td th:each="user:${user.userRoles}"><span th:text="${user.role}"></span></td>
-							<td>
+							<td class="col-1">
 								<a class="btn btn-secondary" th:href="@{'/users/updatings/' + ${user.id}}" role="button">Update</a>
 							</td>
 						</tr>

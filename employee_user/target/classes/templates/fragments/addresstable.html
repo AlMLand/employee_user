@@ -18,7 +18,7 @@
 							<th></th>
 						</tr>
 						<tr th:if="${#lists.isEmpty(addresses)}">
-							<td colspan="6">No data found</td>
+							<td colspan="6" class="text-white">No data found</td>
 						</tr>
 						<tr th:each="address,state:${addresses}" class="text-white">
 							<td th:text="${state.count}">No</td>
@@ -26,7 +26,7 @@
 							<td th:text="${address.houseNumber}">Housenumber</td>
 							<td th:text="${address.city}">City</td>
 							<td th:text="${address.postCode}">Postcode</td>
-							<td>
+							<td class="col-1">
 								<a class="btn btn-secondary" th:href="@{'/addresses/updatings/' + ${address.id}}" role="button">Update</a>
 							</td>
 						</tr>
