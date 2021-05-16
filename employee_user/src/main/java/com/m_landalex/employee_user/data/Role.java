@@ -17,16 +17,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Role extends AbstractObject implements Comparable<Role>{
+public class Role extends AbstractObject implements Comparable<Role> {
 
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
 	private String role;
 
 	private static final Comparator<Role> COMPARATOR_ROLE = comparing(Role::getRole);
-	
+
 	@Override
 	public int compareTo(Role o) {
 		return COMPARATOR_ROLE.compare(this, o);
 	}
 
+	@Override
+	public String toString() {
+		return role;
+	}
+	
 }
