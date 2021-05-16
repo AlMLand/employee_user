@@ -30,17 +30,17 @@ public class UserWebController {
 	public String save(@Valid @ModelAttribute User user, BindingResult result, Model model) throws AsyncXAResourcesException {
 		if(result.hasErrors()) {
 			model.addAttribute("user", user);
-			return "";
+			return "usercreate";
 		}
-		User newUser = service.save(user);
-		model.addAttribute("user", newUser);
-		return "";
+		service.save(user);
+		model.addAttribute("users", service.fetchAll());
+		return "listusers";
 	}
 	
 	@GetMapping(value = "/updatings/{id}")
 	public String updateById(@PathVariable Long id, Model model) {
 		model.addAttribute("user", service.fetchById(id));
-		return "";
+		return "usercreate";
 	}
 	
 	@GetMapping(value = "/showings")
