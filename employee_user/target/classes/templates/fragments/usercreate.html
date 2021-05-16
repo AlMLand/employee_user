@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org">
+	
+		<head>
+			<meta charset="ISO-8859-1">
+			<title>Insert title here</title>
+		</head>
+		
+		<body>
+			
+			<div th:fragment="usercreate" class="container">
+				
+				<form class="row g-3" th:action="@{/users/}" th:object="${user}" method="post">
+					<input type="hidden" th:field="*{id}" th:value="0">
+					<input type="hidden" th:field="*{version}" th:value="0">
+									
+					<div class="mb-3 col-4">
+					    <label class="form-label text-white">User username</label>
+					    <input th:field="*{username}" type="text" class="form-control">
+					    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"/>
+					</div>
+					<div class="mb-3 col-4">
+					    <label class="form-label text-white">User password</label>
+					    <input th:field="*{password}" type="text" class="form-control">
+					    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"/>
+					</div>
+					<div class="mb-3 col-4">
+					  	<label class="form-label text-white">User role</label>
+						<select th:field="*{userRoles}" class="form-select" aria-label="Default select example">
+						  	<option th:value="'OFFICE'" th:text="OFFICE">OFFICE</option>
+						  	<option th:value="'ADMINISTRATOR'" th:text="ADMINISTRATOR">ADMINISTRATOR</option>
+						  	<option th:value="'OFFICE_EDITOR'" th:text="OFFICE_EDITOR">OFFICE_EDITOR</option>
+						</select>
+						<p th:if="${#fields.hasErrors('userRoles')}" th:errors="*{userRoles}" class="text-danger"/>
+					</div>
+					  
+					<button type="submit" class="btn btn-secondary col-1">Submit</button>
+				</form>
+				
+			</div>
+			
+		</body>
+		
+	</html>

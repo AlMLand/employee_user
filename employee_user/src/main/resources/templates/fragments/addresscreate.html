@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org">
+	
+		<head>
+			<meta charset="ISO-8859-1">
+			<title>Insert title here</title>
+		</head>
+		
+		<body>
+			
+			<div th:fragment="addresscreate" class="container">
+				
+				<form class="row g-3" th:action="@{/addresses/}" th:object="${address}" method="post">
+						<input type="hidden" th:field="*{id}" th:value="0">
+						<input type="hidden" th:field="*{version}" th:value="0">
+									
+	 					<div class="mb-3 col-3">
+						    <label class="form-label text-white">Street</label>
+						    <input th:field="*{street}" type="text" class="form-control">
+						    <p th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="text-danger"/>
+						</div>
+						<div class="mb-3 col-3">
+						    <label class="form-label text-white">Housenumber</label>
+						    <input th:field="*{houseNumber}" type="text" class="form-control">
+						    <p th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}" class="text-danger"/>
+						</div>
+						<div class="mb-3 col-3">
+						    <label class="form-label text-white">City</label>
+						    <input th:field="*{city}" type="text" class="form-control">
+						    <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="text-danger"/>
+						</div>
+						<div class="mb-3 col-3">
+						    <label class="form-label text-white">Postcode</label>
+						    <input th:field="*{postCode}" type="text" class="form-control">
+						    <p th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" class="text-danger"/>
+						</div>
+					  
+					  <button type="submit" class="btn btn-secondary col-1">Submit</button>
+				</form>
+				
+			</div>
+			
+		</body>
+		
+	</html>
