@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,10 +70,10 @@ public class EmployeeWebController {
 		return "listemployees";
 	}
 	
-	@DeleteMapping(value = "/remove/{id}")
+	@GetMapping(value = "/remove/{id}")
 	public String deletebyId(@PathVariable Long id) {
 		service.deleteById(id);
-		return "listemployees";
+		return "redirect:/employees/showings";
 	}
 	
 	@GetMapping(value = "/showings/lastname")
