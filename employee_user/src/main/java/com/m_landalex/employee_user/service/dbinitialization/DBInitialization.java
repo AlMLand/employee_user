@@ -28,6 +28,7 @@ public class DBInitialization {
 	@PostConstruct
 	public void setupInitialization() throws AsyncXAResourcesException {
 
+		// password: 12345
 		employeeService.save(
 				Employee.builder().firstName("Connor").lastName("Mcgregor").birthDate(LocalDate.of(1988, 07, 14))
 				.age(32).salary(new BigDecimal(5000.00d))
@@ -38,7 +39,7 @@ public class DBInitialization {
 						Address.builder().street("Aaaa street").houseNumber(10).city("Dublin").postCode("12345").build()
 						)
 				.userData(
-						User.builder().username("A_A_A").password("B_B_B")
+						User.builder().username("User1").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
 						.userRoles(List.of(Role.builder().role("ADMINISTRATOR").build())).build()
 						)
 				.build()
@@ -54,7 +55,7 @@ public class DBInitialization {
 						Address.builder().street("Bbbb street").houseNumber(10).city("Atlanta").postCode("67890").build()
 						)
 				.userData(
-						User.builder().username("C_C_C").password("D_D_D")
+						User.builder().username("User2").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
 						.userRoles(List.of(Role.builder().role("ADMINISTRATOR").build())).build()
 						)
 				.build()
