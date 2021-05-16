@@ -27,7 +27,7 @@ public class User extends AbstractObject implements Comparable<User>{
 	@Size(min = 5, max = 30, message = "{javax.validation.constraints.Size.message}")
 	private String username;
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
-	@Size(min = 5, max = 30, message = "{javax.validation.constraints.Size.message}")
+	@Size(min = 5, max = 100, message = "{javax.validation.constraints.Size.message}")
 	private String password;
 	@NotEmpty(message = "{javax.validation.constraints.NotEmpty.message}")
 	private Collection<@Valid Role> userRoles;
