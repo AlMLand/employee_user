@@ -15,24 +15,24 @@
 						<input type="hidden" th:field="*{version}" th:value="0">
 									
 	 					<div class="mb-3 col-3">
-						    <label class="form-label text-white">Street</label>
+						    <label class="form-label fw-bolder">Street</label>
 						    <input th:field="*{street}" type="text" class="form-control">
-						    <p th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="text-danger"/>
+						    <p th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="text-danger fw-bolder"/>
 						</div>
 						<div class="mb-3 col-3">
-						    <label class="form-label text-white">Housenumber</label>
+						    <label class="form-label fw-bolder">Housenumber</label>
 						    <input th:field="*{houseNumber}" type="text" class="form-control">
-						    <p th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}" class="text-danger"/>
+						    <p th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}" class="text-danger fw-bolder"/>
 						</div>
 						<div class="mb-3 col-3">
-						    <label class="form-label text-white">City</label>
+						    <label class="form-label fw-bolder">City</label>
 						    <input th:field="*{city}" type="text" class="form-control">
-						    <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="text-danger"/>
+						    <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="text-danger fw-bolder"/>
 						</div>
 						<div class="mb-3 col-3">
-						    <label class="form-label text-white">Postcode</label>
+						    <label class="form-label fw-bolder">Postcode</label>
 						    <input th:field="*{postCode}" type="text" class="form-control">
-						    <p th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" class="text-danger"/>
+						    <p th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" class="text-danger fw-bolder"/>
 						</div>
 					  
 					  <button type="submit" class="btn btn-secondary col-1">Submit</button>
