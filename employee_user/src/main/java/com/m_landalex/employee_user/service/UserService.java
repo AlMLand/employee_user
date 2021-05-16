@@ -54,5 +54,9 @@ public class UserService {
 	public Long countAll() {
 		return repository.count();
 	}
+	
+	public User fetchUserByUsername(String username) {
+		return mapper.toObject(repository.findByUsername(username));
+	}
 
 }
