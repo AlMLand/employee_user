@@ -64,7 +64,7 @@ public class SecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.authorizeRequests()
-			.antMatchers("/rest/employees/**", "/rest/users/**", "/rest/addresses/**").authenticated()
+			.antMatchers("/rest/employees/**", "/rest/users/**", "/rest/addresses/**", "/rest/roles/**", "/rest/emails/**").authenticated()
 			.antMatchers("/**").permitAll()
 			.and()
 			.formLogin()
