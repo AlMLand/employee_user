@@ -1,17 +1,13 @@
-package com.m_landalex.employee_user.view;
+package com.m_landalex.employee_user;
 
 import java.io.IOException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.EnableMBeanExport;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableJpaRepositories(basePackages = "com.m_landalex.employee_user.persistence")
-@SpringBootApplication(scanBasePackages = "com.m_landalex.employee_user")
-@EntityScan("com.m_landalex.employee_user.domain")
+@SpringBootApplication
 @EnableMBeanExport
 @EnableScheduling
 public class DemoRunFile {
