@@ -40,7 +40,23 @@ public class DBInitialization {
 						)
 				.userData(
 						User.builder().username("User1").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
-						.userRoles(List.of(Role.builder().role("ADMINISTRATOR").build())).build()
+						.userRoles(List.of(Role.builder().role("OFFICE").build())).build()
+						)
+				.build()
+				);
+		
+		employeeService.save(
+				Employee.builder().firstName("Khabib").lastName("Nurmagomedov").birthDate(LocalDate.of(1988, 9, 20))
+				.age(32).salary(new BigDecimal(7000.00d))
+				.email(
+						Email.builder().email("nurmagomedov@googlemail.com").build()
+						)
+				.addressData(
+						Address.builder().street("Dddd street").houseNumber(110).city("Makhachkala").postCode("12345").build()
+						)
+				.userData(
+						User.builder().username("User2").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
+						.userRoles(List.of(Role.builder().role("OFFICE_EDITOR").build())).build()
 						)
 				.build()
 				);
@@ -55,7 +71,7 @@ public class DBInitialization {
 						Address.builder().street("Bbbb street").houseNumber(10).city("Atlanta").postCode("67890").build()
 						)
 				.userData(
-						User.builder().username("User2").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
+						User.builder().username("User3").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
 						.userRoles(List.of(Role.builder().role("ADMINISTRATOR").build())).build()
 						)
 				.build()
