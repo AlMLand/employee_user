@@ -74,7 +74,7 @@ public class EmployeeService {
 	}
 	
 	@Scheduled(cron = "* 1 * * * *")
-	void autoUpdateAge() {
+	public void autoUpdateAge() {
 		var employeesInTheDB = fetchAll();
 		employeesInTheDB.stream().forEach(employee -> employee
 				.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears()));
