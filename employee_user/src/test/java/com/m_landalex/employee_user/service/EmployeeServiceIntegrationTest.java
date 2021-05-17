@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -63,7 +64,8 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("should save one employee and return 2 employees")
 	@Test
 	public void save_Test() throws AsyncXAResourcesException {
-		Employee newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname").age(99)
+		Employee newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname")
+				.birthDate(LocalDate.of(2000, 01, 01)).age(99)
 				.salary(new BigDecimal(999.99d)).email(Email.builder().email("test@mail.com").build())
 				.addressData(Address.builder().street("test_new_street").houseNumber(99).city("test_new_city")
 						.postCode("99999").build())
@@ -161,6 +163,34 @@ public class EmployeeServiceIntegrationTest {
 		List<Employee> returnedList = employeeService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(0, returnedList.size());
+	}
+	
+	@SqlGroup({
+		@Sql(value = "classpath:db/test-data.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+		@Sql(value = "classpath:db/clean-up.sql", 
+			config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+			executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("schould return new employee with age of 21")
+	@Test
+	public void autoUpdateAge_Test() throws AsyncXAResourcesException {
+		Employee newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname")
+				.birthDate(LocalDate.of(2000, 01, 01)).age(18)
+				.salary(new BigDecimal(999.99d)).email(Email.builder().email("test@mail.com").build())
+				.addressData(Address.builder().street("test_new_street").houseNumber(99).city("test_new_city")
+						.postCode("99999").build())
+				.userData(User.builder().username("test_new_username").password("test_new_password")
+						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
+				.build();
+		
+		employeeService.save(newEmployee);
+		employeeService.autoUpdateAge();
+		Employee returnedEmployee = employeeService.fetchById(Long.valueOf(2));
+		
+		assertNotNull(returnedEmployee);
+		assertEquals("test_new_firstname", newEmployee.getFirstName());
+		assertEquals(Integer.valueOf(21), returnedEmployee.getAge());
 	}
 
 }
