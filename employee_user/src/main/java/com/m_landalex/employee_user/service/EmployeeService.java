@@ -78,6 +78,13 @@ public class EmployeeService {
 		var employeesInTheDB = fetchAll();
 		employeesInTheDB.stream().forEach(employee -> employee
 				.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears()));
+		employeesInTheDB.stream().forEach(employee -> {
+			try {
+				save(employee);
+			} catch (AsyncXAResourcesException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 }
