@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-	<html xmlns:th="http://www.thymeleaf.org">
+	<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<head>
 				<meta charset="ISO-8859-1">
 				<title>Insert title here</title>
@@ -24,8 +25,8 @@
 										            <li><a class="dropdown-item" th:href="@{/employees/showings}">Employees</a></li>
 										            <li><a class="dropdown-item" th:href="@{/users/showings}">Users</a></li>
 										            <li><a class="dropdown-item" th:href="@{/addresses/showings}">Addresses</a></li>
-										            <li><hr class="dropdown-divider"></li>
-	            									<li><a class="dropdown-item" th:href="@{/employees/formations}">Add new employee</a></li>
+										            <li sec:authorize="hasAuthority('ADMINISTRATOR')"><hr class="dropdown-divider"></li>
+	            									<li sec:authorize="hasAuthority('ADMINISTRATOR')"><a class="dropdown-item" th:href="@{/employees/formations}">Add new employee</a></li>
 										       </ul>
 								        	</li>
 								      </ul>

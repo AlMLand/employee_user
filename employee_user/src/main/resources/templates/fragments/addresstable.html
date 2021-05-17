@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-	<html xmlns:th="http://www.thymeleaf.org">
+	<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 			<head>
 				<meta charset="ISO-8859-1">
 				<title>Insert title here</title>
@@ -27,7 +28,9 @@
 							<td th:text="${address.city}">City</td>
 							<td th:text="${address.postCode}">Postcode</td>
 							<td class="col-1">
-								<a class="btn btn-secondary" th:href="@{'/addresses/updatings/' + ${address.id}}" role="button">Update</a>
+								<div sec:authorize="hasAuthority('ADMINISTRATOR') || hasAuthority('OFFICE_EDITOR')">
+									<a class="btn btn-secondary" th:href="@{'/addresses/updatings/' + ${address.id}}" role="button">Update</a>
+								</div>
 							</td>
 						</tr>
 					</table>
