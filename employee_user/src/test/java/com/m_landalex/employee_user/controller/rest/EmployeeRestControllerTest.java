@@ -24,7 +24,6 @@ import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmployeeService;
-import com.m_landalex.employee_user.view.controller.rest.EmployeeRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeRestControllerTest {

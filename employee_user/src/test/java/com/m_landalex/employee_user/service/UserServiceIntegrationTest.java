@@ -19,10 +19,10 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.m_landalex.employee_user.DemoRunFile;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
-import com.m_landalex.employee_user.view.DemoRunFile;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)

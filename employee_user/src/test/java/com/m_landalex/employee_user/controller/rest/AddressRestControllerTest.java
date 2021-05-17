@@ -1,7 +1,11 @@
 package com.m_landalex.employee_user.controller.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,6 @@ import org.mockito.stubbing.Answer;
 import com.m_landalex.employee_user.data.Address;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.AddressService;
-import com.m_landalex.employee_user.view.controller.rest.AddressRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressRestControllerTest {

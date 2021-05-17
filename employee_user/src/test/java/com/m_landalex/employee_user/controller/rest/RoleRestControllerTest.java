@@ -20,7 +20,6 @@ import org.mockito.stubbing.Answer;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.RoleService;
-import com.m_landalex.employee_user.view.controller.rest.RoleRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class RoleRestControllerTest {

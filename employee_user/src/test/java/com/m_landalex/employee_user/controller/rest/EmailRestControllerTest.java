@@ -19,7 +19,6 @@ import org.mockito.stubbing.Answer;
 import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmailService;
-import com.m_landalex.employee_user.view.controller.rest.EmailRestController;
 
 @ExtendWith(MockitoExtension.class)
 public class EmailRestControllerTest {
