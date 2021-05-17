@@ -118,5 +118,24 @@ public class AddressServiceIntegrationTest {
 		long returnedCount = addressService.countAll();
 		assertEquals(1, returnedCount);
 	}
+	
+	@SqlGroup({
+		@Sql(value = "classpath:db/test-data.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+		@Sql(value = "classpath:db/clean-up.sql", 
+			config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+			executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("should return address with id=1, street='test_street', city='test_city', housenumber=10")
+	@Test
+	public void fetchByCity_Test() {
+		Address returnedAddress = addressService.fetchByCity("test_city");
+		
+		assertNotNull(returnedAddress);
+		assertEquals(Long.valueOf(1), returnedAddress.getId());
+		assertEquals("test_street", returnedAddress.getStreet());
+		assertEquals("test_city", returnedAddress.getCity());
+		assertEquals(Integer.valueOf(10), returnedAddress.getHouseNumber());
+	}
 
 }
