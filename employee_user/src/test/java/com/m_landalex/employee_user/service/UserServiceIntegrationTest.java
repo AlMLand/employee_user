@@ -96,5 +96,22 @@ public class UserServiceIntegrationTest {
 		assertNotNull(returnedCount);
 		assertEquals(1, returnedCount);
 	}
+	
+	@SqlGroup({
+		@Sql(value = "classpath:db/test-data.sql", 
+				config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+				executionPhase = ExecutionPhase.BEFORE_TEST_METHOD),
+		@Sql(value = "classpath:db/clean-up.sql", 
+			config = @SqlConfig(encoding = "utf-8", separator = ";", commentPrefix = "--"), 
+			executionPhase = ExecutionPhase.AFTER_TEST_METHOD) })
+	@DisplayName("Should return user with username 'test_username'")
+	@Test
+	public void fetchUserByUsername_Test() {
+		User returnedUser = userService.fetchUserByUsername("test_username");
+		
+		assertNotNull(returnedUser);
+		assertEquals("test_username", returnedUser.getUsername());
+		
+	}
 
 }
