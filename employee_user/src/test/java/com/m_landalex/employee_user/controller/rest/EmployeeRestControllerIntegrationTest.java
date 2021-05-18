@@ -132,19 +132,23 @@ public class EmployeeRestControllerIntegrationTest {
 		Employee captorEmployee = captor.getValue();
 		
 		assertNotNull(captorEmployee);
-		assertEquals("Test_firstName_1", captorEmployee.getFirstName());
-		assertEquals("Test_lastName_1", captorEmployee.getLastName());
-		assertEquals(LocalDate.of(1995, 01, 01), captorEmployee.getBirthDate());
-		assertEquals(Integer.valueOf(100), captorEmployee.getAge());
-		assertEquals(BigDecimal.valueOf(5000), captorEmployee.getSalary());
-		assertEquals("test_1@googlemail.com", captorEmployee.getEmail().getEmail());
-		assertEquals("Test_street_1", captorEmployee.getAddressData().getStreet());
-		assertEquals(Integer.valueOf(10), captorEmployee.getAddressData().getHouseNumber());
-		assertEquals("Test_city_1", captorEmployee.getAddressData().getCity());
-		assertEquals("12345", captorEmployee.getAddressData().getPostCode());
-		assertEquals("A_A_A", captorEmployee.getUserData().getUsername());
-		assertEquals("B_B_B", captorEmployee.getUserData().getPassword());
-		assertEquals(Integer.valueOf(1), captorEmployee.getUserData().getUserRoles().size());
+		assertEquals(employee.getId(), captorEmployee.getId());
+		assertEquals(employee.getVersion(), captorEmployee.getVersion());
+		assertEquals(employee.getFirstName(), captorEmployee.getFirstName());
+		assertEquals(employee.getLastName(), captorEmployee.getLastName());
+		assertEquals(employee.getBirthDate(), captorEmployee.getBirthDate());
+		assertEquals(employee.getAge(), captorEmployee.getAge());
+		assertEquals(employee.getSalary(), captorEmployee.getSalary());
+		assertEquals(employee.getEmail().getEmail(), captorEmployee.getEmail().getEmail());
+		assertEquals(employee.getAddressData().getStreet(), captorEmployee.getAddressData().getStreet());
+		assertEquals(employee.getAddressData().getHouseNumber(), captorEmployee.getAddressData().getHouseNumber());
+		assertEquals(employee.getAddressData().getCity(), captorEmployee.getAddressData().getCity());
+		assertEquals(employee.getAddressData().getPostCode(), captorEmployee.getAddressData().getPostCode());
+		assertEquals(employee.getUserData().getUsername(), captorEmployee.getUserData().getUsername());
+		assertEquals(employee.getUserData().getPassword(), captorEmployee.getUserData().getPassword());
+		assertEquals(employee.getUserData().getUserRoles().size(), captorEmployee.getUserData().getUserRoles().size());
+		assertEquals(employee.getUserData().getUserRoles().stream().findFirst().get().getRole(), 
+				captorEmployee.getUserData().getUserRoles().stream().findFirst().get().getRole());
 		verify(service, timeout(1)).save(any(Employee.class));
 	}
 	
@@ -159,8 +163,8 @@ public class EmployeeRestControllerIntegrationTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		String expectedResponse = mapper.writeValueAsString(employee);
-		String actuallyResponse = result.getResponse().getContentAsString();
+		var expectedResponse = mapper.writeValueAsString(employee);
+		var actuallyResponse = result.getResponse().getContentAsString();
 		
 		assertNotNull(actuallyResponse);
 		assertThat(expectedResponse).isEqualToIgnoringWhitespace(actuallyResponse);
