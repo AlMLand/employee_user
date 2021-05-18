@@ -291,4 +291,43 @@ public class AddressRestControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
+	@DisplayName("when by city status HTTP 200, then expectedResponseBody and actuallyResponseBody are equal")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test 
+	public void findByCity_Test1() throws Exception {
+		when(service.fetchByCity(Mockito.anyString())).thenReturn(address);
+		MvcResult result = mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY").with(csrf()))
+				.andExpect(status().isOk())
+				.andReturn();
+		var expectedResponseBody = mapper.writeValueAsString(address);
+		var actuallyResponseBody =result.getResponse().getContentAsString();
+		
+		assertNotNull(actuallyResponseBody);
+		assertNotEquals("", actuallyResponseBody);
+		assertThat(expectedResponseBody).isEqualToIgnoringWhitespace(actuallyResponseBody);
+		verify(service, timeout(1)).fetchByCity(Mockito.anyString());
+	}
+	
+	@DisplayName("when by city status HTTP 200, then return addressObject equal is to address")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test 
+	public void findByCity_Test2() throws Exception {
+		when(service.fetchByCity(Mockito.anyString())).thenReturn(address);
+		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY").with(csrf()))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.street", is(address.getStreet())))
+				.andExpect(jsonPath("$.houseNumber", is(address.getHouseNumber())))
+				.andExpect(jsonPath("$.city", is(address.getCity())))
+				.andExpect(jsonPath("$.postCode", is(address.getPostCode())));
+		verify(service, timeout(1)).fetchByCity(Mockito.anyString());
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test 
+	public void findByCity_Test3() throws Exception {
+		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY").with(csrf()))
+				.andExpect(status().is4xxClientError());
+		verifyNoInteractions(service);
+	}
+	
 }
