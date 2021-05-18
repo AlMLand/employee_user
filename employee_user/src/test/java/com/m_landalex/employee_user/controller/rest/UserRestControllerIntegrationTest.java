@@ -62,7 +62,7 @@ public class UserRestControllerIntegrationTest {
 		verify(service, timeout(1)).save(any(User.class));
 	}
 	
-	@DisplayName("when username to long, then HTTP client error 4xx, verifying validation")
+	@DisplayName("when username too long, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test2() throws Exception {
@@ -76,7 +76,7 @@ public class UserRestControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
-	@DisplayName("when password to long, then HTTP client error 4xx, verifying validation")
+	@DisplayName("when password too long, then statuc HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test3() throws Exception {
@@ -90,7 +90,7 @@ public class UserRestControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
-	@DisplayName("when userRoles is empty, then HTTP client error 4xx, verifying validation")
+	@DisplayName("when userRoles is empty, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test4() throws Exception {
@@ -104,7 +104,7 @@ public class UserRestControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
-	@DisplayName("when userRoles->role is blank, then HTTP client error 4xx, verifying validation")
+	@DisplayName("when userRoles->role is blank, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test5() throws Exception {
