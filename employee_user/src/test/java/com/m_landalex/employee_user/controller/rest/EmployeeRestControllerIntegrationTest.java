@@ -76,11 +76,11 @@ public class EmployeeRestControllerIntegrationTest {
 		verify(service, timeout(1)).save(any(Employee.class));
 	}
 	
-	@DisplayName("when firstname=null and lastname=null then return HTTP 400, verifying validation")
+	@DisplayName("when firstname too long, then return HTTP 400, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test2() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName(null).lastName(null)
+		Employee employee2 = Employee.builder().firstName("a".repeat(200)).lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(100).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
@@ -97,11 +97,32 @@ public class EmployeeRestControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
-	@DisplayName("when birthdate is in future and lastname too long is, then return HTTP 400, verifying validation")
+	@DisplayName("when lastname too long, then return HTTP 400, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test3() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("Test_firstName_2").lastName("a".repeat(300))
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("a".repeat(200))
+				.birthDate(LocalDate.of(1985, 01, 01)).age(100).salary(new BigDecimal(5000.00d))
+				.email(Email.builder().email("test_2@googlemail.com").build())
+				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
+						.postCode("12345").build())
+				.userData(User.builder().username("tester2").password("12345")
+						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
+				.build();
+		when(service.save(any(Employee.class))).thenReturn(employee2);
+		
+		mockMvc.perform(post("/rest/employees/").with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(employee2)))
+		.andExpect(status().isBadRequest());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when birthdate is in future, then return HTTP 400, verifying validation")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test
+	public void create_Test4() throws JsonProcessingException, Exception {
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(2085, 01, 01)).age(100).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_1@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_1").houseNumber(10).city("Test_city_1")
@@ -118,10 +139,109 @@ public class EmployeeRestControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
+	@DisplayName("when age less than 18, then return HTTP 400, verifying validation")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test
+	public void create_Test5() throws JsonProcessingException, Exception {
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+				.birthDate(LocalDate.of(1985, 01, 01)).age(17).salary(new BigDecimal(5000.00d))
+				.email(Email.builder().email("test_2@googlemail.com").build())
+				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
+						.postCode("12345").build())
+				.userData(User.builder().username("tester2").password("12345")
+						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
+				.build();
+		when(service.save(any(Employee.class))).thenReturn(employee2);
+		
+		mockMvc.perform(post("/rest/employees/").with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(employee2)))
+		.andExpect(status().isBadRequest());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when salary less than 500, then return HTTP 400, verifying validation")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test
+	public void create_Test6() throws JsonProcessingException, Exception {
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(50.00d))
+				.email(Email.builder().email("test_2@googlemail.com").build())
+				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
+						.postCode("12345").build())
+				.userData(User.builder().username("tester2").password("12345")
+						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
+				.build();
+		when(service.save(any(Employee.class))).thenReturn(employee2);
+		
+		mockMvc.perform(post("/rest/employees/").with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(employee2)))
+		.andExpect(status().isBadRequest());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when email=null, then return HTTP 400, verifying validation")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test
+	public void create_Test7() throws JsonProcessingException, Exception {
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(5000.00d)).email(null)
+				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
+						.postCode("12345").build())
+				.userData(User.builder().username("tester2").password("12345")
+						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
+				.build();
+		when(service.save(any(Employee.class))).thenReturn(employee2);
+		
+		mockMvc.perform(post("/rest/employees/").with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(employee2)))
+		.andExpect(status().isBadRequest());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when address=null, then return HTTP 400, verifying validation")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test
+	public void create_Test8() throws JsonProcessingException, Exception {
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(5000.00d))
+				.email(Email.builder().email("test_2@googlemail.com").build()).addressData(null)
+				.userData(User.builder().username("tester2").password("12345")
+						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
+				.build();
+		when(service.save(any(Employee.class))).thenReturn(employee2);
+		
+		mockMvc.perform(post("/rest/employees/").with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(employee2)))
+		.andExpect(status().isBadRequest());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when user=null, then return HTTP 400, verifying validation")
+	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
+	@Test
+	public void create_Test9() throws JsonProcessingException, Exception {
+		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(5000.00d))
+				.email(Email.builder().email("test_2@googlemail.com").build()).addressData(Address.builder()
+						.street("Test_street_2").houseNumber(10).city("Test_city_2").postCode("12345").build())
+				.userData(null).build();
+		when(service.save(any(Employee.class))).thenReturn(employee2);
+		
+		mockMvc.perform(post("/rest/employees/").with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(employee2)))
+		.andExpect(status().isBadRequest());
+		verifyNoInteractions(service);
+	}
+	
 	@DisplayName("whne valid input, then map to business model")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
-	public void create_Test4() throws JsonProcessingException, Exception {
+	public void create_Test10() throws JsonProcessingException, Exception {
 		mockMvc.perform(post("/rest/employees/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(employee)))
@@ -155,7 +275,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@DisplayName("when valid input, then return employee, verifying deserialization from HTTP Request and serialization to HTTP Response")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
-	public void create_Test5() throws JsonProcessingException, Exception {
+	public void create_Test11() throws JsonProcessingException, Exception {
 		when(service.save(any(Employee.class))).thenReturn(employee);
 		MvcResult result = mockMvc.perform(post("/rest/employees/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -173,7 +293,7 @@ public class EmployeeRestControllerIntegrationTest {
 	
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
-	public void create_Test6() throws Exception {
+	public void create_Test12() throws Exception {
 		mockMvc.perform(post("/rest/employees/").with(csrf()))
 				.andExpect(status().is(401));
 		verifyNoInteractions(service);
