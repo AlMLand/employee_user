@@ -43,5 +43,10 @@ public class AddressRestController {
 	public void deleteStandingAloneById(@PathVariable Long id) {
 		service.deleteById(id);
 	}
+	
+	@GetMapping(value = "/city/{city}")
+	public Address findByCity(@PathVariable String city) {
+		return service.fetchByCity(city);
+	}
 
 }
