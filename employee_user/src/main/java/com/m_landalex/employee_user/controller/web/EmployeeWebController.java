@@ -38,7 +38,6 @@ public class EmployeeWebController {
 			return "formationorupdate";
 		}
 		Employee newEmployee = service.save(employee);
-		model.addAttribute("employee", newEmployee);
 		return "redirect:/employees/showings/" + newEmployee.getId();
 	}
 	
