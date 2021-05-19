@@ -295,7 +295,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@Test
 	public void create_Test12() throws Exception {
 		mockMvc.perform(post("/rest/employees/").with(csrf()))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -349,7 +349,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@Test
 	public void list_Test3() throws Exception {
 		mockMvc.perform(get("/rest/employees/"))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -423,7 +423,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@Test
 	public void findById_Test() throws Exception {
 		mockMvc.perform(get("/rest/employees/{id}", 1L))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -456,7 +456,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@Test
 	public void deleteById_Test2() throws Exception {
 		mockMvc.perform(delete("/rest/employees/{id}", 1L).with(csrf()))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	

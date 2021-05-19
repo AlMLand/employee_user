@@ -127,7 +127,7 @@ public class RoleRestControllerIntegrationTest {
 		mockMvc.perform(post("/rest/roles/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(role)))
-		.andExpect(status().is(401));
+		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -163,7 +163,7 @@ public class RoleRestControllerIntegrationTest {
 	@Test
 	public void list_Test3() throws Exception {
 		mockMvc.perform(get("/rest/roles/"))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -200,7 +200,7 @@ public class RoleRestControllerIntegrationTest {
 	@Test
 	public void findById_Test3() throws Exception {
 		mockMvc.perform(get("/rest/roles/{id}", Long.valueOf(1)))
-				.andExpect(status().is4xxClientError());
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	

@@ -166,7 +166,7 @@ public class UserRestControllerIntegrationTest {
 		mockMvc.perform(post("/rest/users/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(user)))
-		.andExpect(status().is(401));
+		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -205,7 +205,7 @@ public class UserRestControllerIntegrationTest {
 	@Test
 	public void list_Test3() throws Exception {
 		mockMvc.perform(get("/rest/users/"))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -244,7 +244,7 @@ public class UserRestControllerIntegrationTest {
 	@Test
 	public void findById_Test3() throws Exception {
 		mockMvc.perform(get("/rest/users/{id}", 1L))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	

@@ -143,7 +143,7 @@ public class EmailRestControllerIntegrationTest {
 		mockMvc.perform(post("/rest/emails/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(email)))
-		.andExpect(status().is(401));
+		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -181,7 +181,7 @@ public class EmailRestControllerIntegrationTest {
 	@Test
 	public void list_Test3() throws Exception {
 		mockMvc.perform(get("/rest/emails/"))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -218,7 +218,7 @@ public class EmailRestControllerIntegrationTest {
 	@Test
 	public void findById_Test3() throws Exception {
 		mockMvc.perform(get("/rest/emails/{id}", Long.valueOf(1)))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 
@@ -248,7 +248,7 @@ public class EmailRestControllerIntegrationTest {
 	@Test
 	public void deleteStandingAloneById_Test2() throws Exception {
 		mockMvc.perform(delete("/rest/emails/{id}", Long.valueOf(1)).with(csrf()))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	

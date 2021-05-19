@@ -174,7 +174,7 @@ public class AddressRestControllerIntegrationTest {
 		mockMvc.perform(post("/rest/addresses/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(address)))
-		.andExpect(status().is(401));
+		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -217,7 +217,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test
 	public void list_Test3() throws JsonProcessingException, Exception {
 		mockMvc.perform(get("/rest/addresses/"))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -257,7 +257,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test
 	public void findById_Test3() throws Exception {
 		mockMvc.perform(get("/rest/addresses/{id}", 1L))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -287,7 +287,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test 
 	public void deleteStandingAloneById_Test2() throws Exception {
 		mockMvc.perform(delete("/rest/addresses/{id}", 1L).with(csrf()))
-				.andExpect(status().is(401));
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
@@ -326,7 +326,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test 
 	public void findByCity_Test3() throws Exception {
 		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY"))
-				.andExpect(status().is4xxClientError());
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
