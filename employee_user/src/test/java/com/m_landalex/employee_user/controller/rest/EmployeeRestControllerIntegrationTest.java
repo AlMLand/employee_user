@@ -80,7 +80,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test2() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("a".repeat(200)).lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("a".repeat(200)).lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(100).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
@@ -101,7 +101,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test3() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("a".repeat(200))
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("a".repeat(200))
 				.birthDate(LocalDate.of(1985, 01, 01)).age(100).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
@@ -122,7 +122,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test4() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(2085, 01, 01)).age(100).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_1@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_1").houseNumber(10).city("Test_city_1")
@@ -143,7 +143,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test5() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(17).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
@@ -164,7 +164,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test6() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(50.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
@@ -185,7 +185,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test7() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(5000.00d)).email(null)
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
 						.postCode("12345").build())
@@ -205,7 +205,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test8() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build()).addressData(null)
 				.userData(User.builder().username("tester2").password("12345")
@@ -224,7 +224,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test9() throws JsonProcessingException, Exception {
-		Employee employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
+		var employee2 = Employee.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME")
 				.birthDate(LocalDate.of(1985, 01, 01)).age(22).salary(new BigDecimal(5000.00d))
 				.email(Email.builder().email("test_2@googlemail.com").build()).addressData(Address.builder()
 						.street("Test_street_2").houseNumber(10).city("Test_city_2").postCode("12345").build())
@@ -357,7 +357,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void deleteAll_Test() throws Exception {
-		List<Employee> employees = new ArrayList<>();
+		var employees = new ArrayList<>();
 		employees.add(employee);
 		assertEquals(1, employees.size());
 		
@@ -431,7 +431,7 @@ public class EmployeeRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void deleteById_Test1() throws Exception {
-		List<Employee> employees = new ArrayList<>();
+		var employees = new ArrayList<>();
 		employees.add(employee);
 		assertEquals(1, employees.size());
 		

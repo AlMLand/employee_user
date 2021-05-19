@@ -265,7 +265,7 @@ public class AddressRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test 
 	public void deleteStandingAloneById_Test1() throws Exception {
-		List<Address> addresses = new ArrayList<>();
+		var addresses = new ArrayList<>();
 		addresses.add(address);
 		assertEquals(1, addresses.size());
 		

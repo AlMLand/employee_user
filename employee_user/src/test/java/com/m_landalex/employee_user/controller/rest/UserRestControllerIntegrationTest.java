@@ -66,7 +66,7 @@ public class UserRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test2() throws Exception {
-		User user2 = User.builder().username("a".repeat(200)).password("77777")
+		var user2 = User.builder().username("a".repeat(200)).password("77777")
 				.userRoles(List.of(Role.builder().role("OFFICE").build())).build();
 		
 		mockMvc.perform(post("/rest/user/").with(csrf())
@@ -80,7 +80,7 @@ public class UserRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test3() throws Exception {
-		User user2 = User.builder().username("UserTEST2").password("1".repeat(200))
+		var user2 = User.builder().username("UserTEST2").password("1".repeat(200))
 				.userRoles(List.of(Role.builder().role("OFFICE").build())).build();
 		
 		mockMvc.perform(post("/rest/user/").with(csrf())
@@ -94,7 +94,7 @@ public class UserRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test4() throws Exception {
-		User user2 = User.builder().username("UserTEST2").password("11111")
+		var user2 = User.builder().username("UserTEST2").password("11111")
 				.userRoles(null).build();
 		
 		mockMvc.perform(post("/rest/user/").with(csrf())
@@ -108,7 +108,7 @@ public class UserRestControllerIntegrationTest {
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void create_Test5() throws Exception {
-		User user2 = User.builder().username("UserTEST2").password("11111")
+		var user2 = User.builder().username("UserTEST2").password("11111")
 				.userRoles(List.of(Role.builder().role("").build())).build();
 		
 		mockMvc.perform(post("/rest/user/").with(csrf())
