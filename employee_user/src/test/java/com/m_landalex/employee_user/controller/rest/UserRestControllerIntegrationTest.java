@@ -175,7 +175,7 @@ public class UserRestControllerIntegrationTest {
 	@Test
 	public void list_Test1() throws Exception {
 		when(service.fetchAll()).thenReturn(List.of(user));
-		MvcResult result = mockMvc.perform(get("/rest/users/").with(csrf()))
+		MvcResult result = mockMvc.perform(get("/rest/users/"))
 				.andExpect(status().isOk())
 				.andReturn();
 		
@@ -193,7 +193,7 @@ public class UserRestControllerIntegrationTest {
 	@Test
 	public void list_Test2() throws Exception {
 		when(service.fetchAll()).thenReturn(List.of(user));
-		mockMvc.perform(get("/rest/users/").with(csrf()))
+		mockMvc.perform(get("/rest/users/"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].username", is(user.getUsername())))
 				.andExpect(jsonPath("$[0].password", is(user.getPassword())))
@@ -204,7 +204,7 @@ public class UserRestControllerIntegrationTest {
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
 	public void list_Test3() throws Exception {
-		mockMvc.perform(get("/rest/users/").with(csrf()))
+		mockMvc.perform(get("/rest/users/"))
 				.andExpect(status().is(401));
 		verifyNoInteractions(service);
 	}
@@ -214,7 +214,7 @@ public class UserRestControllerIntegrationTest {
 	@Test
 	public void findById_Test1() throws Exception {
 		when(service.fetchById(anyLong())).thenReturn(user);
-		MvcResult result = mockMvc.perform(get("/rest/users/{id}", 1L).with(csrf()))
+		MvcResult result = mockMvc.perform(get("/rest/users/{id}", 1L))
 				.andExpect(status().isOk())
 				.andReturn();
 		
@@ -232,7 +232,7 @@ public class UserRestControllerIntegrationTest {
 	@Test
 	public void findById_Test2() throws Exception {
 		when(service.fetchById(anyLong())).thenReturn(user);
-		mockMvc.perform(get("/rest/users/{id}", 1L).with(csrf()))
+		mockMvc.perform(get("/rest/users/{id}", 1L))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.username", is(user.getUsername())))
 				.andExpect(jsonPath("$.password", is(user.getPassword())))
@@ -243,7 +243,7 @@ public class UserRestControllerIntegrationTest {
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
 	public void findById_Test3() throws Exception {
-		mockMvc.perform(get("/rest/users/{id}", 1L).with(csrf()))
+		mockMvc.perform(get("/rest/users/{id}", 1L))
 				.andExpect(status().is(401));
 		verifyNoInteractions(service);
 	}

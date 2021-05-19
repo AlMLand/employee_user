@@ -65,7 +65,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when street value too long is, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
-	public void cerate_Test2() throws JsonProcessingException, Exception {
+	public void create_Test2() throws JsonProcessingException, Exception {
 		var address2 = Address.builder().street("a".repeat(300)).houseNumber(10).city("TEST_CITY").postCode("12345").build();
 		mockMvc.perform(post("/rest/addresses/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +77,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when houseNumber=0, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
-	public void cerate_Test3() throws JsonProcessingException, Exception {
+	public void create_Test3() throws JsonProcessingException, Exception {
 		var address2 = Address.builder().street("TEST_STREET").houseNumber(0).city("TEST_CITY").postCode("12345").build();
 		mockMvc.perform(post("/rest/addresses/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when city value too long is, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
-	public void cerate_Test4() throws JsonProcessingException, Exception {
+	public void create_Test4() throws JsonProcessingException, Exception {
 		var address2 = Address.builder().street("TEST_STREET").houseNumber(10).city("a".repeat(200)).postCode("12345").build();
 		mockMvc.perform(post("/rest/addresses/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -101,7 +101,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when postCode value too short is, then status HTTP client error 4xx, verifying validation")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
-	public void cerate_Test5() throws JsonProcessingException, Exception {
+	public void create_Test5() throws JsonProcessingException, Exception {
 		var address2 = Address.builder().street("TEST_STREET").houseNumber(10).city("TEST_CITY").postCode("12").build();
 		mockMvc.perform(post("/rest/addresses/").with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -183,7 +183,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test
 	public void list_Test1() throws Exception {
 		when(service.fetchAll()).thenReturn(List.of(address));
-		MvcResult result = mockMvc.perform(get("/rest/addresses/").with(csrf()))
+		MvcResult result = mockMvc.perform(get("/rest/addresses/"))
 				.andExpect(status().isOk())
 				.andReturn();
 		
@@ -196,7 +196,7 @@ public class AddressRestControllerIntegrationTest {
 		verify(service, timeout(1)).fetchAll();
 	}
 	
-	@DisplayName("when status HTTP 200, then should return return 1 addressObject what is equal to address")
+	@DisplayName("when status HTTP 200, then should return 1 addressObject what is equal to address")
 	@WithMockUser(username = "TESTER", password = "12345", authorities = {"ADMINISTRATOR"})
 	@Test
 	public void list_Test2() throws Exception {
@@ -216,7 +216,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
 	public void list_Test3() throws JsonProcessingException, Exception {
-		mockMvc.perform(get("/rest/addresses/").with(csrf()))
+		mockMvc.perform(get("/rest/addresses/"))
 				.andExpect(status().is(401));
 		verifyNoInteractions(service);
 	}
@@ -226,7 +226,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test
 	public void findById_Test1() throws Exception {
 		when(service.fetchById(Mockito.anyLong())).thenReturn(address);
-		MvcResult result = mockMvc.perform(get("/rest/addresses/{id}", 1L).with(csrf()))
+		MvcResult result = mockMvc.perform(get("/rest/addresses/{id}", 1L))
 				.andExpect(status().isOk())
 				.andReturn();
 		
@@ -244,7 +244,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test
 	public void findById_Test2() throws Exception {
 		when(service.fetchById(Mockito.anyLong())).thenReturn(address);
-		mockMvc.perform(get("/rest/addresses/{id}", 1L).with(csrf()))
+		mockMvc.perform(get("/rest/addresses/{id}", 1L))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.street", is(address.getStreet())))
 				.andExpect(jsonPath("$.houseNumber", is(address.getHouseNumber())))
@@ -256,7 +256,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
 	public void findById_Test3() throws Exception {
-		mockMvc.perform(get("/rest/addresses/{id}", 1L).with(csrf()))
+		mockMvc.perform(get("/rest/addresses/{id}", 1L))
 				.andExpect(status().is(401));
 		verifyNoInteractions(service);
 	}
@@ -296,7 +296,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test 
 	public void findByCity_Test1() throws Exception {
 		when(service.fetchByCity(Mockito.anyString())).thenReturn(address);
-		MvcResult result = mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY").with(csrf()))
+		MvcResult result = mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY"))
 				.andExpect(status().isOk())
 				.andReturn();
 		var expectedResponseBody = mapper.writeValueAsString(address);
@@ -313,7 +313,7 @@ public class AddressRestControllerIntegrationTest {
 	@Test 
 	public void findByCity_Test2() throws Exception {
 		when(service.fetchByCity(Mockito.anyString())).thenReturn(address);
-		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY").with(csrf()))
+		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.street", is(address.getStreet())))
 				.andExpect(jsonPath("$.houseNumber", is(address.getHouseNumber())))
@@ -325,7 +325,7 @@ public class AddressRestControllerIntegrationTest {
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test 
 	public void findByCity_Test3() throws Exception {
-		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY").with(csrf()))
+		mockMvc.perform(get("/rest/addresses/city/{city}", "TEST_CITY"))
 				.andExpect(status().is4xxClientError());
 		verifyNoInteractions(service);
 	}
