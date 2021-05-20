@@ -8,19 +8,20 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.any;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,7 @@ public class EmployeeWebControllerIntegrationTest {
 	@DisplayName("when HTTP status 302, then save employee, render view and HTTP 302 redirected")
 	@Test
 	public void save_Test2() throws JsonProcessingException, Exception {
-		when(service.save(Mockito.any(Employee.class))).thenReturn(employee);
+		when(service.save(any(Employee.class))).thenReturn(employee);
 		mockMvc.perform(post("/employees/")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("firstName", employee.getFirstName())
@@ -205,14 +206,14 @@ public class EmployeeWebControllerIntegrationTest {
 		.andExpect(view().name("formationorupdate"))
 		.andExpect(model().attributeExists("employee"))
 		.andExpect(model().hasNoErrors())
-		.andExpect(model().attribute("employee", Matchers.hasProperty("firstName", is(employee.getFirstName()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("lastName", is(employee.getLastName()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("birthDate", is(employee.getBirthDate()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("age", is(employee.getAge()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("salary", is(employee.getSalary()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("email", is(employee.getEmail()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("addressData", is(employee.getAddressData()))))
-		.andExpect(model().attribute("employee", Matchers.hasProperty("userData", is(employee.getUserData()))));
+		.andExpect(model().attribute("employee", hasProperty("firstName", is(employee.getFirstName()))))
+		.andExpect(model().attribute("employee", hasProperty("lastName", is(employee.getLastName()))))
+		.andExpect(model().attribute("employee", hasProperty("birthDate", is(employee.getBirthDate()))))
+		.andExpect(model().attribute("employee", hasProperty("age", is(employee.getAge()))))
+		.andExpect(model().attribute("employee", hasProperty("salary", is(employee.getSalary()))))
+		.andExpect(model().attribute("employee", hasProperty("email", is(employee.getEmail()))))
+		.andExpect(model().attribute("employee", hasProperty("addressData", is(employee.getAddressData()))))
+		.andExpect(model().attribute("employee", hasProperty("userData", is(employee.getUserData()))));
 		verify(service, timeout(1)).fetchById(anyLong());
 	}
 	
@@ -234,14 +235,14 @@ public class EmployeeWebControllerIntegrationTest {
 				.andExpect(view().name("detailsemployee"))
 				.andExpect(model().attributeExists("employee"))
 				.andExpect(model().hasNoErrors())
-				.andExpect(model().attribute("employee", Matchers.hasProperty("firstName", is(employee.getFirstName()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("lastName", is(employee.getLastName()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("birthDate", is(employee.getBirthDate()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("age", is(employee.getAge()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("salary", is(employee.getSalary()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("email", is(employee.getEmail()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("addressData", is(employee.getAddressData()))))
-				.andExpect(model().attribute("employee", Matchers.hasProperty("userData", is(employee.getUserData()))));
+				.andExpect(model().attribute("employee", hasProperty("firstName", is(employee.getFirstName()))))
+				.andExpect(model().attribute("employee", hasProperty("lastName", is(employee.getLastName()))))
+				.andExpect(model().attribute("employee", hasProperty("birthDate", is(employee.getBirthDate()))))
+				.andExpect(model().attribute("employee", hasProperty("age", is(employee.getAge()))))
+				.andExpect(model().attribute("employee", hasProperty("salary", is(employee.getSalary()))))
+				.andExpect(model().attribute("employee", hasProperty("email", is(employee.getEmail()))))
+				.andExpect(model().attribute("employee", hasProperty("addressData", is(employee.getAddressData()))))
+				.andExpect(model().attribute("employee", hasProperty("userData", is(employee.getUserData()))));
 				verify(service, timeout(1)).fetchById(anyLong());
 	}
 	
@@ -263,17 +264,17 @@ public class EmployeeWebControllerIntegrationTest {
 		.andExpect(view().name("listemployees"))
 		.andExpect(model().hasNoErrors())
 		.andExpect(model().attributeExists("employees"))
-		.andExpect(model().attribute("employees", Matchers.hasSize(1)))
-		.andExpect(model().attribute("employees", Matchers.hasItem(
+		.andExpect(model().attribute("employees", hasSize(1)))
+		.andExpect(model().attribute("employees", hasItem(
 				allOf(
-						Matchers.hasProperty("firstName", is(employee.getFirstName())),
-						Matchers.hasProperty("lastName", is(employee.getLastName())),
-						Matchers.hasProperty("birthDate", is(employee.getBirthDate())),
-						Matchers.hasProperty("age", is(employee.getAge())),
-						Matchers.hasProperty("salary", is(employee.getSalary())),
-						Matchers.hasProperty("email", is(employee.getEmail())),
-						Matchers.hasProperty("addressData", is(employee.getAddressData())),
-						Matchers.hasProperty("userData", is(employee.getUserData()))
+						hasProperty("firstName", is(employee.getFirstName())),
+						hasProperty("lastName", is(employee.getLastName())),
+						hasProperty("birthDate", is(employee.getBirthDate())),
+						hasProperty("age", is(employee.getAge())),
+						hasProperty("salary", is(employee.getSalary())),
+						hasProperty("email", is(employee.getEmail())),
+						hasProperty("addressData", is(employee.getAddressData())),
+						hasProperty("userData", is(employee.getUserData()))
 						)
 				)));
 		verify(service, timeout(1)).fetchAll();
@@ -325,7 +326,7 @@ public class EmployeeWebControllerIntegrationTest {
 	@DisplayName("when HTTP status 200, then add to model 1 Employee==employee and render view 'listemployees'")
 	@Test
 	public void showByLastname_Test1() throws Exception {
-		when(service.fetchByLastName(Mockito.anyString())).thenReturn(List.of(employee));
+		when(service.fetchByLastName(anyString())).thenReturn(List.of(employee));
 		
 		mockMvc.perform(get("/employees/showings/lastname")
 				.param("lastname", "a".repeat(10))
@@ -334,20 +335,20 @@ public class EmployeeWebControllerIntegrationTest {
 		.andExpect(view().name("listemployees"))
 		.andExpect(model().hasNoErrors())
 		.andExpect(model().attributeExists("employees"))
-		.andExpect(model().attribute("employees", Matchers.hasSize(1)))
+		.andExpect(model().attribute("employees", hasSize(1)))
 		.andExpect(model().attribute("employees", hasItem(
 				allOf(
-						Matchers.hasProperty("firstName", is(employee.getFirstName())),
-						Matchers.hasProperty("lastName", is(employee.getLastName())),
-						Matchers.hasProperty("birthDate", is(employee.getBirthDate())),
-						Matchers.hasProperty("age", is(employee.getAge())),
-						Matchers.hasProperty("salary", is(employee.getSalary())),
-						Matchers.hasProperty("email", is(employee.getEmail())),
-						Matchers.hasProperty("addressData", is(employee.getAddressData())),
-						Matchers.hasProperty("userData", is(employee.getUserData()))
+						hasProperty("firstName", is(employee.getFirstName())),
+						hasProperty("lastName", is(employee.getLastName())),
+						hasProperty("birthDate", is(employee.getBirthDate())),
+						hasProperty("age", is(employee.getAge())),
+						hasProperty("salary", is(employee.getSalary())),
+						hasProperty("email", is(employee.getEmail())),
+						hasProperty("addressData", is(employee.getAddressData())),
+						hasProperty("userData", is(employee.getUserData()))
 						)
 				)));
-		verify(service, timeout(1)).fetchByLastName(Mockito.anyString());
+		verify(service, timeout(1)).fetchByLastName(anyString());
 	}
 	
 	@DisplayName("when not authorized user, then return status HTTP 401, verifying security")
