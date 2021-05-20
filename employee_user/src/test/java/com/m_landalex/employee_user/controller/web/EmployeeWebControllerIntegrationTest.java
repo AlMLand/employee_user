@@ -1,7 +1,6 @@
 package com.m_landalex.employee_user.controller.web;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,7 +13,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -127,7 +126,6 @@ public class EmployeeWebControllerIntegrationTest {
 				.param("userData.userRoles", employee.getUserData().getUserRoles().toString())
 				.with(csrf())
 				.with(user("TESTER")))
-		.andDo(print())
 		.andExpect(status().isFound())
 		.andExpect(view().name("redirect:/employees/showings/" + employee.getId()))
 		.andExpect(redirectedUrl("/employees/showings/" + employee.getId()));
@@ -156,6 +154,77 @@ public class EmployeeWebControllerIntegrationTest {
 				.substring(1, captorEmployee.getUserData().getUserRoles().stream().findFirst().get().getRole().length() - 1));
 	}
 	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test
+	public void save_Test() throws Exception {
+		mockMvc.perform(post("/employees/")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", employee.getFirstName())
+				.param("lastName", employee.getLastName())
+				.param("birthDate", employee.getBirthDate().toString())
+				.param("age", Integer.valueOf(employee.getAge()).toString())
+				.param("salary", employee.getSalary().toString())
+				.param("email.email", employee.getEmail().getEmail())
+				.param("addressData.street", employee.getAddressData().getStreet())
+				.param("addressData.houseNumber", Integer.valueOf(employee.getAddressData().getHouseNumber()).toString())
+				.param("addressData.city", employee.getAddressData().getCity())
+				.param("addressData.postCode", employee.getAddressData().getPostCode())
+				.param("userData.username", employee.getUserData().getUsername())
+				.param("userData.password", employee.getUserData().getPassword())
+				.param("userData.userRoles", employee.getUserData().getUserRoles().toString())
+				.with(csrf()))
+		.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when status HTTP 200, then return blank model 'employee' without attributes")
+	@Test
+	public void formationNew_Test1() throws Exception {
+		mockMvc.perform(get("/employees/formations/")
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("formationorupdate"))
+		.andExpect(model().attributeExists("employee"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attributeDoesNotExist("firstName", "lastName", "birthDate", "age", "salary", "email.email",
+				"addressData.street", "addressData.houseNumber", "addressData.city", "userData.username", "userData.password",
+				"userData.userRoles"));
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test
+	public void formations_Test2() throws Exception {
+		mockMvc.perform(get("/employees/formations/"))
+				.andExpect(status().isUnauthorized());
+	}
+	
+	@DisplayName("when employee HTTP status 200, then add employee to model and render view")
+	@Test
+	public void updateById_Test1() throws Exception {
+		when(service.fetchById(Long.valueOf(1))).thenReturn(employee);
+		mockMvc.perform(get("/employees/updatings/{id}", Long.valueOf(1))
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("formationorupdate"))
+		.andExpect(model().attributeExists("employee"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attribute("employee", Matchers.hasProperty("firstName", is(employee.getFirstName()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("lastName", is(employee.getLastName()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("birthDate", is(employee.getBirthDate()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("age", is(employee.getAge()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("salary", is(employee.getSalary()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("email", is(employee.getEmail()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("addressData", is(employee.getAddressData()))))
+		.andExpect(model().attribute("employee", Matchers.hasProperty("userData", is(employee.getUserData()))));
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test
+	public void updateById_Test2() throws Exception {
+		mockMvc.perform(get("/employees/updatings/{id}", Long.valueOf(1)))
+				.andExpect(status().isUnauthorized());
+	}
+	
 	@DisplayName("")
 	@Test
 	public void showById_Test1() throws JsonProcessingException, Exception {
@@ -163,7 +232,6 @@ public class EmployeeWebControllerIntegrationTest {
 		mockMvc.perform(get("/employees/showings/{id}", Long.valueOf(1))
 				.with(user("TESTER")))
 				.andExpect(status().isOk())
-				.andDo(print())
 				.andExpect(model().attributeExists("employee"))
 				.andExpect(view().name("detailsemployee"));
 	}
