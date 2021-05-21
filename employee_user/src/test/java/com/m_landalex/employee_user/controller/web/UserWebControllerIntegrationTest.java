@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -205,9 +206,23 @@ public class UserWebControllerIntegrationTest {
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
 	public void showById_Test2() throws Exception {
-		mockMvc.perform(get("/users/showings/{id}", Long.valueOf(1)))
+		mockMvc.perform(get("/users/showings/id/")
+				.param("id", Long.valueOf(1).toString()))
 				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when service throw NoSuchElementException exception, then HTTP 200, return view='listaddresses', no models")
+	@Test
+	public void showById_Test3() throws Exception {
+		when(service.fetchById(anyLong())).thenThrow(NoSuchElementException.class);
+		mockMvc.perform(get("/users/showings/id/")
+				.param("id", Long.valueOf(1).toString())
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("listusers"))
+		.andExpect(model().size(0));
+		verify(service, timeout(1)).fetchById(anyLong());
 	}
 	
 }
