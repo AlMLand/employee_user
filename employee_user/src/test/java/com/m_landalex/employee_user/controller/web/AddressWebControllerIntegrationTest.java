@@ -223,4 +223,17 @@ public class AddressWebControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
+	@DisplayName("when service throw NullPointerException exception, then HTTP 200, return view='listaddresses', no models")
+	@Test
+	public void showByCity_Test3() throws Exception {
+		when(service.fetchByCity(anyString())).thenThrow(NullPointerException.class);
+		mockMvc.perform(get("/addresses/showings/city/")
+				.param("city", "a".repeat(100))
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("listaddresses"))
+		.andExpect(model().size(0));
+		verify(service, timeout(1)).fetchByCity(anyString());
+	}
+	
 }
