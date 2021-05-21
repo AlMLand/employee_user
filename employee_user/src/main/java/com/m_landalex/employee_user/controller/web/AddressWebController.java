@@ -1,6 +1,7 @@
 package com.m_landalex.employee_user.controller.web;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -59,7 +60,12 @@ public class AddressWebController {
 	
 	@GetMapping(value = "/showings/city")
 	public String showByCity(@RequestParam(name = "city") String city, Model model) {
-		model.addAttribute("addresses", List.of(service.fetchByCity(StringUtils.capitalize(city.toLowerCase()).trim())));
+		try {
+			model.addAttribute("addresses",
+					List.of(service.fetchByCity(StringUtils.capitalize(city.toLowerCase()).trim())));
+		} catch (NoSuchElementException | NullPointerException e) {
+			return "listaddresses";
+		}
 		return "listaddresses";
 	}
 	
