@@ -182,9 +182,16 @@ public class EmployeeWebControllerIntegrationTest {
 		.andExpect(view().name("formationorupdate"))
 		.andExpect(model().attributeExists("employee"))
 		.andExpect(model().hasNoErrors())
-		.andExpect(model().attributeDoesNotExist("firstName", "lastName", "birthDate", "age", "salary", "email.email",
-				"addressData.street", "addressData.houseNumber", "addressData.city", "userData.username", "userData.password",
-				"userData.userRoles"));
+		.andExpect(model().attribute("employee", hasProperty("firstName", is(nullValue()))))
+		.andExpect(model().attribute("employee", hasProperty("lastName", is(nullValue()))))
+		.andExpect(model().attribute("employee", hasProperty("birthDate", is(nullValue()))))
+		.andExpect(model().attribute("employee", hasProperty("age", is(0))))
+		.andExpect(model().attribute("employee", hasProperty("salary", is(nullValue()))))
+		.andExpect(model().attribute("employee", hasProperty("email", is(Email.builder().email(null).build()))))
+		.andExpect(model().attribute("employee", hasProperty("addressData", 
+				is(Address.builder().street(null).houseNumber(0).city(null).postCode(null).build()))))
+		.andExpect(model().attribute("employee", hasProperty("userData", 
+				is(User.builder().username(null).password(null).userRoles(List.of()).build()))));
 		verifyNoInteractions(service);
 	}
 	
