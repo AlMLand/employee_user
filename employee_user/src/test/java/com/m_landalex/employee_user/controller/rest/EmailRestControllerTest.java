@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
@@ -56,13 +57,13 @@ public class EmailRestControllerTest {
 		assertEquals("Test_2@test.com", returnedEmail.getEmail());
 	}
 	
-	@DisplayName("should throw AsyncXAResourcesException.class")
+	@DisplayName("when AsyncXAResourcesException.class, then throw ResponseStatusException.class")
 	@Test
-	public void create_ShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
+	public void create_Test2() throws AsyncXAResourcesException {
 		Email email = null;
 		when(service.save(email)).thenThrow(AsyncXAResourcesException.class);
 		
-		assertThrows(AsyncXAResourcesException.class, () -> {controller.create(email);});
+		assertThrows(ResponseStatusException.class, () -> {controller.create(email);});
 	}
 	
 	@DisplayName("should return list with size 1")
