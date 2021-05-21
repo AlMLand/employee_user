@@ -1,6 +1,7 @@
 package com.m_landalex.employee_user.controller.web;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -58,7 +59,11 @@ public class UserWebController {
 	
 	@GetMapping(value = "/showings/id")
 	public String showById(@RequestParam(name = "id") String id, Model model) {
-		model.addAttribute("users", List.of(service.fetchById(Long.valueOf(id))));
+		try {
+			model.addAttribute("users", List.of(service.fetchById(Long.valueOf(id))));
+		} catch (NoSuchElementException e) {
+			return "listusers";
+		}
 		return "listusers";
 	}
 	
