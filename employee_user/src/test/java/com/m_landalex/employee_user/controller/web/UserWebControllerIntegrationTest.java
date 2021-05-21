@@ -1,18 +1,16 @@
 package com.m_landalex.employee_user.controller.web;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.hamcrest.Matchers.hasProperty;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
 
@@ -116,6 +114,84 @@ public class UserWebControllerIntegrationTest {
 				.param("userRoles", user.getUserRoles().toString())
 				.with(csrf()))
 		.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when employee HTTP status 200, then add model and render view")
+	@Test
+	public void updateById_Test1() throws Exception {
+		when(service.fetchById(anyLong())).thenReturn(user);
+		mockMvc.perform(get("/users/updatings/{id}", Long.valueOf(1))
+				.with(user("TESTER")))
+		.andExpect(view().name("usercreate"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attribute("user", hasProperty("username", is(user.getUsername()))))
+		.andExpect(model().attribute("user", hasProperty("password", is(user.getPassword()))))
+		.andExpect(model().attribute("user", hasProperty("userRoles", is(user.getUserRoles()))));
+		verify(service, timeout(1)).fetchById(anyLong());
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test
+	public void updateById_Test2() throws Exception {
+		mockMvc.perform(get("/users/updatings/{id}", Long.valueOf(1)))
+				.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when HTTP status 200, then add to model 1 User==user and render view 'listusers'")
+	@Test
+	public void showAll_Test1() throws Exception {
+		when(service.fetchAll()).thenReturn(List.of(user));
+		mockMvc.perform(get("/users/showings/")
+				.with(user("TESTER")))
+		.andExpect(view().name("listusers"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attributeExists("users"))
+		.andExpect(model().attribute("users", hasItem(
+				allOf(
+						hasProperty("username", is(user.getUsername())),
+						hasProperty("password", is(user.getPassword())),
+						hasProperty("userRoles", is(user.getUserRoles()))
+						)
+				)));
+		verify(service, timeout(1)).fetchAll();
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test
+	public void showAll_Test2() throws Exception {
+		mockMvc.perform(get("/users/showings/"))
+				.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when employee HTTP status 200, then add model and render view")
+	@Test
+	public void showById_Test1() throws Exception {
+		when(service.fetchById(anyLong())).thenReturn(user);
+		mockMvc.perform(get("/users/showings/id")
+				.param("id", Long.valueOf(1).toString())
+				.with(user("TESTER")))
+		.andExpect(view().name("listusers"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attributeExists("users"))
+		.andExpect(model().attribute("users", hasItem(
+				allOf(
+						hasProperty("username", is(user.getUsername())),
+						hasProperty("password", is(user.getPassword())),
+						hasProperty("userRoles", is(user.getUserRoles()))
+						)
+				)));
+		verify(service, timeout(1)).fetchById(anyLong());
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
+	@Test
+	public void showById_Test2() throws Exception {
+		mockMvc.perform(get("/users/showings/{id}", Long.valueOf(1)))
+				.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
 	}
 	
