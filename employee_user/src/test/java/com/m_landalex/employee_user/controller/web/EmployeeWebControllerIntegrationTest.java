@@ -37,6 +37,7 @@ import com.m_landalex.employee_user.data.Email;
 import com.m_landalex.employee_user.data.Employee;
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.EmployeeService;
 
 @ExtendWith(SpringExtension.class)
@@ -152,7 +153,7 @@ public class EmployeeWebControllerIntegrationTest {
 	
 	@DisplayName("when not authorized user, then return status HTTP 401 - unauthorized, verifying security")
 	@Test
-	public void save_Test() throws Exception {
+	public void save_Test3() throws Exception {
 		mockMvc.perform(post("/employees/")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("firstName", employee.getFirstName())
@@ -171,6 +172,31 @@ public class EmployeeWebControllerIntegrationTest {
 				.with(csrf()))
 		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when service throw AsyncXAResourcesException.class, then controller throw ResponseStatusException.class")
+	@Test
+	public void save_Test4() throws Exception {
+		when(service.save(any(Employee.class))).thenThrow(AsyncXAResourcesException.class);
+		mockMvc.perform(post("/employees/")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", employee.getFirstName())
+				.param("lastName", employee.getLastName())
+				.param("birthDate", employee.getBirthDate().toString())
+				.param("age", Integer.valueOf(employee.getAge()).toString())
+				.param("salary", employee.getSalary().toString())
+				.param("email.email", employee.getEmail().getEmail())
+				.param("addressData.street", employee.getAddressData().getStreet())
+				.param("addressData.houseNumber", Integer.valueOf(employee.getAddressData().getHouseNumber()).toString())
+				.param("addressData.city", employee.getAddressData().getCity())
+				.param("addressData.postCode", employee.getAddressData().getPostCode())
+				.param("userData.username", employee.getUserData().getUsername())
+				.param("userData.password", employee.getUserData().getPassword())
+				.param("userData.userRoles", employee.getUserData().getUserRoles().toString())
+				.with(user("TESTER"))
+				.with(csrf()))
+		.andExpect(status().isBadRequest());
+		verify(service, timeout(1)).save(any(Employee.class));
 	}
 	
 	@DisplayName("when status HTTP 200, then return blank model 'employee' without attributes")

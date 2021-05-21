@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.UserService;
 
 @ExtendWith(SpringExtension.class)
@@ -115,6 +116,20 @@ public class UserWebControllerIntegrationTest {
 				.with(csrf()))
 		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when service throw AsyncXAResourcesException.class, then controller throw ResponseStatusException.class")
+	@Test
+	public void save_Test4() throws Exception {
+		when(service.save(any(User.class))).thenThrow(AsyncXAResourcesException.class);
+		mockMvc.perform(post("/users/")
+				.param("username", user.getUsername())
+				.param("password", user.getPassword())
+				.param("userRoles", user.getUserRoles().toString())
+				.with(user("TESTER"))
+				.with(csrf()))
+		.andExpect(status().isBadRequest());
+		verify(service, timeout(1)).save(any(User.class));
 	}
 	
 	@DisplayName("when employee HTTP status 200, then add model and render view")

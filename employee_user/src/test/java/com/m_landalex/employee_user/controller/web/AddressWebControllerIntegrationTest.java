@@ -24,6 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.m_landalex.employee_user.data.Address;
+import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
 import com.m_landalex.employee_user.service.AddressService;
 
 @ExtendWith(SpringExtension.class)
@@ -117,6 +118,21 @@ public class AddressWebControllerIntegrationTest {
 				.with(csrf()))
 		.andExpect(status().isUnauthorized());
 		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when service throw AsyncXAResourcesException.class, then controller throw ResponseStatusException.class")
+	@Test
+	public void test_Test4() throws Exception {
+		when(service.save(any(Address.class))).thenThrow(AsyncXAResourcesException.class);
+		mockMvc.perform(post("/addresses/")
+				.param("street", address.getStreet())
+				.param("houseNumber", Integer.valueOf(address.getHouseNumber()).toString())
+				.param("city", address.getCity())
+				.param("postCode", address.getPostCode())
+				.with(csrf())
+				.with(user("TESTER")))
+		.andExpect(status().isBadRequest());
+		verify(service, timeout(1)).save(any(Address.class));
 	}
 	
 	@DisplayName("")
