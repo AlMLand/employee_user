@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Role;
 import com.m_landalex.employee_user.data.User;
@@ -59,13 +60,13 @@ public class UserRestControllerTest {
 		assertEquals("Test_2", users.get(1).getUsername());
 	}
 	
-	@DisplayName("should throw AsyncXAResourcesException.class")
+	@DisplayName("when AsyncXAResourcesException.class, then throw ResponseStatusException.class")
 	@Test
-	public void create_ShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
+	public void create_Test2() throws AsyncXAResourcesException {
 		User newUser = null;
 		when(service.save(newUser)).thenThrow(AsyncXAResourcesException.class);
 
-		assertThrows(AsyncXAResourcesException.class, () -> {controller.create(newUser);});
+		assertThrows(ResponseStatusException.class, () -> {controller.create(newUser);});
 	}
 	
 	@DisplayName("should return list with size 1")
