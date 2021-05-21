@@ -119,4 +119,92 @@ public class AddressWebControllerIntegrationTest {
 		verifyNoInteractions(service);
 	}
 	
+	@DisplayName("")
+	@Test
+	public void updateById_Test1() throws Exception {
+		when(service.fetchById(anyLong())).thenReturn(address);
+		mockMvc.perform(get("/addresses/updatings/{id}", Long.valueOf(1))
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("addresscreate"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("address"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attribute("address", hasProperty("street", is(address.getStreet()))))
+		.andExpect(model().attribute("address", hasProperty("houseNumber", is(address.getHouseNumber()))))
+		.andExpect(model().attribute("address", hasProperty("city", is(address.getCity()))))
+		.andExpect(model().attribute("address", hasProperty("postCode", is(address.getPostCode()))));
+		verify(service, timeout(1)).fetchById(anyLong());
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401, verifying security")
+	@Test
+	public void updateById_Test2() throws Exception {
+		mockMvc.perform(get("/addresses/updatings/{id}", Long.valueOf(1)))
+				.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when HTTP status 200, then add to model 1 Address==address and render view 'listaddresses'")
+	@Test
+	public void showAll_Test1() throws Exception {
+		when(service.fetchAll()).thenReturn(List.of(address));
+		mockMvc.perform(get("/addresses/showings/")
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("listaddresses"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("addresses"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attribute("addresses", hasItem(
+				allOf(
+						hasProperty("street", is(address.getStreet())),
+						hasProperty("houseNumber", is(address.getHouseNumber())),
+						hasProperty("city", is(address.getCity())),
+						hasProperty("postCode", is(address.getPostCode()))
+						)
+				)));
+		verify(service, timeout(1)).fetchAll();
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401, verifying security")
+	@Test
+	public void showAll_Test2() throws Exception {
+		mockMvc.perform(get("/addresses/showings/"))
+				.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
+	@DisplayName("when employee HTTP status 200, then add model, objetc==address and render view")
+	@Test
+	public void showByCity_Test1() throws Exception {
+		when(service.fetchByCity(anyString())).thenReturn(address);
+		mockMvc.perform(get("/addresses/showings/city/")
+				.param("city", address.getCity())
+				.with(user("TESTER")))
+		.andExpect(status().isOk())
+		.andExpect(view().name("listaddresses"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("addresses"))
+		.andExpect(model().hasNoErrors())
+		.andExpect(model().attribute("addresses", hasItem(
+				allOf(
+						hasProperty("street", is(address.getStreet())),
+						hasProperty("houseNumber", is(address.getHouseNumber())),
+						hasProperty("city", is(address.getCity())),
+						hasProperty("postCode", is(address.getPostCode()))
+						)
+				)));
+		verify(service, timeout(1)).fetchByCity(anyString());
+	}
+	
+	@DisplayName("when not authorized user, then return status HTTP 401, verifying security")
+	@Test
+	public void showByCity_Test2() throws Exception {
+		mockMvc.perform(get("/addresses/showings/city/")
+				.param("city", address.getCity()))
+		.andExpect(status().isUnauthorized());
+		verifyNoInteractions(service);
+	}
+	
 }
