@@ -34,7 +34,6 @@ public class EmployeeWebController {
 	@PostMapping(value = "/")
 	public String save(@Valid @ModelAttribute Employee employee, BindingResult result, Model model) throws AsyncXAResourcesException {
 		if(result.hasErrors()) {
-			model.addAttribute("employee", employee);
 			return "formationorupdate";
 		}
 		Employee newEmployee = service.save(employee);
