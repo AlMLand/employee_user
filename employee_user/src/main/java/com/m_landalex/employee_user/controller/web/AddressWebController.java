@@ -30,7 +30,6 @@ public class AddressWebController {
 	@PostMapping(value = "/")
 	public String save(@Valid @ModelAttribute Address address, BindingResult result, Model model) throws AsyncXAResourcesException {
 		if(result.hasErrors()) {
-			model.addAttribute("address", address);
 			return "addresscreate";
 		}
 		service.save(address);
