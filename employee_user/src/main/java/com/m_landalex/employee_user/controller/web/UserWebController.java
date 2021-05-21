@@ -29,7 +29,6 @@ public class UserWebController {
 	@PostMapping(value = "/")
 	public String save(@Valid @ModelAttribute User user, BindingResult result, Model model) throws AsyncXAResourcesException {
 		if(result.hasErrors()) {
-			model.addAttribute("user", user);
 			return "usercreate";
 		}
 		service.save(user);
