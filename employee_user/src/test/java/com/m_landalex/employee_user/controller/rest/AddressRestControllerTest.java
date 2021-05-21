@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Address;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
@@ -62,13 +63,13 @@ public class AddressRestControllerTest {
 		assertEquals("TEST_street_2", returnedAddress.getStreet());
 	}
 
-	@DisplayName("should throw AsyncXAResourcesException.class")
+	@DisplayName("when AsyncXAResourcesException.class, then throw ResponseStatusException.class")
 	@Test
-	public void create_ShouldThrowRuntimeExceptionTest() throws AsyncXAResourcesException {
+	public void create_Test2() throws AsyncXAResourcesException {
 		Address newAddress = null;
 		when(service.save(newAddress)).thenThrow(AsyncXAResourcesException.class);
 		
-		assertThrows(AsyncXAResourcesException.class, () -> {controller.create(newAddress);});
+		assertThrows(ResponseStatusException.class, () -> {controller.create(newAddress);});
 	}
 
 	@DisplayName("should return list with size 1")
