@@ -1,7 +1,6 @@
 package com.m_landalex.employee_user.controller.web;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -63,7 +62,7 @@ public class AddressWebController {
 		try {
 			model.addAttribute("addresses",
 					List.of(service.fetchByCity(StringUtils.capitalize(city.toLowerCase()).trim())));
-		} catch (NoSuchElementException | NullPointerException e) {
+		} catch (NullPointerException e) {
 			return "listaddresses";
 		}
 		return "listaddresses";
