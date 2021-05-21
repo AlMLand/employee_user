@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Employee;
 import com.m_landalex.employee_user.exception.AsyncXAResourcesException;
@@ -25,8 +28,13 @@ public class EmployeeRestController {
 	private EmployeeService service;
 
 	@PostMapping(value = "/")
-	public Employee create(@Valid @RequestBody Employee employee) throws AsyncXAResourcesException {
-		return service.save(employee);
+	@Transactional(rollbackFor = ResponseStatusException.class)
+	public Employee create(@Valid @RequestBody Employee employee) {
+		try {
+			return service.save(employee);
+		} catch (AsyncXAResourcesException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Object ist not correct", e);
+		}
 	}
 
 	@GetMapping(value = "/")
