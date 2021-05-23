@@ -18,8 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -269,14 +267,7 @@ public class AddressRestControllerIntegrationTest {
 		addresses.add(address);
 		assertEquals(1, addresses.size());
 		
-		doAnswer(new Answer<Address>() {
-
-			@Override
-			public Address answer(InvocationOnMock invocation) throws Throwable {
-				addresses.remove(0);
-				return null;
-			}
-		}).when(service).deleteById(Mockito.anyLong());
+		doAnswer(invocation -> addresses.remove(0)).when(service).deleteById(Mockito.anyLong());
 		
 		mockMvc.perform(delete("/rest/addresses/{id}", Mockito.anyLong()).with(csrf()))
 				.andExpect(status().isOk());

@@ -17,8 +17,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -230,14 +228,7 @@ public class EmailRestControllerIntegrationTest {
 		emails.add(email);
 		assertEquals(1, emails.size());
 		
-		doAnswer(new Answer<Email>() {
-
-			@Override
-			public Email answer(InvocationOnMock invocation) throws Throwable {
-				emails.remove(0);
-				return null;
-			}
-		}).when(service).deleteById(anyLong());
+		doAnswer(invocation -> emails.remove(0)).when(service).deleteById(anyLong());
 		
 		mockMvc.perform(delete("/rest/emails/{id}", Long.valueOf(1)).with(csrf()))
 				.andExpect(status().isOk());
