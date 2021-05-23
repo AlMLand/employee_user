@@ -22,8 +22,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -328,14 +326,7 @@ public class EmployeeWebControllerIntegrationTest {
 		employees.add(employee);
 		assertEquals(1, employees.size());
 		
-		doAnswer(new Answer<Employee>() {
-
-			@Override
-			public Employee answer(InvocationOnMock invocation) throws Throwable {
-				employees.remove(0);
-				return null;
-			}
-		}).when(service).deleteById(anyLong());
+		doAnswer(invocation -> employees.remove(0)).when(service).deleteById(anyLong());
 		
 		mockMvc.perform(get("/employees/remove/{id}", Long.valueOf(1))
 				.with(user("TESTER")))
