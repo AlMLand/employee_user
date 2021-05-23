@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Role;
@@ -45,14 +43,7 @@ public class UserRestControllerTest {
 	public void create_Test() throws AsyncXAResourcesException {
 		User newUser = User.builder().username("Test_2").password("Test_2")
 				.userRoles(List.of(Role.builder().role("ADMINISTRATION").build())).build();
-		when(service.save(newUser)).thenAnswer(new Answer<User>() {
-
-			@Override
-			public User answer(InvocationOnMock invocation) throws Throwable {
-				users.add(newUser);
-				return newUser;
-			}
-		});
+		when(service.save(newUser)).thenAnswer(invocation -> {users.add(newUser); return newUser;});
 		User returnedUser = controller.create(newUser);
 		
 		assertNotNull(returnedUser);

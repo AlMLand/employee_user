@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Email;
@@ -42,14 +40,10 @@ public class EmailRestControllerTest {
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
 		Email newEmail = Email.builder().email("Test_2@test.com").build();
-		when(service.save(newEmail)).thenAnswer(new Answer<Email>() {
-
-			@Override
-			public Email answer(InvocationOnMock invocation) throws Throwable {
+		when(service.save(newEmail)).thenAnswer(invocation -> {
 				emails.add(newEmail);
 				return newEmail;
-			}
-		});
+			});
 		Email returnedEmail = controller.create(newEmail);
 		
 		assertNotNull(returnedEmail);
@@ -89,14 +83,7 @@ public class EmailRestControllerTest {
 	@DisplayName("should return list with size 0")
 	@Test
 	public void deleteStandingAloneById_Test() {
-		doAnswer(new Answer<Email>() {
-
-			@Override
-			public Email answer(InvocationOnMock invocation) throws Throwable {
-				emails.remove(0);
-				return null;
-			}
-		}).when(service).deleteById(anyLong());
+		doAnswer(invocation -> emails.remove(0)).when(service).deleteById(anyLong());
 		
 		controller.deleteStandingAloneById(anyLong());
 		

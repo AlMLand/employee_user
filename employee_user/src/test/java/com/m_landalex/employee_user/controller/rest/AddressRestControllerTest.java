@@ -1,11 +1,8 @@
 package com.m_landalex.employee_user.controller.rest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Address;
@@ -48,16 +43,12 @@ public class AddressRestControllerTest {
 	public void create_Test() throws AsyncXAResourcesException {
 		Address newAddress = Address.builder().street("TEST_street_2").houseNumber(20).city("TEST_city_2")
 				.postCode("22222").build();
-		when(service.save(newAddress)).thenAnswer(new Answer<Address>() {
-
-			@Override
-			public Address answer(InvocationOnMock invocation) throws Throwable {
-				addresses.add(newAddress);
-				return newAddress;
-			}
+		when(service.save(newAddress)).thenAnswer(invocation -> {
+			addresses.add(newAddress);
+			return newAddress;
 		});
 		Address returnedAddress = controller.create(newAddress);
-		
+
 		assertNotNull(returnedAddress);
 		assertEquals(2, addresses.size());
 		assertEquals("TEST_street_2", returnedAddress.getStreet());
@@ -94,18 +85,11 @@ public class AddressRestControllerTest {
 		assertEquals("11111", returnedAddress.getPostCode());
 		assertEquals("TEST_street_1", returnedAddress.getStreet());
 	}
-
+	
 	@DisplayName("should return list with size 0")
 	@Test
 	public void deleteStandingAloneById_Test() {
-		doAnswer(new Answer<Address>() {
-
-			@Override
-			public Address answer(InvocationOnMock invocation) throws Throwable {
-				addresses.remove(0);
-				return null;
-			}
-		}).when(service).deleteById(anyLong());
+		doAnswer(invocation -> addresses.remove(0)).when(service).deleteById(anyLong());
 		
 		controller.deleteStandingAloneById(anyLong());
 		

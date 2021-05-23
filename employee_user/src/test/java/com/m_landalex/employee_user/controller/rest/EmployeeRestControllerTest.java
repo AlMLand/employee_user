@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Address;
@@ -59,14 +57,10 @@ public class EmployeeRestControllerTest {
 				.userData(User.builder().username("C_C_C").password("D_D_D")
 						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
 				.build();
-		
-		when(service.save(employee2)).thenAnswer(new Answer<Employee>() {
 
-			@Override
-			public Employee answer(InvocationOnMock invocation) throws Throwable {
-				employees.add(employee2);
-				return employee2;
-			}
+		when(service.save(employee2)).thenAnswer(invocation -> {
+			employees.add(employee2);
+			return employee2;
 		});
 		Employee returnedEmployee = controller.create(employee2);
 		assertNotNull(employees);
@@ -95,14 +89,7 @@ public class EmployeeRestControllerTest {
 	@DisplayName("should return list with size 0")
 	@Test
 	public void deleteAllTest() {
-		doAnswer(new Answer<Employee>() {
-
-			@Override
-			public Employee answer(InvocationOnMock invocation) throws Throwable {
-				employees.clear();
-				return null;
-			}
-		}).when(service).deleteAll();
+		doAnswer(invocation -> {employees.clear(); return null;}).when(service).deleteAll();
 		controller.deleteAll();
 		
 		assertNotNull(employees);
@@ -130,14 +117,7 @@ public class EmployeeRestControllerTest {
 	@DisplayName("should return list with size 0")
 	@Test
 	public void deleteByIdTest() {
-		doAnswer(new Answer<Employee>() {
-
-			@Override
-			public Employee answer(InvocationOnMock invocation) throws Throwable {
-				employees.remove(0);
-				return null;
-			}
-		}).when(service).deleteById(anyLong());
+		doAnswer(invocation -> employees.remove(0)).when(service).deleteById(anyLong());
 		controller.deleteById(anyLong());
 		
 		assertNotNull(employees);

@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.m_landalex.employee_user.data.Role;
@@ -43,14 +41,7 @@ public class RoleRestControllerTest {
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
 		Role role2 = Role.builder().role("TESTER2").build();
-		when(service.save(role2)).thenAnswer(new Answer<Role>() {
-
-			@Override
-			public Role answer(InvocationOnMock invocation) throws Throwable {
-				roles.add(role2);
-				return role2;
-			}
-		});
+		when(service.save(role2)).thenAnswer(invokation -> {roles.add(role2); return role2;});
 		
 		Role returnedRole = controller.create(role2);
 		
