@@ -1,7 +1,6 @@
 package com.m_landalex.employee_user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -49,7 +48,7 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("should return all(1) employees")
 	@Test
 	public void fetchAllTest() {
-		List<Employee> returnedList = employeeService.fetchAll();
+		var returnedList = employeeService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
 	}
@@ -64,7 +63,7 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("should save one employee and return 2 employees")
 	@Test
 	public void save_Test() throws AsyncXAResourcesException {
-		Employee newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname")
+		var newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname")
 				.birthDate(LocalDate.of(2000, 01, 01)).age(99)
 				.salary(new BigDecimal(999.99d)).email(Email.builder().email("test@mail.com").build())
 				.addressData(Address.builder().street("test_new_street").houseNumber(99).city("test_new_city")
@@ -74,7 +73,7 @@ public class EmployeeServiceIntegrationTest {
 				.build();
 		employeeService.save(newEmployee);
 
-		List<Employee> returnedList = employeeService.fetchAll();
+		var returnedList = employeeService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
 		assertEquals("test_new_firstname", returnedList.get(1).getFirstName());
@@ -90,7 +89,7 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("schould return quantity all employees")
 	@Test
 	public void countAll_Test() {
-		long returnedCount = employeeService.countAll();
+		var returnedCount = employeeService.countAll();
 		assertNotNull(returnedCount);
 		assertEquals(1, returnedCount);
 	}
@@ -105,7 +104,7 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("schould return employee by id 1L")
 	@Test
 	public void fetchById_Test() {
-		Employee returnedEmployee = employeeService.fetchById(1L);
+		var returnedEmployee = employeeService.fetchById(1L);
 		assertNotNull(returnedEmployee);
 		assertEquals("test_firstname", returnedEmployee.getFirstName());
 		assertEquals("test@mail.com", returnedEmployee.getEmail().getEmail());
@@ -121,11 +120,11 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("schould return employee by lastname")
 	@Test
 	public void fetchByLastName_Test() {
-		List<Employee> returnedList = employeeService.fetchByLastName("test_lastname");
+		var returnedList = employeeService.fetchByLastName("test_lastname");
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
 
-		Employee returnedEmployee = returnedList.get(0);
+		var returnedEmployee = returnedList.get(0);
 		assertNotNull(returnedEmployee);
 		assertEquals("test_lastname", returnedEmployee.getLastName());
 		assertEquals("test@mail.com", returnedEmployee.getEmail().getEmail());
@@ -143,7 +142,7 @@ public class EmployeeServiceIntegrationTest {
 	public void deleteById_Test() {
 		employeeService.deleteById(1L);
 
-		List<Employee> returnedList = employeeService.fetchAll();
+		var returnedList = employeeService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(0, returnedList.size());
 	}
@@ -160,7 +159,7 @@ public class EmployeeServiceIntegrationTest {
 	public void deleteAll_Test() {
 		employeeService.deleteAll();
 
-		List<Employee> returnedList = employeeService.fetchAll();
+		var returnedList = employeeService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(0, returnedList.size());
 	}
@@ -175,7 +174,7 @@ public class EmployeeServiceIntegrationTest {
 	@DisplayName("schould return new employee with age of 21")
 	@Test
 	public void autoUpdateAge_Test() throws AsyncXAResourcesException {
-		Employee newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname")
+		var newEmployee = Employee.builder().firstName("test_new_firstname").lastName("test_new_lastname")
 				.birthDate(LocalDate.of(2000, 01, 01)).age(18)
 				.salary(new BigDecimal(999.99d)).email(Email.builder().email("test@mail.com").build())
 				.addressData(Address.builder().street("test_new_street").houseNumber(99).city("test_new_city")
@@ -186,7 +185,7 @@ public class EmployeeServiceIntegrationTest {
 		
 		employeeService.save(newEmployee);
 		employeeService.autoUpdateAge();
-		Employee returnedEmployee = employeeService.fetchById(Long.valueOf(2));
+		var returnedEmployee = employeeService.fetchById(Long.valueOf(2));
 		
 		assertNotNull(returnedEmployee);
 		assertEquals("test_new_firstname", newEmployee.getFirstName());

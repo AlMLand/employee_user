@@ -1,9 +1,6 @@
 package com.m_landalex.employee_user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,7 +42,7 @@ public class RoleServiceIntegrationTest {
 	@Test
 	public void save_Test() throws AsyncXAResourcesException {
 		service.save(Role.builder().role(null).build());
-		List<Role> returnedList = service.fetchAll();
+		var returnedList = service.fetchAll();
 		
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
@@ -62,7 +59,7 @@ public class RoleServiceIntegrationTest {
 	@DisplayName("should return list with size 1")
 	@Test
 	public void fetchAll_Test() {
-		List<Role> returnedLis = service.fetchAll();
+		var returnedLis = service.fetchAll();
 		
 		assertNotNull(returnedLis);
 		assertEquals(1, returnedLis.size());
@@ -93,7 +90,7 @@ public class RoleServiceIntegrationTest {
 	@DisplayName("should return Role object with role 'DEVELOPMENT'")
 	@Test
 	public void fetchById_Test() {
-		Role returnedRole = service.fetchById(1L);
+		var returnedRole = service.fetchById(1L);
 		
 		assertNotNull(returnedRole);
 		assertEquals(Long.valueOf(1), returnedRole.getId());

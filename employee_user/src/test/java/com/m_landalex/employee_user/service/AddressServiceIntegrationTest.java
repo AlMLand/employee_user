@@ -1,9 +1,6 @@
 package com.m_landalex.employee_user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,10 +40,10 @@ public class AddressServiceIntegrationTest {
 	@DisplayName("test should return list with size 2")
 	@Test
 	public void save_Test() throws AsyncXAResourcesException {
-		Address newAddress = Address.builder().street("test_street").houseNumber(99).city("test_city").postCode("99999")
+		var newAddress = Address.builder().street("test_street").houseNumber(99).city("test_city").postCode("99999")
 				.build();
 		addressService.save(newAddress);
-		List<Address> returnedList = addressService.fetchAll();
+		var returnedList = addressService.fetchAll();
 
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
@@ -62,7 +59,7 @@ public class AddressServiceIntegrationTest {
 	@DisplayName("test should return list with size 1")
 	@Test
 	public void fetchAll_Test() {
-		List<Address> returnList = addressService.fetchAll();
+		var returnList = addressService.fetchAll();
 
 		assertNotNull(returnList);
 		assertEquals(1, returnList.size());
@@ -78,7 +75,7 @@ public class AddressServiceIntegrationTest {
 	@DisplayName("test should return address by id 1L")
 	@Test
 	public void fetchById_Test() {
-		Address returnedAddress = addressService.fetchById(1L);
+		var returnedAddress = addressService.fetchById(1L);
 
 		assertNotNull(returnedAddress);
 		assertEquals("test_city", returnedAddress.getCity());
@@ -95,11 +92,11 @@ public class AddressServiceIntegrationTest {
 	@DisplayName("test should return list with size 1")
 	@Test
 	public void deleteById_Test() throws AsyncXAResourcesException {
-		Address newAddress = Address.builder().street("test_street").houseNumber(99).city("test_city").postCode("99999")
+		var newAddress = Address.builder().street("test_street").houseNumber(99).city("test_city").postCode("99999")
 				.build();
 		addressService.save(newAddress);
 		addressService.deleteById(2L);
-		List<Address> returnedList = addressService.fetchAll();
+		var returnedList = addressService.fetchAll();
 
 		assertNotNull(returnedList);
 		assertEquals(Integer.valueOf(1), returnedList.size());
@@ -115,7 +112,7 @@ public class AddressServiceIntegrationTest {
 	@DisplayName("should return returnedCount=1")
 	@Test
 	public void countAll_Test() {
-		long returnedCount = addressService.countAll();
+		var returnedCount = addressService.countAll();
 		assertEquals(1, returnedCount);
 	}
 	
@@ -129,7 +126,7 @@ public class AddressServiceIntegrationTest {
 	@DisplayName("should return address with id=1, street='test_street', city='test_city', housenumber=10")
 	@Test
 	public void fetchByCity_Test() {
-		Address returnedAddress = addressService.fetchByCity("test_city");
+		var returnedAddress = addressService.fetchByCity("test_city");
 		
 		assertNotNull(returnedAddress);
 		assertEquals(Long.valueOf(1), returnedAddress.getId());

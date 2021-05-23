@@ -1,9 +1,6 @@
 package com.m_landalex.employee_user.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,9 +40,9 @@ public class EmailServiceIntegrationTest {
 	@DisplayName("should return list with size 2")
 	@Test
 	public void save_Test() throws AsyncXAResourcesException {
-		Email newEmail = Email.builder().email("test@mail.com").build();
+		var newEmail = Email.builder().email("test@mail.com").build();
 		emailService.save(newEmail);
-		List<Email> returnedList = emailService.fetchAll();
+		var returnedList = emailService.fetchAll();
 
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
@@ -61,7 +58,7 @@ public class EmailServiceIntegrationTest {
 	@DisplayName("should return list with all addresses = 1")
 	@Test
 	public void fetchAll_Test() {
-		List<Email> returendList = emailService.fetchAll();
+		var returendList = emailService.fetchAll();
 
 		assertNotNull(returendList);
 		assertEquals(1, returendList.size());
@@ -78,7 +75,7 @@ public class EmailServiceIntegrationTest {
 	@DisplayName("should return address by id")
 	@Test
 	public void fetchById_Test() {
-		Email returnedEmail = emailService.fetchById(1L);
+		var returnedEmail = emailService.fetchById(1L);
 
 		assertNotNull(returnedEmail);
 		assertEquals("test@mail.com", returnedEmail.getEmail());
@@ -94,10 +91,10 @@ public class EmailServiceIntegrationTest {
 	@DisplayName("should save the address and delete")
 	@Test
 	public void deleteById_Test() throws AsyncXAResourcesException {
-		Email toDeleteEmail = Email.builder().email("testToDelete@mail.com").build();
+		var toDeleteEmail = Email.builder().email("testToDelete@mail.com").build();
 		emailService.save(toDeleteEmail);
 
-		List<Email> returnedList = emailService.fetchAll();
+		var returnedList = emailService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(Integer.valueOf(2), returnedList.size());
 
@@ -118,7 +115,7 @@ public class EmailServiceIntegrationTest {
 	@DisplayName("should return returnedCount=1")
 	@Test
 	public void countAll_Test() {
-		long returnedCount = emailService.countAll();
+		var returnedCount = emailService.countAll();
 		assertEquals(1, returnedCount);
 	}
 

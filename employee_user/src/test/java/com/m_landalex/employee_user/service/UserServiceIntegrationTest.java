@@ -44,7 +44,7 @@ public class UserServiceIntegrationTest {
 	@DisplayName("Should return all users")
 	@Test
 	public void fetchAll_Test() {
-		List<User> returnedList = userService.fetchAll();
+		var returnedList = userService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
 	}
@@ -59,7 +59,7 @@ public class UserServiceIntegrationTest {
 	@DisplayName("Should return one user by Id")
 	@Test
 	public void fetchById_Test() {
-		User returnedUser = userService.fetchById(1L);
+		var returnedUser = userService.fetchById(1L);
 		assertNotNull(returnedUser);
 		assertEquals("test_username", returnedUser.getUsername());
 	}
@@ -74,10 +74,10 @@ public class UserServiceIntegrationTest {
 	@DisplayName("Should save new user and return two users")
 	@Test
 	public void save_Test() throws AsyncXAResourcesException {
-		User newUser = User.builder().username("test_save_new_user_username").password("test_save_new_user_password")
+		var newUser = User.builder().username("test_save_new_user_username").password("test_save_new_user_password")
 				.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build();
 		userService.save(newUser);
-		List<User> returnedList = userService.fetchAll();
+		var returnedList = userService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
 	}
@@ -92,7 +92,7 @@ public class UserServiceIntegrationTest {
 	@DisplayName("Should return quantity all users")
 	@Test
 	public void countAll_Test() {
-		Long returnedCount = userService.countAll();
+		var returnedCount = userService.countAll();
 		assertNotNull(returnedCount);
 		assertEquals(1, returnedCount);
 	}
@@ -107,7 +107,7 @@ public class UserServiceIntegrationTest {
 	@DisplayName("Should return user with username 'test_username'")
 	@Test
 	public void fetchUserByUsername_Test() {
-		User returnedUser = userService.fetchUserByUsername("test_username");
+		var returnedUser = userService.fetchUserByUsername("test_username");
 		
 		assertNotNull(returnedUser);
 		assertEquals("test_username", returnedUser.getUsername());
