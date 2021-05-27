@@ -30,7 +30,7 @@ public class EmailRestControllerTest {
 	
 	@BeforeEach
 	public void setUp() {
-		Email email = Email.builder().email("Test_1@test.com").build();
+		var email = Email.builder().email("Test_1@test.com").build();
 		email.setId(1L);
 		emails = new ArrayList<>();
 		emails.add(email);
@@ -39,12 +39,9 @@ public class EmailRestControllerTest {
 	@DisplayName("should return list with size 2 and email with email='Test_2@test.com'")
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
-		Email newEmail = Email.builder().email("Test_2@test.com").build();
-		when(service.save(newEmail)).thenAnswer(invocation -> {
-				emails.add(newEmail);
-				return newEmail;
-			});
-		Email returnedEmail = controller.create(newEmail);
+		var newEmail = Email.builder().email("Test_2@test.com").build();
+		when(service.save(newEmail)).thenAnswer(invocation -> {emails.add(newEmail); return newEmail;});
+		var returnedEmail = controller.create(newEmail);
 		
 		assertNotNull(returnedEmail);
 		assertEquals(2, emails.size());
@@ -64,7 +61,7 @@ public class EmailRestControllerTest {
 	@Test
 	public void list_Test() {
 		when(service.fetchAll()).thenReturn(emails);
-		List<Email> returnedList = controller.list();
+		var returnedList = controller.list();
 		
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
@@ -74,7 +71,7 @@ public class EmailRestControllerTest {
 	@Test
 	public void findById_Test() {
 		when(service.fetchById(anyLong())).thenReturn(emails.get(0));
-		Email returnedEmail = controller.findById(anyLong());
+		var returnedEmail = controller.findById(anyLong());
 		
 		assertNotNull(returnedEmail);
 		assertEquals("Test_1@test.com", returnedEmail.getEmail());

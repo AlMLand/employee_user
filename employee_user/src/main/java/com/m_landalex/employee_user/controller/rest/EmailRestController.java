@@ -1,6 +1,6 @@
 package com.m_landalex.employee_user.controller.rest;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -39,7 +39,7 @@ public class EmailRestController {
 	}
 	
 	@GetMapping(value = "/")
-	public List<Email> list(){
+	public Collection<Email> list(){
 		return service.fetchAll();
 	}
 	

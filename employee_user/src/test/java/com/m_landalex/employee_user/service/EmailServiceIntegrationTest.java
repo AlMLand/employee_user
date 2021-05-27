@@ -62,7 +62,7 @@ public class EmailServiceIntegrationTest {
 
 		assertNotNull(returendList);
 		assertEquals(1, returendList.size());
-		assertEquals("test@mail.com", returendList.get(0).getEmail());
+		assertEquals("test@mail.com", returendList.stream().findFirst().get().getEmail());
 	}
 
 	@SqlGroup({

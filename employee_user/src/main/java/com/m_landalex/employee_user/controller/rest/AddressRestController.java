@@ -1,6 +1,6 @@
 package com.m_landalex.employee_user.controller.rest;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -38,7 +38,7 @@ public class AddressRestController {
 	}
 
 	@GetMapping(value = "/")
-	public List<Address> list() {
+	public Collection<Address> list() {
 		return service.fetchAll();
 	}
 

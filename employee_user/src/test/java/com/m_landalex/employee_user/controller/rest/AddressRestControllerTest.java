@@ -41,13 +41,13 @@ public class AddressRestControllerTest {
 	@DisplayName("should return list with size 2 and address with street='TEST_street_2'")
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
-		Address newAddress = Address.builder().street("TEST_street_2").houseNumber(20).city("TEST_city_2")
+		var newAddress = Address.builder().street("TEST_street_2").houseNumber(20).city("TEST_city_2")
 				.postCode("22222").build();
 		when(service.save(newAddress)).thenAnswer(invocation -> {
 			addresses.add(newAddress);
 			return newAddress;
 		});
-		Address returnedAddress = controller.create(newAddress);
+		var returnedAddress = controller.create(newAddress);
 
 		assertNotNull(returnedAddress);
 		assertEquals(2, addresses.size());
@@ -67,7 +67,7 @@ public class AddressRestControllerTest {
 	@Test
 	public void list_Test() {
 		when(service.fetchAll()).thenReturn(addresses);
-		List<Address> returnList = controller.list();
+		var returnList = controller.list();
 		
 		assertNotNull(returnList);
 		assertEquals(1, returnList.size());
@@ -77,7 +77,7 @@ public class AddressRestControllerTest {
 	@Test
 	public void findByIdT_est() {
 		when(service.fetchById(anyLong())).thenReturn(addresses.get(0));
-		Address returnedAddress = controller.findById(anyLong());
+		var returnedAddress = controller.findById(anyLong());
 		
 		assertNotNull(returnedAddress);
 		assertEquals("TEST_city_1", returnedAddress.getCity());

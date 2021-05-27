@@ -1,6 +1,6 @@
 package com.m_landalex.employee_user.mapper;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.m_landalex.employee_user.data.AbstractObject;
 import com.m_landalex.employee_user.domain.AbstractEntity;
@@ -11,6 +11,6 @@ public interface Mapper<S extends AbstractEntity, D extends AbstractObject> {
 
 	D toObject(S entity);
 
-	List<D> toObjectList(List<S> entityList);
+	Collection<D> toObjectList(Collection<S> entityList);
 
 }

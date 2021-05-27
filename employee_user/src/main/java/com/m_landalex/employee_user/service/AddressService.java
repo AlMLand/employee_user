@@ -1,6 +1,6 @@
 package com.m_landalex.employee_user.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class AddressService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Address> fetchAll() {
+	public Collection<Address> fetchAll() {
 		return mapper.toObjectList(repository.findAll());
 	}
 

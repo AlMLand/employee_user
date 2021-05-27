@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,7 +77,7 @@ public class EmployeeServiceIntegrationTest {
 		var returnedList = employeeService.fetchAll();
 		assertNotNull(returnedList);
 		assertEquals(2, returnedList.size());
-		assertEquals("test_new_firstname", returnedList.get(1).getFirstName());
+		assertEquals("test_new_firstname", returnedList.stream().collect(Collectors.toList()).get(1).getFirstName());
 	}
 
 	@SqlGroup({
@@ -124,7 +125,7 @@ public class EmployeeServiceIntegrationTest {
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
 
-		var returnedEmployee = returnedList.get(0);
+		var returnedEmployee = returnedList.stream().collect(Collectors.toList()).get(0);
 		assertNotNull(returnedEmployee);
 		assertEquals("test_lastname", returnedEmployee.getLastName());
 		assertEquals("test@mail.com", returnedEmployee.getEmail().getEmail());

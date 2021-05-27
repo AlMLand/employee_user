@@ -35,7 +35,7 @@ public class EmployeeRestControllerTest {
 	
 	@BeforeEach
 	public void setUp() {
-		Employee employee = Employee.builder().firstName("Test_firstName_1").lastName("Test_lastName_1").age(100)
+		var employee = Employee.builder().firstName("Test_firstName_1").lastName("Test_lastName_1").age(100)
 				.salary(new BigDecimal(5000.00d)).email(Email.builder().email("test_1@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_1").houseNumber(10).city("Test_city_1")
 						.postCode("12345").build())
@@ -50,7 +50,7 @@ public class EmployeeRestControllerTest {
 	@DisplayName("should return list with size 2 and emloyee with firstname='Test_firstName_2'")
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
-		Employee employee2 = Employee.builder().firstName("Test_firstName_2").lastName("Test_lastName_2").age(100)
+		var employee2 = Employee.builder().firstName("Test_firstName_2").lastName("Test_lastName_2").age(100)
 				.salary(new BigDecimal(5000.00d)).email(Email.builder().email("test_2@googlemail.com").build())
 				.addressData(Address.builder().street("Test_street_2").houseNumber(10).city("Test_city_2")
 						.postCode("12345").build())
@@ -58,11 +58,8 @@ public class EmployeeRestControllerTest {
 						.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build())
 				.build();
 
-		when(service.save(employee2)).thenAnswer(invocation -> {
-			employees.add(employee2);
-			return employee2;
-		});
-		Employee returnedEmployee = controller.create(employee2);
+		when(service.save(employee2)).thenAnswer(invocation -> {employees.add(employee2); return employee2;});
+		var returnedEmployee = controller.create(employee2);
 		assertNotNull(employees);
 		assertEquals(2, employees.size());
 		assertEquals("Test_firstName_2", returnedEmployee.getFirstName());
@@ -80,7 +77,7 @@ public class EmployeeRestControllerTest {
 	@Test
 	public void list_Test() {
 		when(service.fetchAll()).thenReturn(employees);
-		List<Employee> returnedList = controller.list();
+		var returnedList = controller.list();
 		
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
@@ -101,7 +98,7 @@ public class EmployeeRestControllerTest {
 	public void findByIdTest() {
 		when(service.fetchById(anyLong())).thenReturn(employees.get(0));
 		
-		Employee returnedEmployee = controller.findById(Long.valueOf(1));
+		var returnedEmployee = controller.findById(Long.valueOf(1));
 		
 		assertNotNull(returnedEmployee);
 		assertEquals(Long.valueOf(1), returnedEmployee.getId());

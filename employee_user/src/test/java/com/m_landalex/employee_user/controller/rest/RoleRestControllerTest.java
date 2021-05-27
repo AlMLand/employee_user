@@ -40,10 +40,10 @@ public class RoleRestControllerTest {
 	@DisplayName("should return 2 roles")
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
-		Role role2 = Role.builder().role("TESTER2").build();
+		var role2 = Role.builder().role("TESTER2").build();
 		when(service.save(role2)).thenAnswer(invokation -> {roles.add(role2); return role2;});
 		
-		Role returnedRole = controller.create(role2);
+		var returnedRole = controller.create(role2);
 		
 		assertNotNull(returnedRole);
 		assertEquals("TESTER2", returnedRole.getRole());
@@ -63,7 +63,7 @@ public class RoleRestControllerTest {
 	@Test
 	public void list_Test() {
 		when(service.fetchAll()).thenReturn(roles);
-		List<Role> returnedList = controller.list();
+		var returnedList = controller.list();
 		
 		assertNotNull(returnedList);
 		assertEquals(1, returnedList.size());
@@ -73,7 +73,7 @@ public class RoleRestControllerTest {
 	@Test
 	public void findById_Test() {
 		when(service.fetchById(anyLong())).thenReturn(role);
-		Role returnedRole = controller.findById(Long.valueOf(1));
+		var returnedRole = controller.findById(Long.valueOf(1));
 		
 		assertNotNull(returnedRole);
 		assertEquals("TESTER", returnedRole.getRole());

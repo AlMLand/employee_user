@@ -1,7 +1,7 @@
 package com.m_landalex.employee_user.mapper;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -34,7 +34,7 @@ public abstract class AbstractMapper<S extends AbstractEntity, D extends Abstrac
 		return Objects.isNull(entity) ? null : modelMapper.map(entity, dtoClass);
 	}
 
-	public List<D> toObjectList(List<S> entityList) {
+	public Collection<D> toObjectList(Collection<S> entityList) {
 		return Objects.isNull(entityList) ? new ArrayList<>()
 				: entityList.stream().map(entity -> modelMapper.map(entity, dtoClass)).collect(Collectors.toList());
 	}

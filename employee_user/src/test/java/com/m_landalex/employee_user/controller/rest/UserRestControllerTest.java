@@ -31,7 +31,7 @@ public class UserRestControllerTest {
 
 	@BeforeEach
 	public void setUp() {
-		User user = User.builder().username("Test_1").password("Test_1")
+		var user = User.builder().username("Test_1").password("Test_1")
 				.userRoles(List.of(Role.builder().role("DEVELOPMENT").build())).build();
 		user.setId(1L);
 		users = new ArrayList<>();
@@ -41,10 +41,10 @@ public class UserRestControllerTest {
 	@DisplayName("should return list with size 2 and return user with username='Test_2'")
 	@Test
 	public void create_Test() throws AsyncXAResourcesException {
-		User newUser = User.builder().username("Test_2").password("Test_2")
+		var newUser = User.builder().username("Test_2").password("Test_2")
 				.userRoles(List.of(Role.builder().role("ADMINISTRATION").build())).build();
 		when(service.save(newUser)).thenAnswer(invocation -> {users.add(newUser); return newUser;});
-		User returnedUser = controller.create(newUser);
+		var returnedUser = controller.create(newUser);
 		
 		assertNotNull(returnedUser);
 		assertEquals(2, users.size());
@@ -64,7 +64,7 @@ public class UserRestControllerTest {
 	@Test
 	public void list_Test() {
 		when(service.fetchAll()).thenReturn(users);
-		List<User> returnList = controller.list();
+		var returnList = controller.list();
 		
 		assertNotNull(returnList);
 		assertEquals(1, returnList.size());
@@ -74,7 +74,7 @@ public class UserRestControllerTest {
 	@Test
 	public void findById_Test() {
 		when(service.fetchById(anyLong())).thenReturn(users.get(0));
-		User returnedUser = controller.findById(anyLong());
+		var returnedUser = controller.findById(anyLong());
 		
 		assertNotNull(returnedUser);
 		assertEquals("Test_1", returnedUser.getUsername());

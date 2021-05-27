@@ -1,6 +1,6 @@
 package com.m_landalex.employee_user.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<User> fetchAll() {
+	public Collection<User> fetchAll() {
 		return mapper.toObjectList(repository.findAll());
 	}
 

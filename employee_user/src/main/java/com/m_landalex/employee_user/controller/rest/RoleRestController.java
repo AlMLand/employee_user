@@ -1,6 +1,6 @@
 package com.m_landalex.employee_user.controller.rest;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -37,7 +37,7 @@ public class RoleRestController {
 	}
 	
 	@GetMapping(value = "/")
-	public List<Role> list(){
+	public Collection<Role> list(){
 		return service.fetchAll();
 	}
 	

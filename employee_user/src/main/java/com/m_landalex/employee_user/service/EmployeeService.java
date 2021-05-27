@@ -2,7 +2,7 @@ package com.m_landalex.employee_user.service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class EmployeeService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Employee> fetchAll() {
+	public Collection<Employee> fetchAll() {
 		return mapper.toObjectList(repository.findAll());
 	}
 
@@ -61,7 +61,7 @@ public class EmployeeService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Employee> fetchByLastName(String lastName) {
+	public Collection<Employee> fetchByLastName(String lastName) {
 		return mapper.toObjectList(repository.findByLastName(lastName));
 	}
 
