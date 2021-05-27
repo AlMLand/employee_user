@@ -2,7 +2,7 @@ package com.m_landalex.employee_user.service.dbinitialization;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -40,7 +40,7 @@ public class DBInitialization {
 						)
 				.userData(
 						User.builder().username("User1").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
-						.userRoles(List.of(Role.builder().role("OFFICE").build())).build()
+						.userRoles(Set.of(Role.builder().role("OFFICE").build())).build()
 						)
 				.build()
 				);
@@ -56,7 +56,7 @@ public class DBInitialization {
 						)
 				.userData(
 						User.builder().username("User2").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
-						.userRoles(List.of(Role.builder().role("OFFICE_EDITOR").build())).build()
+						.userRoles(Set.of(Role.builder().role("OFFICE_EDITOR").build())).build()
 						)
 				.build()
 				);
@@ -72,7 +72,7 @@ public class DBInitialization {
 						)
 				.userData(
 						User.builder().username("User3").password("$2y$12$BMfUEgfk.NjE.YdT75I9Vu5K5h.tiPG/mveCQnkIkuOZU7Te2Cnta")
-						.userRoles(List.of(Role.builder().role("ADMINISTRATOR").build())).build()
+						.userRoles(Set.of(Role.builder().role("ADMINISTRATOR").build())).build()
 						)
 				.build()
 				);
