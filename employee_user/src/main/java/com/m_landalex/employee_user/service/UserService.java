@@ -1,6 +1,9 @@
 package com.m_landalex.employee_user.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +45,20 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public Collection<User> fetchAll() {
-		return mapper.toObjectList(repository.findAll());
+		Optional<Collection<User>> optional = Optional.of(mapper.toObjectList(repository.findAll()));
+		if(optional.isPresent()) {
+			return optional.stream().flatMap(collection -> collection.stream()).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
 	}
 
 	@Transactional(readOnly = true)
 	public User fetchById(Long id) {
-		return mapper.toObject(repository.findById(id).get());
+		Optional<User> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return new User();
 	}
 
 	@Transactional(propagation = Propagation.NEVER)
@@ -56,7 +67,11 @@ public class UserService {
 	}
 	
 	public User fetchUserByUsername(String username) {
-		return mapper.toObject(repository.findByUsername(username));
+		Optional<User> optional = Optional.of(mapper.toObject(repository.findByUsername(username)));
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return new User();
 	}
 
 }
