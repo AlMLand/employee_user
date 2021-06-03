@@ -3,6 +3,7 @@ package com.m_landalex.employee_user.service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,10 +76,12 @@ public class EmployeeService {
 	
 	@Scheduled(cron = "* 1 * * * *")
 	public void autoUpdateAge() {
-		var employeesInTheDB = fetchAll();
-		employeesInTheDB.stream().forEach(employee -> employee
-				.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears()));
-		employeesInTheDB.stream().forEach(employee -> {
+		Optional<Collection<Employee>> optional = Optional.of(fetchAll());
+		if (optional.isPresent()) {
+			optional.stream().flatMap(collection -> collection.stream()).forEach(
+					employee -> employee.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears()));
+		}
+		optional.stream().flatMap(collection -> collection.stream()).forEach(employee -> {
 			try {
 				save(employee);
 			} catch (AsyncXAResourcesException e) {
