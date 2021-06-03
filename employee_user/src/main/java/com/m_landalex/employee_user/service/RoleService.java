@@ -1,6 +1,8 @@
 package com.m_landalex.employee_user.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,12 @@ public class RoleService {
 	
 	@Transactional(readOnly = true)
 	public Collection<Role> fetchAll() {
-		return mapper.toObjectList(repository.findAll());
+		Optional<Collection<Role>> optional = Optional.of(mapper.toObjectList(repository.findAll()));
+		if(optional.isPresent()) {
+			return optional.stream()
+					.flatMap(collection -> collection.stream()).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+		}
+		return new ArrayList<>();
 	}
 	
 	@Transactional(propagation = Propagation.NEVER)
@@ -49,7 +56,11 @@ public class RoleService {
 	
 	@Transactional(readOnly = true)
 	public Role fetchById(Long id) {
-		return mapper.toObject(repository.findById(id).get());
+		Optional<Role> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return new Role();
 	}
 	
 }
