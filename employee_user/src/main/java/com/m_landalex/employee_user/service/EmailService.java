@@ -1,6 +1,9 @@
 package com.m_landalex.employee_user.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +42,20 @@ public class EmailService {
 	
 	@Transactional(readOnly = true)
 	public Collection<Email> fetchAll() {
-		return mapper.toObjectList(repository.findAll());
+		Optional<Collection<Email>> optional = Optional.of(mapper.toObjectList(repository.findAll()));
+		if(optional.isPresent()) {
+			return optional.stream().flatMap(collection -> collection.stream()).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
 	}
 	
 	@Transactional(readOnly = true)
 	public Email fetchById(Long id) {
-		return mapper.toObject(repository.findById(id).get());
+		Optional<Email> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return new Email();
 	}
 
 	public void deleteById(Long id) {
