@@ -1,6 +1,9 @@
 package com.m_landalex.employee_user.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +42,20 @@ public class AddressService {
 
 	@Transactional(readOnly = true)
 	public Collection<Address> fetchAll() {
-		return mapper.toObjectList(repository.findAll());
+		Optional<Collection<Address>> optional = Optional.of(mapper.toObjectList(repository.findAll()));
+		if(optional.isPresent()) {
+			return optional.stream().flatMap(collection -> collection.stream()).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
 	}
 
 	@Transactional(readOnly = true)
 	public Address fetchById(Long id) {
-		return mapper.toObject(repository.findById(id).get());
+		Optional<Address> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return new Address();
 	}
 
 	/*
@@ -61,7 +72,13 @@ public class AddressService {
 	
 	@Transactional(readOnly = true)
 	public Address fetchByCity(String city) {
-		return mapper.toObject(repository.findByCity(city));
+		Optional<Address> optional = Optional.of(mapper.toObject(repository.findByCity(city)));
+		if(optional.isPresent()) {
+			if(optional.stream().allMatch(address -> address.getCity().compareToIgnoreCase(city) == 0)) {
+				return optional.get();
+			}
+		}
+		return new Address();
 	}
 
 }

@@ -77,9 +77,8 @@ public class EmployeeService {
 	public Collection<Employee> fetchByLastName(String lastName) {
 		Optional<Collection<Employee>> optional = Optional.of(mapper.toObjectList(repository.findByLastName(lastName)));
 		if (optional.isPresent()) {
-			var bool = optional.stream().flatMap(collection -> collection.stream())
-					.allMatch(employee -> employee.getLastName().equals(lastName));
-			if (bool == true) {
+			if (optional.stream().flatMap(collection -> collection.stream())
+					.allMatch(employee -> employee.getLastName().compareToIgnoreCase(lastName) == 0)) {
 				return optional.stream().flatMap(collection -> collection.stream()).collect(Collectors.toList());
 			}
 		}
@@ -98,16 +97,17 @@ public class EmployeeService {
 	public void autoUpdateAge() {
 		Optional<Collection<Employee>> optional = Optional.of(fetchAll());
 		if (optional.isPresent()) {
-			optional.stream().flatMap(collection -> collection.stream()).forEach(
-					employee -> employee.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears()));
+			optional.stream().flatMap(collection -> collection.stream()).map(employee -> {
+				employee.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears());
+				return employee;
+			}).forEach(employee -> {
+				try {
+					save(employee);
+				} catch (AsyncXAResourcesException e) {
+					e.printStackTrace();
+				}
+			});
 		}
-		optional.stream().flatMap(collection -> collection.stream()).forEach(employee -> {
-			try {
-				save(employee);
-			} catch (AsyncXAResourcesException e) {
-				e.printStackTrace();
-			}
-		});
 	}
 
 }
