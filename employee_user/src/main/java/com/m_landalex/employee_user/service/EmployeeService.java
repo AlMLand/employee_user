@@ -55,7 +55,7 @@ public class EmployeeService {
 
 	@Transactional(readOnly = true)
 	public Collection<Employee> fetchAll() {
-		ArrayList<Employee> arrayList = new ArrayList<>();
+		Collection<Employee> arrayList = new ArrayList<>();
 		Optional<Collection<Employee>> optional = Optional.of(mapper.toObjectList(repository.findAll()));
 		if(optional.isPresent()) {
 			arrayList = optional.stream()
