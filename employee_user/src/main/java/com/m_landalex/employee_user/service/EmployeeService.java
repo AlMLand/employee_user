@@ -2,8 +2,10 @@ package com.m_landalex.employee_user.service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +55,35 @@ public class EmployeeService {
 
 	@Transactional(readOnly = true)
 	public Collection<Employee> fetchAll() {
-		return mapper.toObjectList(repository.findAll());
+		ArrayList<Employee> arrayList = new ArrayList<>();
+		Optional<Collection<Employee>> optional = Optional.of(mapper.toObjectList(repository.findAll()));
+		if(optional.isPresent()) {
+			arrayList = optional.stream()
+					.flatMap(collection -> collection.stream()).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+		}
+		return arrayList;
 	}
 
 	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
-		return mapper.toObject(repository.findById(id).get());
+		Optional<Employee> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return new Employee();
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Employee> fetchByLastName(String lastName) {
-		return mapper.toObjectList(repository.findByLastName(lastName));
+		Optional<Collection<Employee>> optional = Optional.of(mapper.toObjectList(repository.findByLastName(lastName)));
+		if (optional.isPresent()) {
+			var bool = optional.stream().flatMap(collection -> collection.stream())
+					.allMatch(employee -> employee.getLastName().equals(lastName));
+			if (bool == true) {
+				return optional.stream().flatMap(collection -> collection.stream()).collect(Collectors.toList());
+			}
+		}
+		return new ArrayList<>();
 	}
 
 	public void deleteById(Long id) {
