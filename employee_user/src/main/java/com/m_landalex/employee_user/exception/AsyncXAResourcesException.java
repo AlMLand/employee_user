@@ -4,15 +4,12 @@ public class AsyncXAResourcesException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private String text;
-
-	public AsyncXAResourcesException(String text) {
-		this.text = text;
+	public AsyncXAResourcesException(String message) {
+		super(message);
 	}
-
-	@Override
-	public String toString() {
-		return "AsyncXAResourcesException [text=" + text + "]";
+	
+	public AsyncXAResourcesException(Exception exception) {
+		super(exception);
 	}
 
 }
