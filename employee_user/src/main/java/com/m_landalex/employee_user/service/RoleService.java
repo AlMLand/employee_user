@@ -34,7 +34,9 @@ public class RoleService {
 			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Role object is null -> method save");
 		}
+		assert role != null : "RoleService.class, method save role is null";
 		Role newRole = mapper.toObject(repository.save(mapper.toEntity(role)));
+		assert newRole != null : "RoleService.class, method save newRole is null";
 		rabbitTemplate.convertAndSend(queueName, "succesful");
 		return newRole;
 	}
@@ -56,6 +58,7 @@ public class RoleService {
 	
 	@Transactional(readOnly = true)
 	public Role fetchById(Long id) {
+		assert id != null : "RoleService.class, method fetchById id is null";
 		Optional<Role> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
 		if(optional.isPresent()) {
 			return optional.get();
