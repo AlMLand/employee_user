@@ -35,7 +35,9 @@ public class EmailService {
 			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Email object is null -> method save");
 		}
+		assert email != null : "EmailService.class, method save email is null";
 		Email newEmail = mapper.toObject(repository.save(mapper.toEntity(email)));
+		assert newEmail != null : "EmailService.class, method save newEmail is null";
 		rabbitTemplate.convertAndSend(queueName, "succesful");
 		return newEmail;
 	}
@@ -51,6 +53,7 @@ public class EmailService {
 	
 	@Transactional(readOnly = true)
 	public Email fetchById(Long id) {
+		assert id != null : "EmailService.class, method fetchById id is null";
 		Optional<Email> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
 		if(optional.isPresent()) {
 			return optional.get();
