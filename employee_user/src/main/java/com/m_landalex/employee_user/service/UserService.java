@@ -37,7 +37,9 @@ public class UserService {
 			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("User object is null -> method save");
 		}
+		assert user != null : "UserService.class, method save user is null";
 		User newUser = mapper.toObject(repository.save(mapper.toEntity(user)));
+		assert newUser != null : "UserService.class, method save newUser is null";
 		rabbitTemplate.convertAndSend(queueName, "succesful");
 		jmsTemplate.convertAndSend("users", "-->User with username " + user.getUsername() + " is saved ");
 		return newUser;
@@ -54,6 +56,7 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public User fetchById(Long id) {
+		assert id != null : "UserService.class, method fetchById id is null";
 		Optional<User> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
 		if(optional.isPresent()) {
 			return optional.get();
@@ -67,6 +70,7 @@ public class UserService {
 	}
 	
 	public User fetchUserByUsername(String username) {
+		assert username != null : "UserService.class, method fetchUserByUsername username is null";
 		Optional<User> optional = Optional.of(mapper.toObject(repository.findByUsername(username)));
 		if(optional.isPresent()) {
 			return optional.get();
