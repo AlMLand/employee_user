@@ -40,7 +40,9 @@ public class EmployeeService {
 			rabbitTemplate.convertAndSend(queueName, "error");
 			throw new AsyncXAResourcesException("Employee object is null -> method save");
 		}
+		assert employee != null : "EmployeeService.class, method save employee is null";
 		Employee newEmployee = mapper.toObject(repository.save(mapper.toEntity(employee)));
+		assert newEmployee != null : "EmployeeService.class, method save newEmployee is null";
 		rabbitTemplate.convertAndSend(queueName, "succesful");
 		jmsTemplate.convertAndSend("employees",
 				"-->Employee with first name " + employee.getFirstName() + ", last name " + employee.getLastName()
@@ -60,21 +62,26 @@ public class EmployeeService {
 		if(optional.isPresent()) {
 			arrayList = optional.stream()
 					.flatMap(collection -> collection.stream()).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+			assert arrayList != null && arrayList.size() > 0 : "EmployeeService.class, method fetchAll arrayList is null or empty";;
 		}
 		return arrayList;
 	}
 
 	@Transactional(readOnly = true)
 	public Employee fetchById(Long id) {
-		Optional<Employee> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
-		if(optional.isPresent()) {
-			return optional.get();
+		assert id != null : "EmployeeService.class, method fetchById id is null";
+		if(id != null) {
+			Optional<Employee> optional = Optional.of(mapper.toObject(repository.findById(id).get()));
+			if(optional.isPresent()) {
+				return optional.get();
+			}
 		}
 		return new Employee();
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Employee> fetchByLastName(String lastName) {
+		assert lastName != null : "EmployeeService.class, method fetchByLastName lastName is null";
 		Optional<Collection<Employee>> optional = Optional.of(mapper.toObjectList(repository.findByLastName(lastName)));
 		if (optional.isPresent()) {
 			if (optional.stream().flatMap(collection -> collection.stream())
@@ -86,7 +93,10 @@ public class EmployeeService {
 	}
 
 	public void deleteById(Long id) {
-		repository.delete(repository.findById(id).get());
+		assert id != null : "EmployeeService.class, method deleteById id is null";
+		if (id != null) {
+			repository.delete(repository.findById(id).get());
+		}
 	}
 
 	public void deleteAll() {
@@ -96,6 +106,7 @@ public class EmployeeService {
 	@Scheduled(cron = "* 1 * * * *")
 	public void autoUpdateAge() {
 		Optional<Collection<Employee>> optional = Optional.of(fetchAll());
+		assert optional != null : "EmployeeService.class, method autoUpdateAge optional is null";
 		if (optional.isPresent()) {
 			optional.stream().flatMap(collection -> collection.stream()).map(employee -> {
 				employee.setAge(Period.between(employee.getBirthDate(), LocalDate.now()).getYears());
